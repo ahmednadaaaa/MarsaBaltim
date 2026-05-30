@@ -63,29 +63,52 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 import urllib.parse
 DATABASE_URL = os.getenv('DATABASE_URL')
+
 if DATABASE_URL:
+
     parsed = urllib.parse.urlparse(DATABASE_URL)
+
     DATABASES = {
+
         'default': {
+
             'ENGINE': 'django.db.backends.postgresql',
+
             'NAME': parsed.path.lstrip('/'),
+
             'USER': parsed.username,
+
             'PASSWORD': parsed.password,
+
             'HOST': parsed.hostname,
+
             'PORT': parsed.port or '5432',
+
         }
+
     }
+
 else:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'marsabaltim',
-        'USER': 'marsauser',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
+
+    DATABASES = {
+
+        'default': {
+
+            'ENGINE': 'django.db.backends.postgresql',
+
+            'NAME': 'marsabaltim',
+
+            'USER': 'marsauser',
+
+            'PASSWORD': '123456',
+
+            'HOST': 'localhost',
+
+            'PORT': '5432',
+
+        }
+
     }
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
