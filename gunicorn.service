@@ -1,0 +1,32 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+# Run Gunicorn as the dedicated django system user
+User=django
+Group=www-data
+WorkingDirectory=/var/www/marsabaltim
+
+# Load production environment variables safely
+EnvironmentFile=/var/www/marsabaltim/.env
+
+# Execute Gunicorn using the virtual environment executable
+ExecStart=/var/www/marsabaltim/venv/bin/gunicorn \
+          --access-logfile - \
+          --error-logfile - \
+          --workers 3 \
+          --worker-class gthread \
+          --threads 4 \
+          --bind unix:/run/gunicorn.sock \
+          core.wsgi:application
+
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

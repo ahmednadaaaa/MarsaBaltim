@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>فاوتشر بلطيم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1c74e9;
+      --primary-dark: #1558b8;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --bg: #f0f4ff;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --radius: 16px;
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 40px;
+    }
+
+    /* ── Header ─────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, #1558b8 100%);
+      color: white;
+      padding: 24px 20px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 0; right: 0;
+      height: 40px;
+      background: var(--bg);
+      border-radius: 50% 50% 0 0 / 40px;
+    }
+    .header-logo {
+      width: 54px; height: 54px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin: 0 auto 10px;
+      border: 2px solid rgba(255,255,255,0.35);
+    }
+    .header h1 { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
+    .header p { font-size: 13px; opacity: 0.85; }
+
+    /* ── Container ───────────────────────── */
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ── Card ────────────────────────────── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    /* ── State: VALID ─────────────────────── */
+    .guest-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .guest-avatar {
+      width: 54px; height: 54px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink: 0;
+    }
+    .guest-name { font-size: 19px; font-weight: 900; color: var(--text); }
+    .guest-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .discount-badge {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 14px;
+      border: 2px solid #bfdbfe;
+      margin-bottom: 20px;
+    }
+    .discount-pct {
+      font-size: 58px;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+      direction: ltr;
+    }
+    .discount-label { font-size: 14px; color: #4b5563; font-weight: 700; margin-top: 4px; }
+
+    .expiry-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .expiry-label { font-size: 13px; color: var(--muted); }
+    .expiry-value { font-size: 14px; font-weight: 700; direction: ltr; }
+
+    /* ── Step indicator ───────────────────── */
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .step {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+      background: var(--border);
+      color: var(--muted);
+      transition: all 0.3s;
+    }
+    .step.active { background: var(--primary); color: white; box-shadow: 0 3px 10px rgba(28,116,233,0.35); }
+    .step.done   { background: var(--success); color: white; }
+    .step-line   { flex: 1; max-width: 40px; height: 2px; background: var(--border); align-self: center; transition: background 0.3s; }
+    .step-line.done { background: var(--success); }
+
+    /* ── Form fields ─────────────────────── */
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 12px; font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: #f9fafb;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      direction: rtl;
+    }
+    .field input:focus, .field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(28,116,233,0.12);
+      background: white;
+    }
+    .field input[type="number"] { direction: ltr; text-align: right; }
+    .field input.error { border-color: var(--danger); }
+
+    /* ── File upload ─────────────────────── */
+    .upload-area {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 22px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f9fafb;
+      position: relative;
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .upload-area input[type="file"] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .upload-icon { font-size: 32px; margin-bottom: 8px; }
+    .upload-text { font-size: 14px; font-weight: 700; color: var(--text); }
+    .upload-sub  { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .upload-preview {
+      width: 100%; max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── Discount calculator ──────────────── */
+    .calc-box {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 10px;
+    }
+    .calc-row {
+      display: flex; justify-content: space-between;
+      padding: 5px 0;
+      font-size: 14px;
+    }
+    .calc-row .label { color: #374151; }
+    .calc-row .value { font-weight: 700; direction: ltr; }
+    .calc-row.total {
+      border-top: 2px solid #86efac;
+      margin-top: 6px;
+      padding-top: 10px;
+      font-size: 20px;
+    }
+    .calc-row.total .label { font-weight: 900; color: var(--success); }
+    .calc-row.total .value { font-weight: 900; color: var(--success); }
+
+    /* ── PIN field ────────────────────────── */
+    .pin-field {
+      display: flex; gap: 8px; justify-content: center;
+    }
+    .pin-field input {
+      width: 52px; height: 56px;
+      text-align: center;
+      font-size: 22px; font-weight: 900;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      direction: ltr;
+      -moz-appearance: textfield;
+    }
+    .pin-field input::-webkit-outer-spin-button,
+    .pin-field input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .pin-field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(28,116,233,0.15); outline: none; }
+    .pin-field input.filled { border-color: var(--primary); background: #eff6ff; }
+
+    /* ── Buttons ─────────────────────────── */
+    .btn {
+      width: 100%; padding: 15px;
+      border: none; border-radius: 14px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px; font-weight: 900;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 6px 20px rgba(28,116,233,0.3);
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-success {
+      background: var(--success);
+      color: white;
+      box-shadow: 0 6px 20px rgba(22,163,74,0.3);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+
+    /* ── Loading spinner ─────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2.5px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    /* ── States: USED / EXPIRED / INVALID / LOCKED ─── */
+    .state-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      margin: 16px auto 18px;
+    }
+    .state-used    .state-icon { background: #fef2f2; }
+    .state-expired .state-icon { background: #fefce8; }
+    .state-invalid .state-icon { background: #fef2f2; }
+    .state-locked  .state-icon { background: #fffbeb; }
+
+    .state-card {
+      text-align: center;
+      padding: 32px 20px;
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .state-title { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+    .state-sub   { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .state-used    .state-title { color: var(--danger); }
+    .state-expired .state-title { color: var(--warning); }
+    .state-invalid .state-title { color: var(--danger); }
+    .state-locked  .state-title { color: var(--warning); }
+
+    .info-list {
+      text-align: right;
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 16px 0;
+    }
+    .info-item {
+      display: flex; justify-content: space-between;
+      padding: 6px 0;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-item:last-child { border-bottom: none; }
+    .info-item .k { color: var(--muted); }
+    .info-item .v { font-weight: 700; }
+
+    /* ── Success overlay ─────────────────── */
+    .success-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .success-overlay.show { display: flex; }
+    .success-modal {
+      background: white;
+      border-radius: 24px;
+      padding: 32px 24px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .success-modal.animate { animation: pop 0.35s ease-out; }
+    .success-check {
+      width: 80px; height: 80px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 18px;
+    }
+    .success-title { font-size: 22px; font-weight: 900; color: var(--success); margin-bottom: 6px; }
+    .success-sub   { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.7; }
+    .success-amount {
+      font-size: 40px; font-weight: 900;
+      color: var(--text); direction: ltr;
+      margin-bottom: 4px;
+    }
+    .success-amount-label { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+    /* ── Confirmation step ───────────────── */
+    .confirm-box {
+      background: #fefce8;
+      border: 2px solid #fbbf24;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .confirm-box h3 { font-size: 15px; font-weight: 700; color: #92400e; margin-bottom: 8px; }
+    .confirm-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
+
+    /* ── Section title ───────────────────── */
+    .section-title {
+      font-size: 13px; font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap-x: 6px;
+    }
+
+    @media (max-width: 380px) {
+      .discount-pct { font-size: 48px; }
+      .pin-field input { width: 44px; height: 50px; font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- HEADER                                      -->
+<!-- ══════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-logo">🌊</div>
+  <h1>استثمار مصيف بلطيم</h1>
+  <p>نظام الخصومات الذكي للمستأجرين</p>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- STATE: VALID — Main scan form              -->
+<!-- ══════════════════════════════════════════ -->
+{% if state == "valid" %}
+<div class="container" style="margin-top: 24px;">
+
+  <!-- Guest Info Card -->
+  <div class="card">
+    <div class="guest-section">
+      <div class="guest-avatar">👤</div>
+      <div>
+        <div class="guest-name">{{ booking.guest_name }}</div>
+        <div class="guest-meta">
+          حجز {{ booking.property.title }} •
+          {{ booking.check_in|date:"j/n" }} ← {{ booking.check_out|date:"j/n/Y" }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Discount badge -->
+    <div class="discount-badge">
+      <div class="discount-pct">{{ voucher.discount_percentage }}%</div>
+      <div class="discount-label">خصم على فاتورتك</div>
+    </div>
+
+    <!-- Expiry -->
+    <div class="expiry-bar">
+      <span class="expiry-label">📅 صالح حتى</span>
+      <span class="expiry-value">{{ voucher.expires_at|date:"j/n/Y" }}</span>
+    </div>
+
+    {% if voucher.usage_limit > 1 %}
+    <div class="expiry-bar">
+      <span class="expiry-label">🔄 الاستخدامات المتبقية</span>
+      <span class="expiry-value">{{ voucher.usage_limit|add:"-"|add:voucher.times_used }} / {{ voucher.usage_limit }}</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Steps indicator -->
+  <div class="steps" id="stepsBar">
+    <div class="step active" id="step1">1</div>
+    <div class="step-line" id="line1"></div>
+    <div class="step" id="step2">2</div>
+    <div class="step-line" id="line2"></div>
+    <div class="step" id="step3">3</div>
+  </div>
+
+  <!-- ───────────────────────────────────────── -->
+  <!-- STEP 1: Bill amount + invoice             -->
+  <!-- ───────────────────────────────────────── -->
+  <div id="stepView1" class="card">
+    <div class="section-title">الخطوة 1 — أدخل بيانات الفاتورة</div>
+
+    <!-- Restaurant selection -->
+    {% if allowed_restaurants %}
+    <div class="field">
+      <label>اختر المطعم / الكافيه</label>
+      <select id="restaurantSelect">
+        <option value="">— اختر المطعم —</option>
+        {% for r in allowed_restaurants %}
+        <option value="{{ r.id }}">{{ r.name }}</option>
+        {% endfor %}
+        <option value="other">أخرى (أدخل يدوياً)</option>
+      </select>
+    </div>
+    <div class="field" id="manualNameField" style="display:none">
+      <label>اسم المطعم</label>
+      <input type="text" id="restaurantNameManual" placeholder="اسم المطعم أو الكافيه" />
+    </div>
+    {% else %}
+    <div class="field">
+      <label>اسم المطعم / الكافيه (اختياري)</label>
+      <input type="text" id="restaurantNameManual" placeholder="مثال: كافيه البحر" />
+    </div>
+    {% endif %}
+
+    <!-- Invoice image upload -->
+    <div class="field">
+      <label>صورة الفاتورة *</label>
+      <div class="upload-area" id="uploadArea">
+        <input type="file" id="invoiceFile" accept="image/*" capture="environment" />
+        <div id="uploadPlaceholder">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">التقط صورة الفاتورة</div>
+          <div class="upload-sub">أو اضغط لاختيار صورة من الجهاز</div>
+        </div>
+        <img id="invoicePreview" class="upload-preview" alt="صورة الفاتورة" />
+      </div>
+    </div>
+
+    <!-- Bill amount -->
+    <div class="field">
+      <label>المبلغ الإجمالي للفاتورة (ج) *</label>
+      <input type="number" id="billAmount" placeholder="0.00" step="0.01" min="1"
+             oninput="calcDiscount()" />
+    </div>
+
+    <!-- Live calculator -->
+    <div id="calcResult" style="display:none" class="calc-box">
+      <div class="calc-row">
+        <span class="label">المبلغ الأصلي</span>
+        <span class="value" id="calcOriginal">—</span>
+      </div>
+      <div class="calc-row">
+        <span class="label" style="color:var(--danger)">الخصم ({{ voucher.discount_percentage }}%)</span>
+        <span class="value" style="color:var(--danger)" id="calcDiscount">—</span>
+      </div>
+      <div class="calc-row total">
+        <span class="label">تدفع فقط ✓</span>
+        <span class="value" id="calcFinal">—</span>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+    <button class="btn btn-primary" onclick="goToStep2()">
+      التالي — تأكيد PIN
+      <span style="font-size:18px">←</span>
+    </button>
+  </div>
+
+  <!-- ───────────────────────────────────────── -->
+  <!-- STEP 2: PIN entry                         -->
+  <!-- ───────────────────────────────────────── -->
+  <div id="stepView2" class="card" style="display:none">
+    <div class="section-title">الخطوة 2 — رمز التأكيد</div>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.7;">
+      أدخل الرمز المكوّن من 4 أرقام الخاص بالمطعم للتأكيد
+    </p>
+
+    <div class="pin-field" id="pinField">
+      <input type="number" class="pin-digit" maxlength="1" min="0" max="9" id="pin0" oninput="pinInput(0)" onkeydown="pinKeydown(event, 0)" />
+      <input type="number" class="pin-digit" maxlength="1" min="0" max="9" id="pin1" oninput="pinInput(1)" onkeydown="pinKeydown(event, 1)" />
+      <input type="number" class="pin-digit" maxlength="1" min="0" max="9" id="pin2" oninput="pinInput(2)" onkeydown="pinKeydown(event, 2)" />
+      <input type="number" class="pin-digit" maxlength="1" min="0" max="9" id="pin3" oninput="pinInput(3)" onkeydown="pinKeydown(event, 3)" />
+    </div>
+
+    <div id="pinError" style="color:var(--danger);font-size:13px;text-align:center;margin-top:10px;display:none">
+      ❌ رمز PIN غير صحيح
+    </div>
+
+    <div style="height:18px"></div>
+    <button class="btn btn-primary" onclick="goToStep3()">
+      التالي — مراجعة وتأكيد
+      <span style="font-size:18px">←</span>
+    </button>
+    <div style="height:10px"></div>
+    <button class="btn btn-ghost" onclick="goToStep1()">← رجوع</button>
+  </div>
+
+  <!-- ───────────────────────────────────────── -->
+  <!-- STEP 3: Confirm summary                   -->
+  <!-- ───────────────────────────────────────── -->
+  <div id="stepView3" class="card" style="display:none">
+    <div class="section-title">الخطوة 3 — مراجعة وتأكيد</div>
+
+    <div class="confirm-box">
+      <h3>⚠️ تأكد من صحة البيانات قبل الضغط</h3>
+      <div class="confirm-row"><span>اسم الضيف</span><strong id="confirmName">—</strong></div>
+      <div class="confirm-row"><span>المطعم</span><strong id="confirmRestaurant">—</strong></div>
+      <div class="confirm-row"><span>المبلغ الأصلي</span><strong id="confirmOriginal">—</strong></div>
+      <div class="confirm-row"><span>نسبة الخصم</span><strong>{{ voucher.discount_percentage }}%</strong></div>
+      <div class="confirm-row"><span style="font-size:15px;font-weight:900">المبلغ المطلوب</span><strong id="confirmFinal" style="font-size:18px;color:var(--success)">—</strong></div>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:14px;">
+      بعد الضغط لن يمكن إلغاء العملية، الفاوتشر يُستخدم مرة واحدة فقط
+    </p>
+
+    <button class="btn btn-success" id="submitBtn" onclick="submitVoucher()">
+      ✅ تأكيد الخصم نهائياً
+    </button>
+    <div style="height:10px"></div>
+    <button class="btn btn-ghost" onclick="goToStep2()">← رجوع</button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- STATE: USED                                 -->
+<!-- ══════════════════════════════════════════ -->
+{% elif state == "used" %}
+<div class="container" style="margin-top:24px;">
+  <div class="state-card state-used">
+    <div class="state-icon">🚫</div>
+    <div class="state-title">مستخدم مسبقاً</div>
+    <div class="state-sub">هذا الفاوتشر تم استخدامه بالفعل ولا يمكن إعادة استخدامه</div>
+
+    {% if last_redemption %}
+    <div class="info-list" style="margin-top:16px">
+      <div class="info-item">
+        <span class="k">الضيف</span>
+        <span class="v">{{ voucher.booking.guest_name }}</span>
+      </div>
+      <div class="info-item">
+        <span class="k">المطعم</span>
+        <span class="v">{{ last_redemption.get_restaurant_display }}</span>
+      </div>
+      <div class="info-item">
+        <span class="k">وقت الاستخدام</span>
+        <span class="v" style="direction:ltr">{{ last_redemption.redeemed_at|date:"j/n/Y - H:i" }}</span>
+      </div>
+      <div class="info-item">
+        <span class="k">المبلغ المدفوع</span>
+        <span class="v" style="direction:ltr;color:var(--success)">{{ last_redemption.final_amount }} ج</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- STATE: EXPIRED                              -->
+<!-- ══════════════════════════════════════════ -->
+{% elif state == "expired" %}
+<div class="container" style="margin-top:24px;">
+  <div class="state-card state-expired">
+    <div class="state-icon">⏰</div>
+    <div class="state-title">انتهت الصلاحية</div>
+    <div class="state-sub">
+      انتهت صلاحية هذا الفاوتشر في
+      <strong>{{ voucher.expires_at|date:"j/n/Y" }}</strong>
+      <br/>وهو مرتبط بحجز {{ voucher.booking.guest_name }}
+    </div>
+    <div class="info-list" style="margin-top:16px">
+      <div class="info-item">
+        <span class="k">تاريخ الانتهاء</span>
+        <span class="v" style="direction:ltr">{{ voucher.expires_at|date:"j/n/Y" }}</span>
+      </div>
+      <div class="info-item">
+        <span class="k">نسبة الخصم</span>
+        <span class="v">{{ voucher.discount_percentage }}%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- STATE: LOCKED                              -->
+<!-- ══════════════════════════════════════════ -->
+{% elif state == "locked" %}
+<div class="container" style="margin-top:24px;">
+  <div class="state-card state-locked">
+    <div class="state-icon">🔒</div>
+    <div class="state-title">مقفول مؤقتاً</div>
+    <div class="state-sub">
+      هذا الفاوتشر مستخدَم الآن في نظام آخر.
+      <br/>يرجى الانتظار دقيقتين وإعادة المحاولة.
+    </div>
+    <div style="height:20px"></div>
+    <button class="btn btn-primary" onclick="window.location.reload()">
+      🔄 تحديث الصفحة
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- STATE: INVALID                             -->
+<!-- ══════════════════════════════════════════ -->
+{% else %}
+<div class="container" style="margin-top:24px;">
+  <div class="state-card state-invalid">
+    <div class="state-icon">❌</div>
+    <div class="state-title">فاوتشر غير صالح</div>
+    <div class="state-sub">
+      هذا الـ QR Code غير صالح أو تالف.
+      <br/>تأكد من سكان الـ QR الصحيح من الضيف.
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SUCCESS MODAL                              -->
+<!-- ══════════════════════════════════════════ -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-modal animate" id="successModal">
+    <div class="success-check">✅</div>
+    <div class="success-title">تم الخصم بنجاح!</div>
+    <div class="success-sub" id="successSub">تم تسجيل الخصم وحفظ الفاتورة</div>
+    <div class="success-amount" id="successAmount">0 ج</div>
+    <div class="success-amount-label">المبلغ المطلوب من الضيف</div>
+    <div style="height:4px"></div>
+    <div id="successBreakdown" style="background:#f9fafb;border-radius:12px;padding:12px;margin-bottom:16px;font-size:13px;text-align:right"></div>
+    <button class="btn btn-success" onclick="document.getElementById('successOverlay').classList.remove('show')">
+      تم ✓
+    </button>
+  </div>
+</div>
+
+{% if state == "valid" %}
+<script>
+  const DISCOUNT_PCT = {{ voucher.discount_percentage }};
+  const GUEST_NAME   = "{{ booking.guest_name|escapejs }}";
+  const ACTION_TOKEN = "{{ action_token|escapejs }}";
+  const VOUCHER_UUID = "{{ voucher.uuid }}";
+
+  // ── Invoice preview ────────────────────────
+  document.getElementById("invoiceFile").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const preview = document.getElementById("invoicePreview");
+      const placeholder = document.getElementById("uploadPlaceholder");
+      preview.src = ev.target.result;
+      preview.style.display = "block";
+      placeholder.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ── Restaurant select ──────────────────────
+  const restSelect = document.getElementById("restaurantSelect");
+  if (restSelect) {
+    restSelect.addEventListener("change", function() {
+      const manual = document.getElementById("manualNameField");
+      if (manual) manual.style.display = (this.value === "other") ? "block" : "none";
+    });
+  }
+
+  // ── Live discount calculator ───────────────
+  function calcDiscount() {
+    const amt = parseFloat(document.getElementById("billAmount").value);
+    const calcResult = document.getElementById("calcResult");
+    if (!amt || amt <= 0) { calcResult.style.display = "none"; return; }
+    const discount = Math.round(amt * DISCOUNT_PCT) / 100;
+    const final    = amt - discount;
+    document.getElementById("calcOriginal").textContent = fmt(amt) + " ج";
+    document.getElementById("calcDiscount").textContent = "- " + fmt(discount) + " ج";
+    document.getElementById("calcFinal").textContent    = fmt(final) + " ج";
+    calcResult.style.display = "block";
+  }
+
+  function fmt(n) {
+    return new Intl.NumberFormat("ar-EG", {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(n);
+  }
+
+  // ── PIN input handling ─────────────────────
+  function pinInput(idx) {
+    const input = document.getElementById("pin" + idx);
+    const val   = input.value;
+    if (val.length > 1) input.value = val.slice(-1);
+    if (input.value) {
+      input.classList.add("filled");
+      if (idx < 3) document.getElementById("pin" + (idx + 1)).focus();
+    } else {
+      input.classList.remove("filled");
+    }
+  }
+
+  function pinKeydown(e, idx) {
+    if (e.key === "Backspace") {
+      const input = document.getElementById("pin" + idx);
+      if (!input.value && idx > 0) {
+        document.getElementById("pin" + (idx - 1)).focus();
+      }
+    }
+  }
+
+  function getPin() {
+    return [0,1,2,3].map(i => document.getElementById("pin" + i).value).join("");
+  }
+
+  // ── Step navigation ─────────────────────────
+  function setStep(n) {
+    [1,2,3].forEach(i => {
+      document.getElementById("stepView" + i).style.display = i === n ? "block" : "none";
+      const stepEl = document.getElementById("step" + i);
+      if (i < n)  { stepEl.classList.remove("active"); stepEl.classList.add("done"); stepEl.textContent = "✓"; }
+      else if (i === n) { stepEl.classList.add("active"); stepEl.classList.remove("done"); stepEl.textContent = i; }
+      else { stepEl.classList.remove("active","done"); stepEl.textContent = i; }
+    });
+    [1,2].forEach(i => {
+      const line = document.getElementById("line" + i);
+      if (i < n) line.classList.add("done"); else line.classList.remove("done");
+    });
+    window.scrollTo({top: 0, behavior: "smooth"});
+  }
+
+  function goToStep1() { setStep(1); }
+
+  function goToStep2() {
+    // Validate step 1
+    const amount = parseFloat(document.getElementById("billAmount").value);
+    if (!amount || amount <= 0) {
+      document.getElementById("billAmount").classList.add("error");
+      document.getElementById("billAmount").focus();
+      return;
+    }
+    document.getElementById("billAmount").classList.remove("error");
+    const invoice = document.getElementById("invoiceFile").files[0];
+    if (!invoice) {
+      document.getElementById("uploadArea").style.border = "2px dashed var(--danger)";
+      alert("يرجى رفع صورة الفاتورة أولاً");
+      return;
+    }
+    document.getElementById("uploadArea").style.border = "";
+    setStep(2);
+    document.getElementById("pin0").focus();
+  }
+
+  function goToStep3() {
+    const pin = getPin();
+    if (pin.length < 4) {
+      alert("يرجى إدخال رمز PIN كامل (4 أرقام)");
+      return;
+    }
+    // Fill confirmation summary
+    const amount   = parseFloat(document.getElementById("billAmount").value);
+    const discount = Math.round(amount * DISCOUNT_PCT) / 100;
+    const final    = amount - discount;
+
+    let restName = "";
+    const restSelect = document.getElementById("restaurantSelect");
+    if (restSelect) {
+      if (restSelect.value === "other") {
+        restName = document.getElementById("restaurantNameManual").value || "أخرى";
+      } else {
+        restName = restSelect.options[restSelect.selectedIndex]?.text || "—";
+      }
+    } else {
+      restName = (document.getElementById("restaurantNameManual")?.value) || "—";
+    }
+
+    document.getElementById("confirmName").textContent       = GUEST_NAME;
+    document.getElementById("confirmRestaurant").textContent = restName;
+    document.getElementById("confirmOriginal").textContent   = fmt(amount) + " ج";
+    document.getElementById("confirmFinal").textContent      = fmt(final) + " ج";
+
+    setStep(3);
+  }
+
+  // ── Form submission ────────────────────────
+  async function submitVoucher() {
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> جاري التأكيد...';
+
+    const amount  = document.getElementById("billAmount").value;
+    const invoice = document.getElementById("invoiceFile").files[0];
+    const pin     = getPin();
+
+    let restaurantId   = "";
+    let restaurantName = "";
+    const restSelect   = document.getElementById("restaurantSelect");
+    if (restSelect && restSelect.value && restSelect.value !== "other") {
+      restaurantId = restSelect.value;
+    }
+    const manualInput = document.getElementById("restaurantNameManual");
+    if (manualInput) restaurantName = manualInput.value;
+
+    const formData = new FormData();
+    formData.append("action_token",    ACTION_TOKEN);
+    formData.append("original_amount", amount);
+    formData.append("invoice_image",   invoice);
+    formData.append("pin",             pin);
+    if (restaurantId)   formData.append("restaurant_id",   restaurantId);
+    if (restaurantName) formData.append("restaurant_name", restaurantName);
+
+    try {
+      const resp = await fetch(`/voucher/scan/${VOUCHER_UUID}/`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        // Show success modal
+        document.getElementById("successAmount").textContent = fmt(parseFloat(data.final_amount)) + " ج";
+        document.getElementById("successSub").textContent = `تم تسجيل الخصم لـ ${data.guest_name}`;
+        document.getElementById("successBreakdown").innerHTML = `
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+            <span style="color:#6b7280">المبلغ الأصلي</span>
+            <span style="direction:ltr">${fmt(parseFloat(data.original_amount))} ج</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;color:var(--danger)">
+            <span>الخصم (${data.discount_pct}%)</span>
+            <span style="direction:ltr">- ${fmt(parseFloat(data.discount_amount))} ج</span>
+          </div>`;
+        document.getElementById("successOverlay").classList.add("show");
+        // Reload after 8s (voucher is now used)
+        setTimeout(() => window.location.reload(), 8000);
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = "✅ تأكيد الخصم نهائياً";
+        if (data.error.includes("PIN")) {
+          goToStep2();
+          document.getElementById("pinError").style.display = "block";
+          [0,1,2,3].forEach(i => {
+            const el = document.getElementById("pin" + i);
+            el.value = ""; el.classList.remove("filled");
+          });
+          document.getElementById("pin0").focus();
+        } else {
+          alert("❌ " + data.error);
+        }
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.innerHTML = "✅ تأكيد الخصم نهائياً";
+      alert("حدث خطأ في الاتصال، يرجى المحاولة مجدداً");
+    }
+  }
+
+  function fmt(n) {
+    return new Intl.NumberFormat("ar-EG", {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(n);
+  }
+</script>
+{% endif %}
+
+</body>
+</html>

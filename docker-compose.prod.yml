@@ -1,0 +1,72 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: baltim_db_prod
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-baltim}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-baltim}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - baltim_prod_network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: baltim_web_prod
+    restart: always
+    environment:
+      - DJANGO_DEBUG=False
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      - SESSION_COOKIE_SECURE=True
+      - CSRF_COOKIE_SECURE=True
+      - SIMPLE_JWT_COOKIE_SECURE=True
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+    volumes:
+      - static_prod_volume:/app/staticfiles
+      - media_prod_volume:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8000"
+    networks:
+      - baltim_prod_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: baltim_nginx_prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - static_prod_volume:/usr/share/nginx/html/static:ro
+      - media_prod_volume:/usr/share/nginx/html/media:ro
+      # SSL Certs volume for Let's Encrypt certificates
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - web
+    networks:
+      - baltim_prod_network
+
+volumes:
+  postgres_prod_data:
+  static_prod_volume:
+  media_prod_volume:
+
+networks:
+  baltim_prod_network:
+    driver: bridge

@@ -1,0 +1,35 @@
+# Exclude local virtual environments
+.venv/
+venv311/
+venv_new/
+venv/
+env/
+
+# Exclude Git files
+.git/
+.gitignore
+
+# Exclude database files
+*.sqlite3
+db.sqlite3
+
+# Exclude media and static file folders (handled via Docker volumes)
+staticfiles/
+media/
+static/
+
+# Exclude editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Exclude Python cache files
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Exclude temporary scratch files
+scratch/
+*.log

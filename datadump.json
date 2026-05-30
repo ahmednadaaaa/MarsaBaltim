@@ -1,0 +1,1764 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$9FCXaX0mIDuTgX7giBYmBk$MBV2m0KVrIA25Ux2tOGXIpt68BfcyQZgOkZBtDBfMbk=",
+        "last_login": "2026-05-30T12:18:39.178Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@baltim.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-04-12T15:17:12.345Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$x2WzLZ4LUuvuZXGsv5SyNL$Rf7AzM1eiziw/OQfroNqGrpmS63mqBmJpLo0NMDerbQ=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "ahmenadaaa@gmail.com",
+        "first_name": "Ahmed",
+        "last_name": "Nada",
+        "email": "ahmenadaaa@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-05-26T01:55:29Z",
+        "groups": [],
+        "user_permissions": [
+            [
+                "add_ownerprofile",
+                "owners",
+                "ownerprofile"
+            ],
+            [
+                "change_ownerprofile",
+                "owners",
+                "ownerprofile"
+            ],
+            [
+                "delete_ownerprofile",
+                "owners",
+                "ownerprofile"
+            ],
+            [
+                "view_ownerprofile",
+                "owners",
+                "ownerprofile"
+            ],
+            [
+                "add_amenity",
+                "properties",
+                "amenity"
+            ],
+            [
+                "change_amenity",
+                "properties",
+                "amenity"
+            ],
+            [
+                "delete_amenity",
+                "properties",
+                "amenity"
+            ],
+            [
+                "view_amenity",
+                "properties",
+                "amenity"
+            ],
+            [
+                "add_beach",
+                "properties",
+                "beach"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$RJ3crLvLOjMmbQsZsANQGc$M5UFoI0Zs7FsYWoGCn1VmgkdcdrbWu1aQKE6+DcBX9I=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "motorfix20@gmail.com",
+        "first_name": "motor",
+        "last_name": "fix",
+        "email": "motorfix20@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-26T16:00:57.117Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$JSp3jzTYDrkeLSfOdlcnti$lTU6GOGfcpQyU6UWfKqwHW51dHLUx01VtBkZ56hTtnQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "ahmed@test.com",
+        "first_name": "Ahmed",
+        "last_name": "Nada",
+        "email": "ahmed@test.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-29T14:08:13.852Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$nH3aSRC7xIQ1Cwb8oglmr0$CgwALDGJub8KyOhtp7wEVsAPKKY0L0dZzCwi1mtEgW4=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "ahmenadaa@gmail.com",
+        "first_name": "ahmed",
+        "last_name": "nada",
+        "email": "ahmenadaa@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-29T14:12:44.515Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$vih4FC1oNERFLkWhmPgYxt$KOvLJ/TT+rhMN/4gXUyBGqUrCpQjhzSDBHF0uBOJBZU=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "phone_01010942958",
+        "first_name": "hussen",
+        "last_name": "nada",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-30T12:22:52.918Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$yHFGIL2CHEtMLkdGvlrkqZ$ndMWVuuBhxa7kMheQ0r8eWKbEWta3X2UDJpEas3nLVI=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "ahmednadaa@",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-05-30T12:41:12.560Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "properties.city",
+    "pk": 1,
+    "fields": {
+        "name": "مصيف بلطيم",
+        "slug": "baltim",
+        "region": "كفر الشيخ",
+        "description": "",
+        "icon": "🌊",
+        "is_active": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.city",
+    "pk": 2,
+    "fields": {
+        "name": "مارينا دلتا",
+        "slug": "marina-delta",
+        "region": "كفر الشيخ",
+        "description": "",
+        "icon": "⛵",
+        "is_active": true,
+        "order": 2
+    }
+},
+{
+    "model": "properties.city",
+    "pk": 3,
+    "fields": {
+        "name": "مارينا لاجونز",
+        "slug": "marina-lagoons",
+        "region": "كفر الشيخ",
+        "description": "",
+        "icon": "🚤",
+        "is_active": true,
+        "order": 3
+    }
+},
+{
+    "model": "properties.city",
+    "pk": 4,
+    "fields": {
+        "name": "فارما بيتش",
+        "slug": "farma-beach",
+        "region": "كفر الشيخ",
+        "description": "",
+        "icon": "🏖️",
+        "is_active": true,
+        "order": 4
+    }
+},
+{
+    "model": "properties.city",
+    "pk": 5,
+    "fields": {
+        "name": "ولا",
+        "slug": "ola",
+        "region": "كفر الشيخ",
+        "description": "",
+        "icon": "🌅",
+        "is_active": true,
+        "order": 5
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 1,
+    "fields": {
+        "city": 1,
+        "name": "الفنار",
+        "slug": "fanar",
+        "icon": "🏖️",
+        "is_active": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 2,
+    "fields": {
+        "city": 1,
+        "name": "النرجس",
+        "slug": "narges",
+        "icon": "🌊",
+        "is_active": true,
+        "order": 2
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 3,
+    "fields": {
+        "city": 1,
+        "name": "الزهراء",
+        "slug": "zahraa",
+        "icon": "⛱️",
+        "is_active": true,
+        "order": 3
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 4,
+    "fields": {
+        "city": 1,
+        "name": "السلام",
+        "slug": "salam",
+        "icon": "🌅",
+        "is_active": true,
+        "order": 4
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 5,
+    "fields": {
+        "city": 1,
+        "name": "الأمل",
+        "slug": "amal",
+        "icon": "🏝️",
+        "is_active": true,
+        "order": 5
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 6,
+    "fields": {
+        "city": 1,
+        "name": "الفيروز",
+        "slug": "fayruz",
+        "icon": "💎",
+        "is_active": true,
+        "order": 6
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 7,
+    "fields": {
+        "city": 2,
+        "name": "مارينا دلتا",
+        "slug": "marina-delta",
+        "icon": "⛵",
+        "is_active": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 8,
+    "fields": {
+        "city": 3,
+        "name": "مارينا لاجونز",
+        "slug": "marina-lagoons",
+        "icon": "🚤",
+        "is_active": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 9,
+    "fields": {
+        "city": 4,
+        "name": "فارما بيتش",
+        "slug": "farma-beach",
+        "icon": "🏖️",
+        "is_active": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.beach",
+    "pk": 10,
+    "fields": {
+        "city": 5,
+        "name": "ولا",
+        "slug": "ola",
+        "icon": "🌅",
+        "is_active": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 1,
+    "fields": {
+        "name": "wifi",
+        "label": "واي فاي"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 2,
+    "fields": {
+        "name": "ac_unit",
+        "label": "تكييف"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 3,
+    "fields": {
+        "name": "water",
+        "label": "إطلالة بحر"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 4,
+    "fields": {
+        "name": "local_parking",
+        "label": "موقف"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 5,
+    "fields": {
+        "name": "kitchen",
+        "label": "مطبخ"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 6,
+    "fields": {
+        "name": "local_laundry_service",
+        "label": "غسالة"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 7,
+    "fields": {
+        "name": "deck",
+        "label": "شرفة"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 8,
+    "fields": {
+        "name": "security",
+        "label": "حراسة"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 9,
+    "fields": {
+        "name": "pool",
+        "label": "مسبح"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 10,
+    "fields": {
+        "name": "elevator",
+        "label": "أسانسير"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 11,
+    "fields": {
+        "name": "واي فاي",
+        "label": "واي فاي"
+    }
+},
+{
+    "model": "properties.amenity",
+    "pk": 12,
+    "fields": {
+        "name": "تكييف",
+        "label": "تكييف"
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 2,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة فاخرة بإطلالة بانورامية",
+        "beach": "fanar",
+        "beach_new": 1,
+        "type": "شقة",
+        "description": "شقة فاخرة بإطلالة بانورامية على البحر المتوسط. تتكون من 3 غرف نوم واسعة وصالة كبيرة وشرفة مطلة على الشاطئ.",
+        "price_daily": "850.00",
+        "price_monthly": "18000.00",
+        "price_sale": "1800000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 120,
+        "floor": 5,
+        "distance_to_sea": 50,
+        "rating": 4.9,
+        "reviews": 124,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.050Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 3,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه ساحلي عائلي كبير",
+        "beach": "narges",
+        "beach_new": 2,
+        "type": "شاليه",
+        "description": "شاليه عائلي رحب يطل مباشرة على الشاطئ. يتسع لـ 8 أشخاص ويضم 4 غرف نوم ومطبخاً مجهزاً بالكامل.",
+        "price_daily": "650.00",
+        "price_monthly": "14000.00",
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 4,
+        "area": 180,
+        "floor": 1,
+        "distance_to_sea": 20,
+        "rating": 4.7,
+        "reviews": 89,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.060Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 4,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "استوديو أنيق قريب من البحر",
+        "beach": "zahraa",
+        "beach_new": 3,
+        "type": "استوديو",
+        "description": "استوديو عصري ومريح يقع على بعد خطوات من شاطئ الزهراء. مثالي للأزواج أو المسافر المنفرد.",
+        "price_daily": "350.00",
+        "price_monthly": "7500.00",
+        "price_sale": "650000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 1,
+        "area": 45,
+        "floor": 2,
+        "distance_to_sea": 150,
+        "rating": 4.5,
+        "reviews": 67,
+        "is_popular": false,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.068Z",
+        "updated_at": "2026-05-22T08:54:14.318Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 5,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "فيلا فاخرة مع مسبح خاص",
+        "beach": "fayruz",
+        "beach_new": 6,
+        "type": "فيلا",
+        "description": "فيلا ملكية فاخرة تطل مباشرة على البحر مع مسبح خاص ومساحات خضراء واسعة.",
+        "price_daily": "2500.00",
+        "price_monthly": "55000.00",
+        "price_sale": "8500000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 5,
+        "area": 450,
+        "floor": 1,
+        "distance_to_sea": 10,
+        "rating": 5.0,
+        "reviews": 42,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.076Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 6,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة بغرفتين بسعر مميز",
+        "beach": "salam",
+        "beach_new": 4,
+        "type": "شقة",
+        "description": "شقة مريحة بغرفتين نوم تقع في قلب شاطئ السلام.",
+        "price_daily": "480.00",
+        "price_monthly": "10000.00",
+        "price_sale": "950000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 2,
+        "area": 90,
+        "floor": 3,
+        "distance_to_sea": 80,
+        "rating": 4.3,
+        "reviews": 156,
+        "is_popular": false,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.084Z",
+        "updated_at": "2026-05-22T08:54:14.318Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 7,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة عصرية في الدور الأول",
+        "beach": "amal",
+        "beach_new": 5,
+        "type": "شقة",
+        "description": "شقة عصرية تقع في الدور الأول مباشرة على شاطئ الأمل.",
+        "price_daily": "550.00",
+        "price_monthly": "12000.00",
+        "price_sale": "1100000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 130,
+        "floor": 1,
+        "distance_to_sea": 30,
+        "rating": 4.8,
+        "reviews": 93,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.091Z",
+        "updated_at": "2026-05-22T08:54:14.316Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 8,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "استوديو مطل على البحر",
+        "beach": "fanar",
+        "beach_new": 1,
+        "type": "استوديو",
+        "description": "استوديو فاخر يوفر إطلالة مباشرة على البحر من نافذة زجاجية بانورامية.",
+        "price_daily": "420.00",
+        "price_monthly": "9000.00",
+        "price_sale": "750000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 1,
+        "area": 50,
+        "floor": 4,
+        "distance_to_sea": 60,
+        "rating": 4.6,
+        "reviews": 78,
+        "is_popular": false,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.098Z",
+        "updated_at": "2026-05-22T08:54:14.318Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 9,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه دوبلكس فاخر",
+        "beach": "narges",
+        "beach_new": 2,
+        "type": "شاليه",
+        "description": "شاليه دوبلكس فاخر بطابقين على شاطئ النرجس الهادئ. يضم 4 غرف نوم.",
+        "price_daily": "1200.00",
+        "price_monthly": "26000.00",
+        "price_sale": "3200000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 4,
+        "area": 280,
+        "floor": 1,
+        "distance_to_sea": 40,
+        "rating": 4.9,
+        "reviews": 55,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.105Z",
+        "updated_at": "2026-05-22T08:54:14.316Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 10,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة ثلاث غرف بسعر الموسم",
+        "beach": "zahraa",
+        "beach_new": 3,
+        "type": "شقة",
+        "description": "شقة ثلاث غرف رحبة بموقع مميز على شاطئ الزهراء.",
+        "price_daily": "700.00",
+        "price_monthly": "15000.00",
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 115,
+        "floor": 2,
+        "distance_to_sea": 100,
+        "rating": 4.4,
+        "reviews": 112,
+        "is_popular": false,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.113Z",
+        "updated_at": "2026-05-22T08:54:14.318Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 11,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "فيلا مع حديقة خاصة",
+        "beach": "salam",
+        "beach_new": 4,
+        "type": "فيلا",
+        "description": "فيلا راقية مع حديقة خاصة وحمام سباحة.",
+        "price_daily": "1800.00",
+        "price_monthly": "40000.00",
+        "price_sale": "6500000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 4,
+        "area": 350,
+        "floor": 1,
+        "distance_to_sea": 25,
+        "rating": 4.8,
+        "reviews": 38,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.122Z",
+        "updated_at": "2026-05-22T08:54:14.316Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 12,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة غرفة واحدة اقتصادية",
+        "beach": "amal",
+        "beach_new": 5,
+        "type": "شقة",
+        "description": "شقة اقتصادية بغرفة نوم واحدة. الخيار المثالي للأزواج أو الأفراد.",
+        "price_daily": "280.00",
+        "price_monthly": "6000.00",
+        "price_sale": "520000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 1,
+        "area": 55,
+        "floor": 3,
+        "distance_to_sea": 200,
+        "rating": 4.1,
+        "reviews": 204,
+        "is_popular": false,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.129Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 13,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة بنتهاوس فاخرة",
+        "beach": "fayruz",
+        "beach_new": 6,
+        "type": "بنتهاوس",
+        "description": "بنتهاوس ملكي على أعلى طابق في أرقى مجمع بشاطئ الفيروز. إطلالة 360 درجة.",
+        "price_daily": "3200.00",
+        "price_monthly": "70000.00",
+        "price_sale": "12000000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 5,
+        "area": 600,
+        "floor": 10,
+        "distance_to_sea": 5,
+        "rating": 5.0,
+        "reviews": 21,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.136Z",
+        "updated_at": "2026-05-22T08:54:14.316Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 14,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة مفروشة بالكامل 2 غرفة",
+        "beach": "fanar",
+        "beach_new": 1,
+        "type": "شقة",
+        "description": "شقة مفروشة بالكامل بأثاث فاخر ذو طراز أوروبي.",
+        "price_daily": "600.00",
+        "price_monthly": "13000.00",
+        "price_sale": "1200000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 2,
+        "area": 100,
+        "floor": 4,
+        "distance_to_sea": 120,
+        "rating": 4.6,
+        "reviews": 88,
+        "is_popular": false,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.144Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 15,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه على الشاطئ مباشرة",
+        "beach": "zahraa",
+        "beach_new": 3,
+        "type": "شاليه",
+        "description": "شاليه ساحلي يقع مباشرة على الرمال الذهبية.",
+        "price_daily": "900.00",
+        "price_monthly": "20000.00",
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 160,
+        "floor": 1,
+        "distance_to_sea": 5,
+        "rating": 4.9,
+        "reviews": 66,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.151Z",
+        "updated_at": "2026-05-22T08:54:14.315Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 16,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة للبيع - فرصة استثمارية",
+        "beach": "salam",
+        "beach_new": 4,
+        "type": "شقة",
+        "description": "فرصة استثمارية مميزة - شقة 3 غرف. العائد الاستثماري المتوقع 12% سنوياً.",
+        "price_daily": null,
+        "price_monthly": null,
+        "price_sale": "1450000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 125,
+        "floor": 2,
+        "distance_to_sea": 90,
+        "rating": 4.5,
+        "reviews": 12,
+        "is_popular": false,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.158Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 17,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة عائلية كبيرة 4 غرف",
+        "beach": "amal",
+        "beach_new": 5,
+        "type": "شقة",
+        "description": "شقة عائلية فسيحة من 4 غرف نوم تتسع لـ 10 أشخاص.",
+        "price_daily": "980.00",
+        "price_monthly": "21000.00",
+        "price_sale": "2100000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 4,
+        "area": 200,
+        "floor": 3,
+        "distance_to_sea": 70,
+        "rating": 4.7,
+        "reviews": 74,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.166Z",
+        "updated_at": "2026-05-22T08:54:14.315Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 18,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه مع مدخل خاص للشاطئ",
+        "beach": "narges",
+        "beach_new": 2,
+        "type": "شاليه",
+        "description": "شاليه حصري مع مدخل خاص ومباشر للشاطئ.",
+        "price_daily": "1100.00",
+        "price_monthly": "24000.00",
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 220,
+        "floor": 1,
+        "distance_to_sea": 15,
+        "rating": 4.8,
+        "reviews": 47,
+        "is_popular": true,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.173Z",
+        "updated_at": "2026-05-22T08:54:14.315Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 19,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شقة بنظرة رائعة بسعر مميز",
+        "beach": "fayruz",
+        "beach_new": 6,
+        "type": "شقة",
+        "description": "شقة راقية بإطلالة رائعة في أرقى شواطئ مصيف بلطيم.",
+        "price_daily": "750.00",
+        "price_monthly": "16000.00",
+        "price_sale": "1600000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 140,
+        "floor": 6,
+        "distance_to_sea": 80,
+        "rating": 4.6,
+        "reviews": 95,
+        "is_popular": false,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-04-19T01:20:15.181Z",
+        "updated_at": "2026-05-22T08:54:14.317Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 20,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه مع مدخل خاص للشاطئ",
+        "beach": "amal",
+        "beach_new": 5,
+        "type": "شقة",
+        "description": "شاطئ الامل امام كافيه المنسي",
+        "price_daily": "900.00",
+        "price_monthly": "30000.00",
+        "price_sale": "3000000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 250,
+        "floor": 2,
+        "distance_to_sea": 50,
+        "rating": 5.0,
+        "reviews": 12,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": "المنسي",
+        "owner_phone": "٠١٢٠٩٢١٣٣٢",
+        "created_at": "2026-05-02T15:25:41.380Z",
+        "updated_at": "2026-05-22T08:54:14.315Z",
+        "amenities": []
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 21,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه مع مدخل خاص للشاطئ",
+        "beach": "amal",
+        "beach_new": 5,
+        "type": "شقة",
+        "description": "شاليه حصري مع مدخل خاص ومباشر للشاطئ.",
+        "price_daily": "300.00",
+        "price_monthly": "25000.00",
+        "price_sale": "3000000.00",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 200,
+        "floor": 3,
+        "distance_to_sea": 120,
+        "rating": 5.0,
+        "reviews": 7,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": "المنسي",
+        "owner_phone": "٠١٢٠٩٢١٣٣٢",
+        "created_at": "2026-05-02T15:28:04.060Z",
+        "updated_at": "2026-05-22T08:54:14.314Z",
+        "amenities": [
+            2,
+            3,
+            4,
+            7
+        ]
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 22,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه",
+        "beach": "fayruz",
+        "beach_new": 7,
+        "type": "شقة",
+        "description": "شاليه شاليه شاليهد",
+        "price_daily": "2000.00",
+        "price_monthly": null,
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 4,
+        "area": 249,
+        "floor": 1,
+        "distance_to_sea": 150,
+        "rating": 5.0,
+        "reviews": 0,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": "المنسي",
+        "owner_phone": "٠١٢٠٩٢١٣٣٢",
+        "created_at": "2026-05-22T09:35:24.542Z",
+        "updated_at": "2026-05-22T09:37:29.713Z",
+        "amenities": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 23,
+    "fields": {
+        "owner": null,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه٣",
+        "beach": null,
+        "beach_new": 7,
+        "type": "شاليه",
+        "description": "شاليه شاليه شاليه شاليه شاليه",
+        "price_daily": "3000.00",
+        "price_monthly": null,
+        "price_sale": "-0.03",
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 140,
+        "floor": 2,
+        "distance_to_sea": 190,
+        "rating": 5.0,
+        "reviews": 4,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": "المنسي",
+        "owner_phone": "٠١٢٠٩٢١٣٣٢",
+        "created_at": "2026-05-22T09:46:30.149Z",
+        "updated_at": "2026-05-22T09:46:30.149Z",
+        "amenities": [
+            1,
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 24,
+    "fields": {
+        "owner": 4,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه بحر",
+        "beach": null,
+        "beach_new": 7,
+        "type": "شاليه",
+        "description": "شاليه بحرشاليه بحرشاليه بحرشاليه بحرشاليه بحرشاليه بحر",
+        "price_daily": "600.00",
+        "price_monthly": null,
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 150,
+        "floor": 2,
+        "distance_to_sea": 104,
+        "rating": 0.0,
+        "reviews": 0,
+        "is_popular": true,
+        "is_special_offer": true,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-05-29T14:21:15.654Z",
+        "updated_at": "2026-05-29T14:23:12.382Z",
+        "amenities": [
+            11,
+            12
+        ]
+    }
+},
+{
+    "model": "properties.property",
+    "pk": 25,
+    "fields": {
+        "owner": 4,
+        "status": "approved",
+        "rejection_reason": "",
+        "title": "شاليه بحرم بيه",
+        "beach": null,
+        "beach_new": 8,
+        "type": "فيلا",
+        "description": "شاليه بحرم بيهشاليه بحرم بيهشاليه بحرم بيهشاليه بحرم بيهشاليه بحرم بيه",
+        "price_daily": "195.00",
+        "price_monthly": null,
+        "price_sale": null,
+        "price_note": "الأسعار تختلف حسب اليوم — سنتواصل معك",
+        "rooms": 3,
+        "area": 32,
+        "floor": 3,
+        "distance_to_sea": 7,
+        "rating": 0.0,
+        "reviews": 0,
+        "is_popular": false,
+        "is_special_offer": false,
+        "available": true,
+        "owner_name": null,
+        "owner_phone": null,
+        "created_at": "2026-05-29T14:48:45.604Z",
+        "updated_at": "2026-05-29T14:50:12.159Z",
+        "amenities": [
+            11
+        ]
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 1,
+    "fields": {
+        "property": 20,
+        "image": "properties/IMG_7301.jpg",
+        "is_main": false,
+        "order": 1
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 2,
+    "fields": {
+        "property": 21,
+        "image": "properties/IMG_7300.jpg",
+        "is_main": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 3,
+    "fields": {
+        "property": 21,
+        "image": "properties/IMG_7301_USNONp6.jpg",
+        "is_main": false,
+        "order": 2
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 4,
+    "fields": {
+        "property": 22,
+        "image": "properties/477044566_622625463854949_4053641739218919169_n.jpeg",
+        "is_main": false,
+        "order": 0
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 5,
+    "fields": {
+        "property": 23,
+        "image": "properties/477044566_622625463854949_4053641739218919169_n_01EH20s.jpeg",
+        "is_main": false,
+        "order": 0
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 6,
+    "fields": {
+        "property": 24,
+        "image": "properties/Screenshot_2026-05-07_at_2.19.49PM.png",
+        "is_main": true,
+        "order": 1
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 7,
+    "fields": {
+        "property": 24,
+        "image": "properties/Screenshot_2026-05-29_at_4.09.11PM.png",
+        "is_main": false,
+        "order": 2
+    }
+},
+{
+    "model": "properties.propertyimage",
+    "pk": 8,
+    "fields": {
+        "property": 25,
+        "image": "properties/Screenshot_2026-05-29_at_4.09.11PM_f41DL33.png",
+        "is_main": true,
+        "order": 0
+    }
+},
+{
+    "model": "bookings.restaurant",
+    "pk": 1,
+    "fields": {
+        "name": "كافيه البحر",
+        "address": "شاطئ الفنار",
+        "phone": "",
+        "pin_hash": "0f5fc48da8d4d550f7d879f0f31fe46b1d5a7b0f6eca9a2ad178bf0b23df50f5",
+        "is_active": true,
+        "commission_rate": "0.00",
+        "subscription_type": "free",
+        "created_at": "2026-04-12T15:17:05.841Z"
+    }
+},
+{
+    "model": "bookings.booking",
+    "pk": 2,
+    "fields": {
+        "property": 17,
+        "guest_name": "test",
+        "guest_phone": "24234",
+        "guest_email": "ahmenadaaa@gmail.com",
+        "guest_notes": "fs",
+        "booking_type": "daily",
+        "check_in": "2026-04-20",
+        "check_out": "2026-04-21",
+        "total_price": "2000.00",
+        "service_fee": "200.00",
+        "grand_total": "2200.00",
+        "agreed_price": null,
+        "amount_paid": "0.00",
+        "payment_method": "cash",
+        "status": "confirmed",
+        "booking_ref": "BLT-ED2E54",
+        "created_at": "2026-04-20T16:10:56.503Z",
+        "updated_at": "2026-04-20T16:10:56.503Z"
+    }
+},
+{
+    "model": "bookings.booking",
+    "pk": 3,
+    "fields": {
+        "property": 20,
+        "guest_name": "ahmed",
+        "guest_phone": "0109412341",
+        "guest_email": "ahmenadaaa@gmail.com",
+        "guest_notes": "",
+        "booking_type": "daily",
+        "check_in": "2026-05-14",
+        "check_out": "2026-05-21",
+        "total_price": null,
+        "service_fee": null,
+        "grand_total": null,
+        "agreed_price": null,
+        "amount_paid": "0.00",
+        "payment_method": "cash",
+        "status": "pending_contact",
+        "booking_ref": "BLT-6DB5F8",
+        "created_at": "2026-05-14T06:36:08.740Z",
+        "updated_at": "2026-05-14T06:36:08.740Z"
+    }
+},
+{
+    "model": "bookings.booking",
+    "pk": 4,
+    "fields": {
+        "property": 20,
+        "guest_name": "ahmed",
+        "guest_phone": "0109412341",
+        "guest_email": "ahmenadaaa@gmail.com",
+        "guest_notes": "",
+        "booking_type": "daily",
+        "check_in": "2026-05-14",
+        "check_out": "2026-05-21",
+        "total_price": null,
+        "service_fee": null,
+        "grand_total": null,
+        "agreed_price": null,
+        "amount_paid": "0.00",
+        "payment_method": "cash",
+        "status": "pending_contact",
+        "booking_ref": "BLT-630A59",
+        "created_at": "2026-05-14T23:02:25.904Z",
+        "updated_at": "2026-05-14T23:02:25.904Z"
+    }
+},
+{
+    "model": "bookings.booking",
+    "pk": 5,
+    "fields": {
+        "property": 21,
+        "guest_name": "ahmed",
+        "guest_phone": "0109412341",
+        "guest_email": "ahmenadaaa@gmail.com",
+        "guest_notes": "",
+        "booking_type": "daily",
+        "check_in": "2026-05-14",
+        "check_out": "2026-05-21",
+        "total_price": null,
+        "service_fee": null,
+        "grand_total": null,
+        "agreed_price": null,
+        "amount_paid": "0.00",
+        "payment_method": "cash",
+        "status": "pending_contact",
+        "booking_ref": "BLT-119497",
+        "created_at": "2026-05-14T23:02:26.642Z",
+        "updated_at": "2026-05-14T23:02:26.642Z"
+    }
+},
+{
+    "model": "bookings.booking",
+    "pk": 6,
+    "fields": {
+        "property": 20,
+        "guest_name": "ahmed",
+        "guest_phone": "0109412341",
+        "guest_email": "ahmenadaaa@gmail.com",
+        "guest_notes": "",
+        "booking_type": "daily",
+        "check_in": "2026-05-14",
+        "check_out": "2026-05-21",
+        "total_price": null,
+        "service_fee": null,
+        "grand_total": null,
+        "agreed_price": null,
+        "amount_paid": "0.00",
+        "payment_method": "cash",
+        "status": "pending_contact",
+        "booking_ref": "BLT-0E032F",
+        "created_at": "2026-05-14T23:07:39.007Z",
+        "updated_at": "2026-05-14T23:07:39.007Z"
+    }
+},
+{
+    "model": "bookings.booking",
+    "pk": 7,
+    "fields": {
+        "property": 20,
+        "guest_name": "محمد",
+        "guest_phone": "01010942959",
+        "guest_email": "",
+        "guest_notes": "",
+        "booking_type": "daily",
+        "check_in": "2026-05-16",
+        "check_out": "2026-05-23",
+        "total_price": null,
+        "service_fee": null,
+        "grand_total": null,
+        "agreed_price": null,
+        "amount_paid": "0.00",
+        "payment_method": "cash",
+        "status": "pending_contact",
+        "booking_ref": "BLT-7A6888",
+        "created_at": "2026-05-16T17:59:24.860Z",
+        "updated_at": "2026-05-16T17:59:24.860Z"
+    }
+},
+{
+    "model": "bookings.voucher",
+    "pk": 2,
+    "fields": {
+        "booking": 2,
+        "uuid": "7be85e77-7030-42d8-be06-d7a1252133f6",
+        "hmac_signature": "",
+        "discount_percentage": 10,
+        "usage_limit": 1,
+        "times_used": 1,
+        "expires_at": "2026-04-21",
+        "is_active": true,
+        "locked_at": null,
+        "locked_session": "",
+        "action_token": "",
+        "action_token_expires": "2026-04-20T16:24:31.524Z",
+        "qr_code": "",
+        "created_at": "2026-04-20T16:11:38.310Z",
+        "allowed_restaurants": []
+    }
+},
+{
+    "model": "bookings.voucher",
+    "pk": 3,
+    "fields": {
+        "booking": 3,
+        "uuid": "650f0bf9-3911-4fd8-9ad8-79b693fd5872",
+        "hmac_signature": "618710c533d2dfc614e71a1a54089be921caf593f79daa758290c32385e4f06e",
+        "discount_percentage": 10,
+        "usage_limit": 1,
+        "times_used": 0,
+        "expires_at": "2026-05-21",
+        "is_active": true,
+        "locked_at": null,
+        "locked_session": "",
+        "action_token": "",
+        "action_token_expires": null,
+        "qr_code": "vouchers/qr/qr_650f0bf9-3911-4fd8-9ad8-79b693fd5872.png",
+        "created_at": "2026-05-14T06:36:08.745Z",
+        "allowed_restaurants": []
+    }
+},
+{
+    "model": "bookings.voucher",
+    "pk": 4,
+    "fields": {
+        "booking": 4,
+        "uuid": "70a12de5-87fa-474f-98de-9317e17088ce",
+        "hmac_signature": "77bc19f9329e03517c74f32fde2821936c978ecc8bae42fe2dd9bac868bd1df2",
+        "discount_percentage": 10,
+        "usage_limit": 1,
+        "times_used": 0,
+        "expires_at": "2026-05-21",
+        "is_active": true,
+        "locked_at": null,
+        "locked_session": "",
+        "action_token": "",
+        "action_token_expires": null,
+        "qr_code": "vouchers/qr/qr_70a12de5-87fa-474f-98de-9317e17088ce.png",
+        "created_at": "2026-05-14T23:02:25.908Z",
+        "allowed_restaurants": []
+    }
+},
+{
+    "model": "bookings.voucher",
+    "pk": 5,
+    "fields": {
+        "booking": 5,
+        "uuid": "df2cb940-7d09-41c5-b713-a62c12b7851c",
+        "hmac_signature": "d95244ff7b9c06b55e04d29b202ba433ee44c4f32def165c128c8f9ebe607928",
+        "discount_percentage": 10,
+        "usage_limit": 1,
+        "times_used": 0,
+        "expires_at": "2026-05-21",
+        "is_active": true,
+        "locked_at": null,
+        "locked_session": "",
+        "action_token": "",
+        "action_token_expires": null,
+        "qr_code": "vouchers/qr/qr_df2cb940-7d09-41c5-b713-a62c12b7851c.png",
+        "created_at": "2026-05-14T23:02:26.642Z",
+        "allowed_restaurants": []
+    }
+},
+{
+    "model": "bookings.voucher",
+    "pk": 6,
+    "fields": {
+        "booking": 6,
+        "uuid": "15cb4afa-6a2b-4905-8e35-a04b31da54e1",
+        "hmac_signature": "e66cea14c7cc0f7db81f9873a25c02197d6674c698219a117991d445e4eff533",
+        "discount_percentage": 10,
+        "usage_limit": 1,
+        "times_used": 0,
+        "expires_at": "2026-05-21",
+        "is_active": true,
+        "locked_at": null,
+        "locked_session": "",
+        "action_token": "",
+        "action_token_expires": null,
+        "qr_code": "vouchers/qr/qr_15cb4afa-6a2b-4905-8e35-a04b31da54e1.png",
+        "created_at": "2026-05-14T23:07:39.010Z",
+        "allowed_restaurants": []
+    }
+},
+{
+    "model": "bookings.voucher",
+    "pk": 7,
+    "fields": {
+        "booking": 7,
+        "uuid": "01197d40-9ba0-4fa5-b2e5-dddd4bdc0483",
+        "hmac_signature": "b3015679717986ca13b7e012e11b24743300048606d0db9f0c6215f23f222e69",
+        "discount_percentage": 10,
+        "usage_limit": 1,
+        "times_used": 0,
+        "expires_at": "2026-05-23",
+        "is_active": true,
+        "locked_at": null,
+        "locked_session": "",
+        "action_token": "",
+        "action_token_expires": null,
+        "qr_code": "vouchers/qr/qr_01197d40-9ba0-4fa5-b2e5-dddd4bdc0483.png",
+        "created_at": "2026-05-16T17:59:24.864Z",
+        "allowed_restaurants": []
+    }
+},
+{
+    "model": "bookings.voucherredemption",
+    "pk": 1,
+    "fields": {
+        "voucher": 2,
+        "restaurant": 1,
+        "restaurant_name_manual": "",
+        "invoice_image": "vouchers/invoices/2026/04/Screenshot_2026-03-29_at_11.21.29AM.png",
+        "original_amount": "500.00",
+        "discount_amount": "50.00",
+        "final_amount": "450.00",
+        "ip_address": "127.0.0.1",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "redeemed_at": "2026-04-20T16:20:47.764Z"
+    }
+},
+{
+    "model": "bookings.scanattempt",
+    "pk": 1,
+    "fields": {
+        "voucher_uuid": "7be85e77-7030-42d8-be06-d7a1252133f6",
+        "status": "valid",
+        "ip_address": "127.0.0.1",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "details": "",
+        "created_at": "2026-04-20T16:19:31.525Z"
+    }
+},
+{
+    "model": "bookings.scanattempt",
+    "pk": 2,
+    "fields": {
+        "voucher_uuid": "7be85e77-7030-42d8-be06-d7a1252133f6",
+        "status": "confirmed",
+        "ip_address": "127.0.0.1",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "details": "amount=500, discount=50.00, restaurant=كافيه البحر",
+        "created_at": "2026-04-20T16:20:47.766Z"
+    }
+},
+{
+    "model": "bookings.scanattempt",
+    "pk": 3,
+    "fields": {
+        "voucher_uuid": "7be85e77-7030-42d8-be06-d7a1252133f6",
+        "status": "used",
+        "ip_address": "127.0.0.1",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "details": "",
+        "created_at": "2026-04-20T16:20:55.940Z"
+    }
+},
+{
+    "model": "owners.ownerprofile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "ahmenadaaa@gmail.com"
+        ],
+        "phone": "01010942959",
+        "national_id": "23413413414",
+        "is_approved": true,
+        "notes": "",
+        "created_at": "2026-05-26T01:56:23.208Z"
+    }
+},
+{
+    "model": "owners.ownerprofile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "motorfix20@gmail.com"
+        ],
+        "phone": "01010942959",
+        "national_id": "",
+        "is_approved": true,
+        "notes": "",
+        "created_at": "2026-05-26T16:00:57.198Z"
+    }
+},
+{
+    "model": "owners.ownerprofile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "ahmed@test.com"
+        ],
+        "phone": "01000000000",
+        "national_id": "",
+        "is_approved": false,
+        "notes": "",
+        "created_at": "2026-05-29T14:08:13.940Z"
+    }
+},
+{
+    "model": "owners.ownerprofile",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "ahmenadaa@gmail.com"
+        ],
+        "phone": "01010942959",
+        "national_id": "",
+        "is_approved": true,
+        "notes": "",
+        "created_at": "2026-05-29T14:12:44.610Z"
+    }
+},
+{
+    "model": "owners.ownerprofile",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "phone_01010942958"
+        ],
+        "phone": "01010942958",
+        "national_id": "",
+        "is_approved": true,
+        "notes": "",
+        "created_at": "2026-05-30T12:22:53.021Z"
+    }
+},
+{
+    "model": "owners.owneraccount",
+    "pk": 1,
+    "fields": {
+        "owner": 4,
+        "name": "شاليه مارينا",
+        "created_at": "2026-05-30T02:06:50.413Z"
+    }
+},
+{
+    "model": "owners.ownerrevenue",
+    "pk": 1,
+    "fields": {
+        "account": 1,
+        "amount": "500.00",
+        "date": "2026-05-30",
+        "description": "حسين اخويا دفعهم",
+        "created_at": "2026-05-30T02:07:22.595Z"
+    }
+},
+{
+    "model": "owners.ownerexpense",
+    "pk": 1,
+    "fields": {
+        "account": 1,
+        "amount": "1000.00",
+        "date": "2026-05-30",
+        "description": "تصليح التلاجه",
+        "created_at": "2026-05-30T02:07:57.852Z"
+    }
+},
+{
+    "model": "owners.ownerdebt",
+    "pk": 1,
+    "fields": {
+        "account": 1,
+        "creditor_name": "ابراهيم التابعي",
+        "total_amount": "50000.00",
+        "paid_amount": "23000.00",
+        "created_at": "2026-05-30T02:08:33.864Z"
+    }
+}
+]

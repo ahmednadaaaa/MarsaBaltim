@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+# Make the socket readable and writable by the nginx user/group
+SocketUser=www-data
+SocketGroup=www-data
+Mode=0660
+
+[Install]
+WantedBy=sockets.target

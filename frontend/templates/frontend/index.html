@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+{% load static %}
+
+<head>
+  <script>
+    if (document.cookie.includes('googtrans=/ar/en')) {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مرسى بلطيم | شقق وفلل للإيجار والبيع</title>
+  <meta name="description" content="المنصة الأولى لإيجار وبيع العقارات في مصيف بلطيم" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1c74e9',
+            'primary-dark': '#1558b8',
+            'primary-light': '#4d95f3',
+            'surface': '#f7f9fb',
+            'surface-container': '#eceef0',
+            'surface-container-low': '#f2f4f6',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-high': '#e6e8ea',
+            'on-surface': '#191c1e',
+            'on-surface-variant': '#414754',
+            'outline': '#727785',
+            'outline-variant': '#c1c6d6',
+          },
+          fontFamily: { cairo: ['Cairo', 'sans-serif'] },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+            'slide-down': 'slideDown 0.3s ease-out',
+            'pulse-slow': 'pulse 3s infinite',
+          },
+          keyframes: {
+            fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
+            slideUp: { from: { opacity: 0, transform: 'translateY(24px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+            slideDown: { from: { opacity: 0, transform: 'translateY(-12px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+          },
+        }
+      }
+    };
+  </script>
+  <style>
+    * {
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      direction: rtl;
+      box-sizing: border-box;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
+    .mat-filled {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .star-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      color: #f59e0b;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c1c6d6;
+      border-radius: 9999px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #374151;
+    }
+
+    .ltr-num {
+      direction: ltr;
+      display: inline-block;
+    }
+
+    input[type='date'],
+    input[type='number'] {
+      direction: ltr;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .prop-card:hover .prop-img {
+      transform: scale(1.08);
+    }
+
+    .beach-tab {
+      padding: 8px 20px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all 0.2s;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .beach-tab.active {
+      background: #1c74e9;
+      color: white;
+      box-shadow: 0 4px 15px rgba(28, 116, 233, 0.3);
+    }
+
+    .beach-tab:not(.active) {
+      background: #eceef0;
+      color: #414754;
+    }
+
+    .dark .beach-tab:not(.active) {
+      background: #1f2937;
+      color: #9ca3af;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .toast-enter {
+      animation: toastIn 0.3s ease-out;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, #eceef0 25%, #f2f4f6 50%, #eceef0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 12px;
+    }
+
+    .dark .skeleton {
+      background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+      background-size: 200% 100%;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    .input-f {
+      width: 100%;
+      background: #f2f4f6;
+      border: 1.5px solid #c1c6d6;
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: #191c1e;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-f:focus {
+      border-color: #1c74e9;
+      box-shadow: 0 0 0 3px rgba(28, 116, 233, 0.15);
+    }
+
+    .dark .input-f {
+      background: #1f2937;
+      border-color: #374151;
+      color: #f3f4f6;
+    }
+
+    select.input-f {
+      appearance: none;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-hover {
+      transition: all 0.3s;
+    }
+    .carousel-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 0; }
+    .carousel-image.active { opacity: 1; }
+
+    /* ── Cinematic entrance animations ── */
+    @keyframes fadeRise {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-rise {
+      animation: fadeRise 0.8s ease-out both;
+    }
+
+    .animate-fade-rise-delay {
+      animation: fadeRise 0.8s ease-out 0.2s both;
+    }
+
+    .animate-fade-rise-delay-2 {
+      animation: fadeRise 0.8s ease-out 0.4s both;
+    }
+
+    .animate-fade-rise-delay-3 {
+      animation: fadeRise 0.8s ease-out 0.6s both;
+    }
+
+    /* ── Video hero container ── */
+    .hero-video-wrap {
+      position: absolute;
+      inset: auto 0 0 0;
+      top: 300px;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    #heroBgVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: none;
+    }
+
+    /* ── Gradient overlays over video ── */
+    .hero-grad-top {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.72) 0%,
+          transparent 55%,
+          rgba(0, 0, 0, 0.55) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── Hero content above video ── */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── Headline mixed color ── */
+    .headline-main {
+      color: #ffffff;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .headline-muted {
+      color: rgba(255, 255, 255, 0.6);
+      font-style: italic;
+    }
+
+    /* ── CTA pill button ── */
+    .btn-hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      border-radius: 9999px;
+      background: linear-gradient(15deg, #00647c, #007f9d);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 30px rgba(0, 100, 124, 0.4);
+      text-decoration: none;
+    }
+
+    .btn-hero-cta:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 40px rgba(0, 100, 124, 0.5);
+    }
+
+    /* ── Stats bar ── */
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-num {
+      font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Arabic', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body class="bg-surface dark:bg-gray-950 text-on-surface dark:text-gray-100 min-h-screen overflow-x-hidden w-full">
+
+  <!-- ======= TOAST CONTAINER ======= -->
+  <div id="toastContainer"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-2 items-center pointer-events-none"></div>
+
+  <!-- ======= SUCCESS MODAL ======= -->
+  <div id="successModal" class="overlay hidden">
+    <div
+      class="bg-white dark:bg-gray-900 rounded-3xl p-6 max-w-md w-full text-center shadow-2xl animate-slide-up overflow-y-auto max-h-[90vh]">
+      <div class="relative w-20 h-20 mx-auto mb-4">
+        <div class="w-20 h-20 bg-green-100 dark:bg-green-950/50 rounded-full flex items-center justify-center">
+          <span class="material-symbols-outlined mat-filled text-green-500 text-4xl">check_circle</span>
+        </div>
+        <div class="absolute -top-2 -right-2 text-2xl">🎉</div>
+      </div>
+      <h2 class="text-2xl font-black mb-2">تم استلام طلبك!</h2>
+      <p class="text-on-surface-variant dark:text-gray-400 text-sm mb-3">شكراً لك، سنقوم بمراجعة حجزك والتواصل معك عبر
+        الواتساب لتأكيده وإرسال فاوتشر الخصم.</p>
+
+      <!-- Booking ref (Optional to hide but useful for tracking) -->
+      <div class="bg-surface-container dark:bg-gray-800 rounded-2xl px-5 py-3 mb-4 inline-block">
+        <p class="text-xs text-on-surface-variant dark:text-gray-400 mb-1">رقم الطلب</p>
+        <p class="font-black text-primary text-xl tracking-wider" id="bookingRef">BLT-XXXXX</p>
+      </div>
+
+      <div class="flex gap-3 mb-3">
+        <a id="waLink" href="https://wa.me/201038834563" target="_blank"
+          class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-2xl text-sm transition-colors">
+          <span class="material-symbols-outlined text-base">chat</span> متابعة عبر واتساب
+        </a>
+      </div>
+      <button onclick="closeSuccess()"
+        class="w-full bg-primary hover:bg-primary-dark text-white font-black py-3 rounded-2xl transition-colors">
+        العودة للرئيسية
+      </button>
+    </div>
+  </div>
+
+  <!-- ======= NAVBAR ======= -->
+  <nav id="navbar"
+    class="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md shadow-sm border-b border-outline-variant/30 dark:border-gray-800/50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-18">
+        <!-- Logo -->
+        <button onclick="showPage('home')" class="flex items-center gap-2 group">
+          <div
+            class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-lg shadow-primary/30 bg-white">
+            <img src="{% static 'img/logo.png' %}" alt="مرسى بلطيم" class="w-full h-full object-contain p-1" />
+          </div>
+          <div class="hidden sm:block">
+            <p class="text-primary dark:text-primary-light font-black text-base leading-tight">مرسى</p>
+            <p class="text-on-surface-variant dark:text-gray-400 text-xs font-bold">بلطيم</p>
+          </div>
+        </button>
+
+        <!-- Nav Links -->
+        <div class="hidden md:flex items-center gap-1">
+          <button onclick="showPage('home')" id="nav-home"
+            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-primary bg-blue-50 dark:bg-blue-950/40">
+            <span class="material-symbols-outlined text-xl">home</span> الرئيسية
+          </button>
+          <button onclick="showPage('listings')" id="nav-listings"
+            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
+            <span class="material-symbols-outlined text-xl">apartment</span> العقارات
+          </button>
+          <button onclick="showPage('favorites')" id="nav-favorites"
+            class="nav-btn relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
+            <span class="material-symbols-outlined text-xl">favorite</span> المفضلة
+            <span id="favBadge"
+              class="hidden absolute -top-1 -left-1 w-5 h-5 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center">0</span>
+          </button>
+          <button onclick="showPage('cart')" id="nav-cart"
+            class="nav-btn relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
+            <span class="material-symbols-outlined text-xl">shopping_cart</span> السلة
+            <span id="cartBadge"
+              class="hidden absolute -top-1 -left-1 w-5 h-5 bg-primary text-white text-[10px] font-black rounded-full flex items-center justify-center">0</span>
+          </button>
+        </div>
+
+        <!-- Right actions -->
+        <div class="flex items-center gap-2">
+          <button onclick="toggleDark()"
+            class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container dark:bg-gray-800 text-on-surface-variant dark:text-gray-400 hover:bg-surface-container-high dark:hover:bg-gray-700 transition-all">
+            <span id="darkIcon" class="material-symbols-outlined text-xl">dark_mode</span>
+          </button>
+          <button onclick="showPage('cart')"
+            class="md:hidden relative w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container dark:bg-gray-800">
+            <span class="material-symbols-outlined text-xl">shopping_cart</span>
+            <span id="cartBadgeMobile"
+              class="hidden absolute -top-1 -left-1 w-5 h-5 bg-primary text-white text-[10px] font-black rounded-full flex items-center justify-center">0</span>
+          </button>
+          <button onclick="window.location.href='/owner/'"
+            class="hidden sm:flex items-center gap-1 text-sm font-bold text-on-surface-variant dark:text-gray-400 hover:text-primary px-3 py-2 rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-[18px]">login</span> تسجيل دخول
+          </button>
+          <button id="langBtn" onclick="toggleLang()"
+            class="hidden sm:flex bg-primary hover:bg-primary-dark text-white font-black text-sm py-2 px-5 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20">English</button>
+          <!-- Mobile menu -->
+          <button onclick="toggleMobileMenu()"
+            class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container dark:bg-gray-800">
+            <span id="menuIcon" class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu"
+      class="hidden md:hidden bg-white dark:bg-gray-950 border-t border-outline-variant dark:border-gray-800">
+      <div class="px-4 py-3 space-y-1">
+        <button onclick="showPage('home');toggleMobileMenu()"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400">
+          <span class="material-symbols-outlined">home</span> الرئيسية
+        </button>
+        <button onclick="showPage('listings');toggleMobileMenu()"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400">
+          <span class="material-symbols-outlined">apartment</span> العقارات
+        </button>
+        <button onclick="showPage('favorites');toggleMobileMenu()"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400">
+          <span class="material-symbols-outlined">favorite</span> المفضلة
+        </button>
+        <button onclick="showPage('cart');toggleMobileMenu()"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400">
+          <span class="material-symbols-outlined">shopping_cart</span> السلة
+        </button>
+        <div class="border-t border-outline-variant dark:border-gray-800 my-2"></div>
+        <button onclick="window.location.href='/owner/'"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-on-surface-variant dark:text-gray-400 hover:text-primary">
+          <span class="material-symbols-outlined">login</span> تسجيل دخول
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="h-16"></div>
+
+  <!-- ================================================ -->
+  <!-- PAGE: HOME -->
+  <!-- ================================================ -->
+  <div id="page-home" class="page active">
+    <!-- Hero -->
+    <section class="relative min-h-[88vh] flex items-center overflow-hidden justify-center">
+      <div id="heroCarousel" class="absolute inset-0 z-0 bg-gray-950">
+        <img src="{% static 'img/hero-beach.png' %}?v=2" class="carousel-image active" />
+        <img src="{% static 'img/chalets_resort_1780060543859.png' %}?v=2" class="carousel-image" />
+        <img src="{% static 'img/marina_aerial_1780060590732.png' %}?v=2" class="carousel-image" />
+        <img src="{% static 'img/resort_interior_1780060575683.png' %}?v=2" class="carousel-image" />
+        <img src="{% static 'img/sea_view_1780060560695.png' %}?v=2" class="carousel-image" />
+        <img src="{% static 'img/beach_promenade_1780060609940.png' %}?v=2" class="carousel-image" />
+        <img src="{% static 'img/beach_sunset_1780060528364.png' %}?v=2" class="carousel-image" />
+        <div class="absolute inset-0 bg-gradient-to-bl from-primary/25 via-black/45 to-gray-950/92 z-10 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent z-10 pointer-events-none"></div>
+      </div>
+
+      <!-- Decorative blurs -->
+      <div class="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse-slow z-10"></div>
+      <div class="absolute bottom-20 left-10 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse-slow z-10"></div>
+
+      <div class="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center text-center">
+        <div class="max-w-5xl animate-slide-up mt-16">
+          <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full text-sm sm:text-base font-bold mb-6 drop-shadow-lg">
+            <span class="material-symbols-outlined mat-filled text-amber-400 text-lg">star</span>
+            المنصة الأولى لإيجار وبيع العقارات تجمع بلطيم ومرينا دلتا ودلتا لاجونز وفارما بيتش
+          </div>
+          <h1 class="text-white font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight mb-6 drop-shadow-2xl" style="line-height: 1.4;">
+            ابحث عن شقتك في <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-300 to-sky-200">بلطيم</span> ومرينا دلتا ودلتا لاجونز وفارما بيتش
+          </h1>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-surface dark:from-gray-950 to-transparent z-20"></div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const carouselImages = document.querySelectorAll("#heroCarousel .carousel-image");
+        if (carouselImages.length > 0) {
+          let currentImageIndex = 0;
+          setInterval(() => {
+            carouselImages[currentImageIndex].classList.remove("active");
+            currentImageIndex = (currentImageIndex + 1) % carouselImages.length;
+            carouselImages[currentImageIndex].classList.add("active");
+          }, 4000);
+        }
+      });
+    </script>
+
+    <!-- Beach Sections -->
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <p class="text-xs font-black tracking-widest text-primary uppercase mb-2">عروض الشواطئ</p>
+          <h2 class="text-3xl font-black">اكتشف شواطئنا المميزة</h2>
+        </div>
+        <button onclick="showPage('listings')" class="flex items-center gap-2 text-primary font-bold text-sm group">
+          عرض كل العقارات <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </button>
+      </div>
+      <!-- Beach Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-8">
+        <button class="beach-tab active flex-shrink-0" onclick="filterHomeBeach('all', this)">🌊 الكل</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('fanar', this)">🏖️ الفنار</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('narges', this)">🌊 النرجس</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('zahraa', this)">⛱️ الزهراء</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('salam', this)">🌅 السلام</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('amal', this)">🏝️ الأمل</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('fayruz', this)">💎 الفيروز</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('marina-delta', this)">⛵ مارينا دلتا</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('marina-lagoons', this)">🚤 مارينا
+          لاجونز</button>
+        <button class="beach-tab flex-shrink-0" onclick="filterHomeBeach('farma-beach', this)">🏖️ فارما بيتش</button>
+      </div>
+      <div id="homeGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6"></div>
+    </section>
+
+    <!-- Featured Bento -->
+    <section class="py-16 bg-surface-container dark:bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <p class="text-xs font-black tracking-widest text-primary uppercase mb-2">مختارات مميزة</p>
+          <h2 class="text-3xl font-black mb-3">أبرز العقارات المميزة</h2>
+        </div>
+        <div id="bentoGrid" class="grid grid-cols-1 md:grid-cols-12 gap-5 h-auto md:h-[520px]"></div>
+      </div>
+    </section>
+
+    <!-- Why Us -->
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="text-xs font-black tracking-widest text-primary uppercase mb-2">لماذا نحن</p>
+        <h2 class="text-3xl font-black">مميزات منصة مرسى بلطيم</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all card-hover">
+          <div class="w-14 h-14 bg-blue-100 dark:bg-blue-950/50 rounded-2xl flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-primary text-3xl">verified</span>
+          </div>
+          <h3 class="font-black text-lg mb-2">عقارات موثقة</h3>
+          <p class="text-on-surface-variant dark:text-gray-400 text-sm leading-relaxed">جميع العقارات تم التحقق منها
+            ميدانياً من قِبل فريقنا المتخصص</p>
+        </div>
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all card-hover">
+          <div class="w-14 h-14 bg-green-100 dark:bg-green-950/50 rounded-2xl flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-green-600 text-3xl">payments</span>
+          </div>
+          <h3 class="font-black text-lg mb-2">أسعار تنافسية</h3>
+          <p class="text-on-surface-variant dark:text-gray-400 text-sm leading-relaxed">نضمن لك أفضل الأسعار بدون رسوم
+            خفية أو عمولات إضافية</p>
+        </div>
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all card-hover">
+          <div class="w-14 h-14 bg-purple-100 dark:bg-purple-950/50 rounded-2xl flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-purple-600 text-3xl">support_agent</span>
+          </div>
+          <h3 class="font-black text-lg mb-2">دعم ٢٤/٧</h3>
+          <p class="text-on-surface-variant dark:text-gray-400 text-sm leading-relaxed">فريق دعم متوفر على مدار الساعة
+            لمساعدتك في أي وقت</p>
+        </div>
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all card-hover">
+          <div class="w-14 h-14 bg-amber-100 dark:bg-amber-950/50 rounded-2xl flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-amber-600 text-3xl">security</span>
+          </div>
+          <h3 class="font-black text-lg mb-2">دفع آمن</h3>
+          <p class="text-on-surface-variant dark:text-gray-400 text-sm leading-relaxed">نظام دفع مؤمن بأعلى معايير
+            الأمان لحماية بياناتك</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 px-4">
+      <div class="max-w-5xl mx-auto">
+        <div
+          class="relative overflow-hidden bg-gradient-to-l from-primary to-blue-700 rounded-3xl p-10 md:p-16 text-center">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+          <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+          <div class="relative z-10">
+            <span class="text-5xl mb-6 block">🌊</span>
+            <h2 class="text-white font-black text-3xl md:text-4xl mb-4">استمتع بصيف لا يُنسى في بلطيم</h2>
+            <p class="text-white/80 text-lg mb-8 max-w-lg mx-auto">احجز شقتك الآن واستفد من أفضل العروض الصيفية مع ضمان
+              أفضل سعر</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <button onclick="showPage('listings')"
+                class="bg-white text-primary font-black px-8 py-4 rounded-2xl hover:scale-105 transition-transform shadow-lg">ابحث
+                عن عقار الآن</button>
+              <button onclick="showPage('listings')"
+                class="border-2 border-white/50 text-white font-bold px-8 py-4 rounded-2xl hover:bg-white/10 transition-colors">عقارات
+                للبيع</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-white py-14">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+          <div class="col-span-2 md:col-span-1">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+                <img src="{% static 'img/logo.png' %}" alt="مرسى بلطيم" class="w-full h-full object-contain p-1" />
+              </div>
+              <p class="font-black text-lg">مرسى بلطيم</p>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed">المنصة الأولى والأكبر لإيجار وبيع العقارات في مصيف بلطيم
+              على الساحل الشمالي.</p>
+          </div>
+          <div>
+            <h4 class="font-black mb-4 text-gray-200">الشواطئ</h4>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li><button onclick="filterAndGo('fanar')" class="hover:text-white transition-colors">🏖️ شاطئ
+                  الفنار</button></li>
+              <li><button onclick="filterAndGo('narges')" class="hover:text-white transition-colors">🌊 شاطئ
+                  النرجس</button></li>
+              <li><button onclick="filterAndGo('zahraa')" class="hover:text-white transition-colors">⛱️ شاطئ
+                  الزهراء</button></li>
+              <li><button onclick="filterAndGo('salam')" class="hover:text-white transition-colors">🌅 شاطئ
+                  السلام</button></li>
+              <li><button onclick="filterAndGo('amal')" class="hover:text-white transition-colors">🏝️ شاطئ
+                  الأمل</button></li>
+              <li><button onclick="filterAndGo('fayruz')" class="hover:text-white transition-colors">💎 شاطئ
+                  الفيروز</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-black mb-4 text-gray-200">روابط سريعة</h4>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li><button onclick="showPage('home')" class="hover:text-white transition-colors">الصفحة الرئيسية</button>
+              </li>
+              <li><button onclick="showPage('listings')" class="hover:text-white transition-colors">كل العقارات</button>
+              </li>
+              <li><button onclick="showPage('favorites')" class="hover:text-white transition-colors">المفضلة</button>
+              </li>
+              <li><button onclick="showPage('cart')" class="hover:text-white transition-colors">سلة الحجز</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-black mb-4 text-gray-200">تواصل معنا</h4>
+            <div class="space-y-3 text-gray-400 text-sm">
+              <div class="flex items-center gap-2"><span class="material-symbols-outlined text-base">phone</span><span
+                  class="ltr-num">+201038834563</span></div>
+              <div class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-base">email</span><span><a href="/cdn-cgi/l/email-protection"
+                    class="__cf_email__"
+                    data-cfemail="dab3b4bcb59ab8bbb6aeb3b7f4b9b5b7">[email&#160;protected]</a></span></div>
+              <div class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-base">location_on</span><span>مصيف بلطيم، كفر الشيخ</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+          <p>© ٢٠٢٤ مرسى بلطيم. جميع الحقوق محفوظة.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- PAGE: LISTINGS -->
+  <!-- ================================================ -->
+  <div id="page-listings" class="page">
+    <div
+      class="bg-gradient-to-bl from-blue-50 to-surface dark:from-blue-950/20 dark:to-gray-950 border-b border-outline-variant dark:border-gray-800 py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 id="listingsTitle" class="text-3xl font-black mb-2">كل العقارات</h1>
+        <p class="text-on-surface-variant dark:text-gray-400 mb-6">تصفح العقارات المتاحة لدينا بأفضل الأسعار</p>
+        <div class="flex items-center gap-2 overflow-x-auto pb-1">
+          <button class="beach-tab active flex-shrink-0" onclick="filterListings('all', this)">🌊 الكل</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('fanar', this)">🏖️ الفنار</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('narges', this)">🌊 النرجس</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('zahraa', this)">⛱️ الزهراء</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('salam', this)">🌅 السلام</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('amal', this)">🏝️ الأمل</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('fayruz', this)">💎 الفيروز</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('marina-delta', this)">⛵ مارينا دلتا</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('marina-lagoons', this)">🚤 مارينا
+            لاجونز</button>
+          <button class="beach-tab flex-shrink-0" onclick="filterListings('farma-beach', this)">🏖️ فارما بيتش</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Toolbar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div class="flex items-center gap-3 flex-wrap">
+          <button onclick="toggleFilters()" id="filtersBtn"
+            class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-outline-variant dark:border-gray-700 font-bold text-sm bg-white dark:bg-gray-900 hover:border-primary hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-xl">tune</span> الفلاتر
+            <span id="filterCount"
+              class="hidden bg-primary text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+          <button id="clearFiltersBtn" onclick="clearAllFilters()"
+            class="hidden text-sm text-red-500 font-bold flex items-center gap-1 hover:underline">
+            <span class="material-symbols-outlined text-sm">close</span> مسح الكل
+          </button>
+          <span id="resultsCount" class="text-sm text-on-surface-variant dark:text-gray-400 font-medium">18 نتيجة</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <select id="sortSelect" onchange="applyListingsFilters()" class="input-f py-2 text-sm min-w-[160px]">
+            <option value="popular">الأكثر طلبًا</option>
+            <option value="cheapest">الأرخص أولاً</option>
+            <option value="expensive">الأغلى أولاً</option>
+            <option value="rating">الأعلى تقييمًا</option>
+            <option value="nearest">الأقرب للبحر</option>
+          </select>
+          <div class="flex items-center bg-surface-container dark:bg-gray-800 rounded-xl p-1">
+            <button onclick="setView('grid')" id="viewGrid"
+              class="p-2 rounded-lg bg-white dark:bg-gray-700 shadow-sm text-primary transition-all">
+              <span class="material-symbols-outlined text-xl">grid_view</span>
+            </button>
+            <button onclick="setView('list')" id="viewList"
+              class="p-2 rounded-lg text-outline dark:text-gray-500 transition-all">
+              <span class="material-symbols-outlined text-xl">view_list</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters Panel -->
+      <div id="filtersPanel"
+        class="hidden bg-white dark:bg-gray-900 rounded-2xl p-6 mb-6 shadow-sm border border-outline-variant dark:border-gray-800 animate-slide-down grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div>
+          <label class="block text-xs font-black text-primary tracking-widest uppercase mb-2">السعر اليومي من
+            (ج)</label>
+          <input type="number" id="fMinPrice" placeholder="من" class="input-f text-sm py-2"
+            oninput="applyListingsFilters()" />
+        </div>
+        <div>
+          <label class="block text-xs font-black text-primary tracking-widest uppercase mb-2">السعر اليومي حتى
+            (ج)</label>
+          <input type="number" id="fMaxPrice" placeholder="حتى" class="input-f text-sm py-2"
+            oninput="applyListingsFilters()" />
+        </div>
+        <div>
+          <label class="block text-xs font-black text-primary tracking-widest uppercase mb-2">عدد الغرف</label>
+          <select id="fRooms" class="input-f text-sm py-2" onchange="applyListingsFilters()">
+            <option value="">أي عدد</option>
+            <option value="1">١ غرفة فأكثر</option>
+            <option value="2">٢ غرف فأكثر</option>
+            <option value="3">٣ غرف فأكثر</option>
+            <option value="4">٤ غرف فأكثر</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-black text-primary tracking-widest uppercase mb-2">المسافة من البحر</label>
+          <select id="fDist" class="input-f text-sm py-2" onchange="applyListingsFilters()">
+            <option value="">أي مسافة</option>
+            <option value="20">مباشر (٢٠م)</option>
+            <option value="50">قريب جداً (٥٠م)</option>
+            <option value="100">قريب (١٠٠م)</option>
+            <option value="200">مناسب (٢٠٠م)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-black text-primary tracking-widest uppercase mb-2">نوع العقار</label>
+          <select id="fType" class="input-f text-sm py-2" onchange="applyListingsFilters()">
+            <option value="">كل الأنواع</option>
+            <option value="شقة">شقة</option>
+            <option value="شاليه">شاليه</option>
+            <option value="فيلا">فيلا</option>
+            <option value="استوديو">استوديو</option>
+            <option value="بنتهاوس">بنتهاوس</option>
+          </select>
+        </div>
+        <div class="sm:col-span-2 lg:col-span-3 flex flex-wrap gap-2 items-center">
+          <button id="toggleRent" onclick="toggleListingFilter('rent', this)"
+            class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border border-outline-variant dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-primary hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-base">key</span> للإيجار فقط
+          </button>
+          <button id="toggleSale" onclick="toggleListingFilter('sale', this)"
+            class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border border-outline-variant dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-primary hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-base">sell</span> للبيع فقط
+          </button>
+          <button id="toggleSpecial" onclick="toggleListingFilter('special', this)"
+            class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border border-outline-variant dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-primary hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-base">local_offer</span> عروض خاصة
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="listingsGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6"></div>
+
+      <!-- Pagination -->
+      <div id="paginationContainer" class="hidden flex justify-center items-center gap-4 mt-12 py-4">
+        <button id="prevPage" onclick="changeListPage(-1)"
+          class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 border border-outline-variant dark:border-gray-700 text-on-surface-variant hover:border-primary hover:text-primary transition-all disabled:opacity-30 disabled:pointer-events-none shadow-sm">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        <div id="pageInfo"
+          class="text-sm font-black bg-white dark:bg-gray-800 px-6 py-2 rounded-full border border-outline-variant dark:border-gray-700 shadow-sm">
+          صفحة <span id="currentPageNum" class="text-primary">1</span> من <span id="totalPageNum">1</span>
+        </div>
+        <button id="nextPage" onclick="changeListPage(1)"
+          class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 border border-outline-variant dark:border-gray-700 text-on-surface-variant hover:border-primary hover:text-primary transition-all disabled:opacity-30 disabled:pointer-events-none shadow-sm">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+      </div>
+
+      <div id="emptyState" class="hidden text-center py-24">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-xl font-black mb-2">لا توجد نتائج</h3>
+        <p class="text-on-surface-variant dark:text-gray-400 mb-6">لم نجد عقارات تطابق معايير البحث</p>
+        <button onclick="clearAllFilters()"
+          class="bg-primary hover:bg-primary-dark text-white font-black py-3 px-6 rounded-xl transition-colors">مسح
+          الفلاتر</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- PAGE: PROPERTY DETAIL -->
+  <!-- ================================================ -->
+  <div id="page-detail" class="page">
+    <div id="detailContent" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"></div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- PAGE: FAVORITES -->
+  <!-- ================================================ -->
+  <div id="page-favorites" class="page">
+    <div
+      class="bg-gradient-to-bl from-red-50 to-surface dark:from-red-950/20 dark:to-gray-950 border-b border-outline-variant dark:border-gray-800 py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 rounded-2xl flex items-center justify-center">
+            <span class="material-symbols-outlined mat-filled text-red-500 text-2xl">favorite</span>
+          </div>
+          <div>
+            <h1 class="text-3xl font-black">المفضلة</h1>
+            <p id="favCount" class="text-on-surface-variant dark:text-gray-400">لا توجد عقارات محفوظة</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div id="favEmpty" class="hidden text-center py-24">
+        <div class="text-8xl mb-6">💝</div>
+        <h3 class="text-2xl font-black mb-3">قائمة المفضلة فارغة</h3>
+        <p class="text-on-surface-variant dark:text-gray-400 mb-8 max-w-md mx-auto">ابدأ بتصفح العقارات واضغط على قلب ❤️
+          لحفظ العقارات التي تعجبك</p>
+        <button onclick="showPage('listings')"
+          class="bg-primary hover:bg-primary-dark text-white font-black py-3 px-6 rounded-xl inline-flex items-center gap-2 transition-colors">
+          <span class="material-symbols-outlined">apartment</span> تصفح العقارات
+        </button>
+      </div>
+      <div id="favGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6"></div>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- PAGE: CART -->
+  <!-- ================================================ -->
+  <div id="page-cart" class="page">
+    <div
+      class="bg-gradient-to-bl from-blue-50 to-surface dark:from-blue-950/20 dark:to-gray-950 border-b border-outline-variant dark:border-gray-800 py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/50 rounded-2xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-2xl">shopping_cart</span>
+          </div>
+          <div>
+            <h1 class="text-3xl font-black">سلة الحجز</h1>
+            <p id="cartCount" class="text-on-surface-variant dark:text-gray-400">0 عقار في السلة</p>
+          </div>
+        </div>
+        <button onclick="clearCart()" class="text-sm text-red-500 font-bold flex items-center gap-1 hover:underline">
+          <span class="material-symbols-outlined text-sm">delete_sweep</span> مسح الكل
+        </button>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div id="cartEmpty" class="hidden text-center py-24">
+        <div class="text-8xl mb-6">🛒</div>
+        <h3 class="text-2xl font-black mb-3">السلة فارغة</h3>
+        <p class="text-on-surface-variant dark:text-gray-400 mb-8">لم تقم بإضافة أي عقارات للسلة بعد</p>
+        <button onclick="showPage('listings')"
+          class="bg-primary hover:bg-primary-dark text-white font-black py-3 px-6 rounded-xl inline-flex items-center gap-2">
+          <span class="material-symbols-outlined">apartment</span> تصفح العقارات
+        </button>
+      </div>
+      <div id="cartContent" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-4" id="cartItems"></div>
+        <div class="lg:col-span-1">
+          <div
+            class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-outline-variant dark:border-gray-800 sticky top-24">
+            <h3 class="text-xl font-black mb-5 flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">receipt</span> ملخص الطلب
+            </h3>
+            <div class="space-y-3 mb-5" id="cartSummary"></div>
+            <button onclick="showPage('checkout')"
+              class="w-full bg-primary hover:bg-primary-dark text-white font-black py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20">
+              <span class="material-symbols-outlined">payment</span> متابعة للدفع
+            </button>
+            <div class="mt-4 space-y-2">
+              <span class="flex items-center gap-2 text-xs text-on-surface-variant dark:text-gray-400"><span
+                  class="material-symbols-outlined text-green-500 text-sm">verified</span>دفع آمن ومشفر</span>
+              <span class="flex items-center gap-2 text-xs text-on-surface-variant dark:text-gray-400"><span
+                  class="material-symbols-outlined text-green-500 text-sm">verified</span>بدون رسوم خفية</span>
+              <span class="flex items-center gap-2 text-xs text-on-surface-variant dark:text-gray-400"><span
+                  class="material-symbols-outlined text-green-500 text-sm">verified</span>إلغاء مجاني ٤٨ ساعة</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- PAGE: CHECKOUT -->
+  <!-- ================================================ -->
+  <div id="page-checkout" class="page">
+    <div
+      class="bg-gradient-to-bl from-blue-50 to-surface dark:from-blue-950/20 dark:to-gray-950 border-b border-outline-variant dark:border-gray-800 py-10">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-2 text-sm text-on-surface-variant dark:text-gray-400 mb-4">
+          <button onclick="showPage('cart')" class="hover:text-primary transition-colors">السلة</button>
+          <span class="material-symbols-outlined text-sm">chevron_left</span>
+          <span class="text-on-surface dark:text-gray-100 font-semibold">تأكيد الحجز</span>
+        </div>
+        <h1 class="text-3xl font-black mb-1">إتمام الحجز</h1>
+        <p class="text-on-surface-variant dark:text-gray-400">أدخل بياناتك لتأكيد حجزك</p>
+      </div>
+    </div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div class="lg:col-span-3 space-y-6">
+          <!-- Form -->
+          <div
+            class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-outline-variant dark:border-gray-800">
+            <h3 class="text-xl font-black mb-5 flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">person</span> البيانات الشخصية
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-bold mb-2">الاسم الكامل <span class="text-red-500">*</span></label>
+                <input type="text" id="chkName" placeholder="أدخل اسمك الكامل" class="input-f"
+                  oninput="clearError('chkName')" />
+                <p id="errName" class="text-red-500 text-xs mt-1 hidden flex items-center gap-1"><span
+                    class="material-symbols-outlined text-sm">error</span>الاسم مطلوب</p>
+              </div>
+              <div>
+                <label class="block text-sm font-bold mb-2">رقم الهاتف <span class="text-red-500">*</span></label>
+                <input type="tel" id="chkPhone" placeholder="01xxxxxxxxx" class="input-f" dir="ltr"
+                  oninput="clearError('chkPhone')" />
+                <p id="errPhone" class="text-red-500 text-xs mt-1 hidden flex items-center gap-1"><span
+                    class="material-symbols-outlined text-sm">error</span>رقم هاتف غير صحيح</p>
+              </div>
+              <div>
+                <label class="block text-sm font-bold mb-2">البريد الإلكتروني</label>
+                <input type="email" id="chkEmail" placeholder="example@email.com" class="input-f" dir="ltr"
+                  oninput="clearError('chkEmail')" />
+                <p id="errEmail" class="text-red-500 text-xs mt-1 hidden flex items-center gap-1"><span
+                    class="material-symbols-outlined text-sm">error</span>بريد إلكتروني غير صحيح</p>
+              </div>
+              <div>
+                <label class="block text-sm font-bold mb-2">ملاحظات إضافية</label>
+                <textarea id="chkNotes" placeholder="أي طلبات أو ملاحظات خاصة..." rows="3"
+                  class="input-f resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Payment -->
+          <div
+            class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-outline-variant dark:border-gray-800">
+            <h3 class="text-xl font-black mb-5 flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">payment</span> طريقة الدفع
+            </h3>
+            <div class="space-y-3">
+              <label
+                class="flex items-center gap-3 p-4 border-2 border-outline-variant dark:border-gray-700 rounded-2xl cursor-pointer hover:border-primary transition-all">
+                <div class="w-10 h-10 bg-blue-50 dark:bg-blue-950/30 rounded-xl flex items-center justify-center">
+                  <span class="material-symbols-outlined text-primary text-xl">payments</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-bold text-sm">دفع نقدي عند الوصول</p>
+                  <p class="text-xs text-on-surface-variant dark:text-gray-400">ادفع نقداً عند استلام الشقة</p>
+                </div>
+                <input type="radio" name="payment" value="cash" checked class="accent-primary" />
+              </label>
+              <label
+                class="flex items-center gap-3 p-4 border-2 border-outline-variant dark:border-gray-700 rounded-2xl cursor-pointer hover:border-primary transition-all">
+                <div class="w-10 h-10 bg-red-50 dark:bg-red-950/30 rounded-xl flex items-center justify-center">
+                  <span class="material-symbols-outlined text-red-600 text-xl">phone_iphone</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-bold text-sm">فودافون كاش</p>
+                  <p class="text-xs text-on-surface-variant dark:text-gray-400">تحويل فوري عبر المحفظة الإلكترونية</p>
+                </div>
+                <input type="radio" name="payment" value="vodafone" class="accent-primary" />
+              </label>
+              <label
+                class="flex items-center gap-3 p-4 border-2 border-outline-variant dark:border-gray-700 rounded-2xl cursor-pointer hover:border-primary transition-all">
+                <div class="w-10 h-10 bg-green-50 dark:bg-green-950/30 rounded-xl flex items-center justify-center">
+                  <span class="material-symbols-outlined text-green-600 text-xl">account_balance</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-bold text-sm">تحويل بنكي</p>
+                  <p class="text-xs text-on-surface-variant dark:text-gray-400">حوّل المبلغ على الحساب البنكي</p>
+                </div>
+                <input type="radio" name="payment" value="bank" class="accent-primary" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="lg:col-span-2">
+          <div
+            class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-outline-variant dark:border-gray-800 sticky top-24">
+            <h3 class="text-xl font-black mb-5 flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">receipt_long</span> ملخص الطلب
+            </h3>
+            <div id="checkoutSummary" class="space-y-3 mb-5"></div>
+            <button onclick="submitCheckout()" id="submitBtn"
+              class="w-full bg-primary hover:bg-primary-dark text-white font-black py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20">
+              <span class="material-symbols-outlined">check_circle</span> تأكيد الحجز الآن
+            </button>
+            <p class="text-center text-xs text-on-surface-variant dark:text-gray-400 mt-3">بالضغط على "تأكيد الحجز" أنت
+              توافق على <a href="#" class="text-primary font-bold">شروط الاستخدام</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% verbatim %}
+  <script>
+    // ============================================================
+    // ⚙️ API CONFIGURATION
+    // ============================================================
+    const API_BASE = '';  // نفس السيرفر — Django يخدم الـ frontend والـ API
+    const API = {
+      properties: `${API_BASE}/api/properties/`,
+      propertyDetail: (id) => `${API_BASE}/api/properties/${id}/`,
+      beaches: `${API_BASE}/api/properties/beaches/`,
+      bookings: `${API_BASE}/api/bookings/`,
+      bookingDetail: (ref) => `${API_BASE}/api/bookings/${ref}/`,
+    };
+
+
+    // ── Django CSRF Token ──────────────────────────────────────
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        document.cookie.split(';').forEach(cookie => {
+          const c = cookie.trim();
+          if (c.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(c.substring(name.length + 1));
+          }
+        });
+      }
+      return cookieValue;
+    }
+    const CSRF_TOKEN = getCookie('csrftoken');
+
+    // ── API helper مع timeout وerror handling ────────────────────
+    async function apiFetch(url, options = {}) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      // أضف CSRF token لطلبات POST/PUT/PATCH/DELETE
+      const method = (options.method || 'GET').toUpperCase();
+      const headers = { ...options.headers };
+      if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+        headers['X-CSRFToken'] = CSRF_TOKEN || getCookie('csrftoken');
+      }
+      try {
+        const res = await fetch(url, { ...options, headers, signal: controller.signal });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } catch (e) {
+        clearTimeout(timeout);
+        throw e;
+      }
+    }
+
+    // ── Normalize property from API format → frontend format ─────
+    // Backend: beach_name, is_popular, price_daily as string, main_image
+    // Frontend: beachName, isPopular, price_daily as number, images[]
+    function adaptProperty(p) {
+      return {
+        id: p.id,
+        title: p.title,
+        beach: p.beach_slug || p.beach,
+        beach_slug: p.beach_slug || p.beach,
+        beachName: p.beach_name || p.beachName || '',
+        city: p.city || '',
+        city_slug: p.city_slug || '',
+        type: p.type,
+        description: p.description || '',
+        price_daily: p.price_daily ? parseFloat(p.price_daily) : null,
+        price_monthly: p.price_monthly ? parseFloat(p.price_monthly) : null,
+        price_sale: p.price_sale ? parseFloat(p.price_sale) : null,
+        rooms: p.rooms,
+        area: p.area,
+        floor: p.floor || 1,
+        distance_to_sea: p.distance_to_sea,
+        rating: p.rating || 0,
+        reviews: p.reviews || 0,
+        amenities: Array.isArray(p.amenities) ? p.amenities : (p.amenities || '').split(',').filter(Boolean),
+        isPopular: p.is_popular || p.isPopular || false,
+        isSpecialOffer: p.is_special_offer || p.isSpecialOffer || false,
+        available: p.available !== false,
+        // Images: API returns main_image (string) or images[] (array of objects)
+        images: p.images && p.images.length
+          ? p.images.map(img => img.image_url || img)
+          : p.main_image
+            ? [p.main_image]
+            : ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75'],
+      };
+    }
+
+    // ============================================================
+    // 🌊 MOCK DATA (fallback when backend is offline)
+    // ============================================================
+    const MOCK_PROPERTIES = [
+      { id: 1, title: 'شقة فاخرة بإطلالة بانورامية', beach: 'fanar', beach_slug: 'fanar', city_slug: 'baltim', type: 'شقة', price_daily: 850, price_monthly: 18000, price_sale: 1800000, images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=75', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=75'], description: 'شقة فاخرة بإطلالة بانورامية على البحر المتوسط.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'deck', 'elevator'], rooms: 3, distance_to_sea: 50, rating: 4.9, reviews: 124, area: 120, isPopular: true, isSpecialOffer: false, beachName: 'الفنار' },
+      { id: 2, title: 'شاليه ساحلي عائلي كبير', beach: 'narges', beach_slug: 'narges', city_slug: 'baltim', type: 'شاليه', price_daily: 650, price_monthly: 14000, price_sale: null, images: ['https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=75'], description: 'شاليه عائلي رحب يطل مباشرة على الشاطئ.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'security'], rooms: 4, distance_to_sea: 20, rating: 4.7, reviews: 89, area: 180, isPopular: true, isSpecialOffer: true, beachName: 'النرجس' },
+      { id: 3, title: 'استوديو أنيق قريب من البحر', beach: 'zahraa', beach_slug: 'zahraa', city_slug: 'baltim', type: 'استوديو', price_daily: 350, price_monthly: 7500, price_sale: 650000, images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=75'], description: 'استوديو عصري ومريح يقع على بعد خطوات من شاطئ الزهراء.', amenities: ['wifi', 'ac_unit', 'kitchen', 'deck', 'elevator'], rooms: 1, distance_to_sea: 150, rating: 4.5, reviews: 67, area: 45, isPopular: false, isSpecialOffer: true, beachName: 'الزهراء' },
+      { id: 4, title: 'فيلا فاخرة مع مسبح خاص', beach: 'fayruz', beach_slug: 'fayruz', city_slug: 'baltim', type: 'فيلا', price_daily: 2500, price_monthly: 55000, price_sale: 8500000, images: ['https://images.unsplash.com/photo-1613553507747-5f8d62ad5904?w=600&q=75'], description: 'فيلا ملكية فاخرة تطل مباشرة على البحر مع مسبح خاص.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security', 'pool'], rooms: 5, distance_to_sea: 10, rating: 5.0, reviews: 42, area: 450, isPopular: true, isSpecialOffer: false, beachName: 'الفيروز' },
+      { id: 5, title: 'شقة بغرفتين بسعر مميز', beach: 'salam', beach_slug: 'salam', city_slug: 'baltim', type: 'شقة', price_daily: 480, price_monthly: 10000, price_sale: 950000, images: ['https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&q=75'], description: 'شقة مريحة بغرفتين نوم تقع في قلب شاطئ السلام.', amenities: ['wifi', 'ac_unit', 'water', 'kitchen', 'deck'], rooms: 2, distance_to_sea: 80, rating: 4.3, reviews: 156, area: 90, isPopular: false, isSpecialOffer: true, beachName: 'السلام' },
+      { id: 6, title: 'شقة عصرية في الدور الأول', beach: 'amal', beach_slug: 'amal', city_slug: 'baltim', type: 'شقة', price_daily: 550, price_monthly: 12000, price_sale: 1100000, images: ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=75'], description: 'شقة عصرية تقع في الدور الأول مباشرة على شاطئ الأمل.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security'], rooms: 3, distance_to_sea: 30, rating: 4.8, reviews: 93, area: 130, isPopular: true, isSpecialOffer: false, beachName: 'الأمل' },
+      { id: 7, title: 'شاليه فاخر', beach: 'marina-delta', beach_slug: 'marina-delta', city_slug: 'marina-delta', type: 'شاليه', price_daily: 1000, price_monthly: 22000, price_sale: 2500000, images: ['https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=75'], description: 'شاليه بقرية مارينا دلتا السياحية.', amenities: ['wifi', 'ac_unit', 'pool'], rooms: 2, distance_to_sea: 10, rating: 4.8, reviews: 44, area: 100, isPopular: true, isSpecialOffer: false, beachName: 'مارينا دلتا' },
+      { id: 8, title: 'شاليه دوبلكس فاخر', beach: 'narges', beach_slug: 'narges', city_slug: 'baltim', type: 'شاليه', price_daily: 1200, price_monthly: 26000, price_sale: 3200000, images: ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=75'], description: 'شاليه دوبلكس فاخر بطابقين على شاطئ النرجس. يضم 4 غرف نوم.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security', 'pool'], rooms: 4, distance_to_sea: 40, rating: 4.9, reviews: 55, area: 280, isPopular: true, isSpecialOffer: false, beachName: 'النرجس' },
+      { id: 9, title: 'شقة ثلاث غرف بسعر الموسم', beach: 'zahraa', beach_slug: 'zahraa', city_slug: 'baltim', type: 'شقة', price_daily: 700, price_monthly: 15000, price_sale: null, images: ['https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&q=75'], description: 'شقة ثلاث غرف رحبة بموقع مميز على شاطئ الزهراء.', amenities: ['wifi', 'ac_unit', 'kitchen', 'local_laundry_service', 'deck', 'elevator', 'local_parking'], rooms: 3, distance_to_sea: 100, rating: 4.4, reviews: 112, area: 115, isPopular: false, isSpecialOffer: true, beachName: 'الزهراء' },
+      { id: 10, title: 'فيلا مع حديقة خاصة', beach: 'salam', beach_slug: 'salam', city_slug: 'baltim', type: 'فيلا', price_daily: 1800, price_monthly: 40000, price_sale: 6500000, images: ['https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=75'], description: 'فيلا راقية مع حديقة خاصة وحمام سباحة.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security', 'pool'], rooms: 4, distance_to_sea: 25, rating: 4.8, reviews: 38, area: 350, isPopular: true, isSpecialOffer: false, beachName: 'السلام' },
+      { id: 11, title: 'شقة غرفة واحدة اقتصادية', beach: 'amal', beach_slug: 'amal', city_slug: 'baltim', type: 'شقة', price_daily: 280, price_monthly: 6000, price_sale: 520000, images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=75'], description: 'شقة اقتصادية بغرفة نوم واحدة. الخيار المثالي للأزواج.', amenities: ['wifi', 'ac_unit', 'kitchen', 'elevator'], rooms: 1, distance_to_sea: 200, rating: 4.1, reviews: 204, area: 55, isPopular: false, isSpecialOffer: false, beachName: 'الأمل' },
+      { id: 12, title: 'شقة بنتهاوس فاخرة', beach: 'fayruz', beach_slug: 'fayruz', city_slug: 'baltim', type: 'بنتهاوس', price_daily: 3200, price_monthly: 70000, price_sale: 12000000, images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=75'], description: 'بنتهاوس ملكي على أعلى طابق في أرقى مجمع بشاطئ الفيروز. إطلالة 360 درجة.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security', 'pool', 'elevator'], rooms: 5, distance_to_sea: 5, rating: 5.0, reviews: 21, area: 600, isPopular: true, isSpecialOffer: false, beachName: 'الفيروز' },
+      { id: 13, title: 'شقة مفروشة بالكامل 2 غرفة', beach: 'fanar', beach_slug: 'fanar', city_slug: 'baltim', type: 'شقة', price_daily: 600, price_monthly: 13000, price_sale: 1200000, images: ['https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&q=75'], description: 'شقة مفروشة بالكامل بأثاث فاخر.', amenities: ['wifi', 'ac_unit', 'kitchen', 'local_laundry_service', 'deck', 'elevator', 'local_parking'], rooms: 2, distance_to_sea: 120, rating: 4.6, reviews: 88, area: 100, isPopular: false, isSpecialOffer: true, beachName: 'الفنار' },
+      { id: 14, title: 'شاليه على الشاطئ مباشرة', beach: 'zahraa', beach_slug: 'zahraa', city_slug: 'baltim', type: 'شاليه', price_daily: 900, price_monthly: 20000, price_sale: null, images: ['https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=75'], description: 'شاليه ساحلي يقع مباشرة على الرمال الذهبية.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'security'], rooms: 3, distance_to_sea: 5, rating: 4.9, reviews: 66, area: 160, isPopular: true, isSpecialOffer: true, beachName: 'الزهراء' },
+      { id: 15, title: 'شقة للبيع - فرصة استثمارية', beach: 'salam', beach_slug: 'salam', city_slug: 'baltim', type: 'شقة', price_daily: null, price_monthly: null, price_sale: 1450000, images: ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=75'], description: 'فرصة استثمارية مميزة - شقة 3 غرف.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'elevator', 'security'], rooms: 3, distance_to_sea: 90, rating: 4.5, reviews: 12, area: 125, isPopular: false, isSpecialOffer: false, beachName: 'السلام' },
+      { id: 16, title: 'شقة عائلية كبيرة 4 غرف', beach: 'amal', beach_slug: 'amal', city_slug: 'baltim', type: 'شقة', price_daily: 980, price_monthly: 21000, price_sale: 2100000, images: ['https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=75'], description: 'شقة عائلية فسيحة من 4 غرف نوم.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security', 'elevator'], rooms: 4, distance_to_sea: 70, rating: 4.7, reviews: 74, area: 200, isPopular: true, isSpecialOffer: false, beachName: 'الأمل' },
+      { id: 17, title: 'شاليه مع مدخل خاص للشاطئ', beach: 'narges', beach_slug: 'narges', city_slug: 'baltim', type: 'شاليه', price_daily: 1100, price_monthly: 24000, price_sale: null, images: ['https://images.unsplash.com/photo-1613553507747-5f8d62ad5904?w=600&q=75'], description: 'شاليه حصري مع مدخل خاص للشاطئ.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'local_laundry_service', 'deck', 'security'], rooms: 3, distance_to_sea: 15, rating: 4.8, reviews: 47, area: 220, isPopular: true, isSpecialOffer: false, beachName: 'النرجس' },
+      { id: 18, title: 'شقة بنظرة رائعة بسعر مميز', beach: 'fayruz', beach_slug: 'fayruz', city_slug: 'baltim', type: 'شقة', price_daily: 750, price_monthly: 16000, price_sale: 1600000, images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=75'], description: 'شقة راقية بإطلالة رائعة في أرقى شواطئ بلطيم.', amenities: ['wifi', 'ac_unit', 'water', 'local_parking', 'kitchen', 'deck', 'elevator'], rooms: 3, distance_to_sea: 80, rating: 4.6, reviews: 95, area: 140, isPopular: false, isSpecialOffer: true, beachName: 'الفيروز' },
+    ];
+
+    const CITIES = [
+      {
+        id: 1,
+        name: 'مصيف بلطيم',
+        slug: 'baltim',
+        icon: '🌊',
+        beaches: [
+          { slug: 'fanar', name: 'الفنار', icon: '🏖️' },
+          { slug: 'narges', name: 'النرجس', icon: '🌊' },
+          { slug: 'zahraa', name: 'الزهراء', icon: '⛱️' },
+          { slug: 'salam', name: 'السلام', icon: '🌅' },
+          { slug: 'amal', name: 'الأمل', icon: '🏝️' },
+          { slug: 'fayruz', name: 'الفيروز', icon: '💎' },
+        ]
+      },
+      {
+        id: 2,
+        name: 'مارينا دلتا',
+        slug: 'marina-delta',
+        icon: '⛵',
+        beaches: [
+          { slug: 'marina-delta', name: 'مارينا دلتا', icon: '⛵' }
+        ]
+      },
+      {
+        id: 3,
+        name: 'مارينا لاجونز',
+        slug: 'marina-lagoons',
+        icon: '🚤',
+        beaches: [
+          { slug: 'marina-lagoons', name: 'مارينا لاجونز', icon: '🚤' }
+        ]
+      },
+      {
+        id: 4,
+        name: 'فارما بيتش',
+        slug: 'farma-beach',
+        icon: '🏖️',
+        beaches: [
+          { slug: 'farma-beach', name: 'فارما بيتش', icon: '🏖️' }
+        ]
+      }
+    ];
+
+    const AMENITIES = {
+      wifi: { icon: 'wifi', label: 'واي فاي' },
+      ac_unit: { icon: 'ac_unit', label: 'تكييف' },
+      water: { icon: 'water', label: 'إطلالة بحر' },
+      local_parking: { icon: 'local_parking', label: 'موقف' },
+      kitchen: { icon: 'kitchen', label: 'مطبخ' },
+      local_laundry_service: { icon: 'local_laundry_service', label: 'غسالة' },
+      deck: { icon: 'deck', label: 'شرفة' },
+      security: { icon: 'security', label: 'حراسة' },
+      pool: { icon: 'pool', label: 'مسبح' },
+      elevator: { icon: 'elevator', label: 'أسانسير' },
+    };
+
+    // ============================================================
+    // 🗃️ STATE
+    // ============================================================
+    let properties = [...MOCK_PROPERTIES]; // starts with mock, replaced by API data
+    let apiOnline = false;
+    let propertiesLoaded = false;
+
+    let state = {
+      favorites: JSON.parse(localStorage.getItem('baltim_favs') || '[]'),
+      cart: JSON.parse(localStorage.getItem('baltim_cart') || '[]'),
+      darkMode: localStorage.getItem('baltim_dark') === 'true',
+    };
+    let currentPage = 'home';
+    let listingsCityFilter = 'all';
+    let listingsBeachFilter = 'all';
+    let listingsToggleFilters = { rent: false, sale: false, special: false };
+    let currentDetailId = null;
+    let homeBeachFilter = 'all';
+    let viewMode = 'grid';
+    let listingsCurrentPage = 1;
+    let listingsTotalPages = 1;
+
+    function saveState() {
+      localStorage.setItem('baltim_favs', JSON.stringify(state.favorites));
+      localStorage.setItem('baltim_cart', JSON.stringify(state.cart));
+      localStorage.setItem('baltim_dark', state.darkMode);
+    }
+
+    // ============================================================
+    // 🌐 API LAYER
+    // ============================================================
+    async function loadPropertiesFromAPI() {
+      try {
+        const data = await apiFetch(API.properties + '?page_size=500');
+        if (data && data.results !== undefined) {
+          properties = data.results.map(adaptProperty);
+          apiOnline = true;
+          propertiesLoaded = true;
+          showApiStatus(true);
+          return true;
+        }
+      } catch (e) {
+        // Silently fall back to mock data
+      }
+      // Fallback: use mock data
+      properties = [...MOCK_PROPERTIES];
+      apiOnline = false;
+      propertiesLoaded = true;
+      showApiStatus(false);
+      return false;
+    }
+
+    async function loadPropertyDetailFromAPI(id) {
+      if (!apiOnline) return null;
+      try {
+        const data = await apiFetch(API.propertyDetail(id));
+        return adaptProperty(data);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function showApiStatus(online) {
+      // Inject a small status bar at top if not already present
+      if (document.getElementById('apiStatusBar')) return;
+      const bar = document.createElement('div');
+      bar.id = 'apiStatusBar';
+      bar.style.cssText = `position:fixed;bottom:0;left:0;right:0;z-index:300;text-align:center;padding:4px 0;font-size:11px;font-weight:700;transition:opacity 2s;`;
+      if (online) {
+        bar.style.background = '#dcfce7';
+        bar.style.color = '#15803d';
+        bar.textContent = '✓ متصل بقاعدة البيانات — البيانات حقيقية من الـ Backend';
+      } else {
+        bar.style.background = '#fef3c7';
+        bar.style.color = '#92400e';
+        bar.textContent = '⚠ الـ Backend غير متصل — بيانات تجريبية';
+      }
+      document.body.appendChild(bar);
+      // Fade out after 4s
+      setTimeout(() => { bar.style.opacity = '0'; }, 4000);
+      setTimeout(() => { bar.remove(); }, 6000);
+    }
+
+    // ============================================================
+    // 🌙 DARK MODE
+    // ============================================================
+    function toggleDark() {
+      state.darkMode = !state.darkMode;
+      document.documentElement.classList.toggle('dark', state.darkMode);
+      document.getElementById('darkIcon').textContent = state.darkMode ? 'light_mode' : 'dark_mode';
+      saveState();
+    }
+    if (state.darkMode) {
+      document.documentElement.classList.add('dark');
+      document.getElementById('darkIcon').textContent = 'light_mode';
+    }
+
+    // ============================================================
+    // 🧭 NAVIGATION
+    // ============================================================
+    function showPage(name, id = null) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + (name === 'detail' ? 'detail' : name)).classList.add('active');
+      currentPage = name;
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.remove('text-primary', 'bg-blue-50', 'dark:bg-blue-950/40');
+        b.classList.add('text-on-surface-variant', 'dark:text-gray-400');
+      });
+      const navEl = document.getElementById(`nav-${name === 'detail' ? 'listings' : name}`);
+      if (navEl) {
+        navEl.classList.add('text-primary', 'bg-blue-50', 'dark:bg-blue-950/40');
+        navEl.classList.remove('text-on-surface-variant', 'dark:text-gray-400');
+      }
+      window.scrollTo(0, 0);
+      if (name === 'home') renderHome();
+      if (name === 'listings') renderListings();
+      if (name === 'favorites') renderFavorites();
+      if (name === 'cart') renderCart();
+      if (name === 'checkout') renderCheckout();
+      if (name === 'detail' && id) { currentDetailId = id; renderDetailPage(id); }
+      updateBadges();
+    }
+
+    function filterAndGo(beach) {
+      listingsBeachFilter = beach;
+      showPage('listings');
+    }
+
+    function toggleMobileMenu() {
+      const m = document.getElementById('mobileMenu');
+      const icon = document.getElementById('menuIcon');
+      m.classList.toggle('hidden');
+      icon.textContent = m.classList.contains('hidden') ? 'menu' : 'close';
+    }
+
+    // ============================================================
+    // 🛠️ UTILS
+    // ============================================================
+    function fmt(n) { return n ? new Intl.NumberFormat('ar-EG').format(n) : '-'; }
+    function getBeachObj(slug) {
+      for (let c of CITIES) {
+        let b = c.beaches.find(x => x.slug === slug);
+        if (b) return b;
+      }
+      return null;
+    }
+    function beachName(id) { return getBeachObj(id)?.name || id; }
+    function beachIcon(id) { return getBeachObj(id)?.icon || '🏖️'; }
+    function isFav(id) { return state.favorites.some(p => p.id === id); }
+    function isInCart(id) { return state.cart.some(c => c.property.id === id); }
+    function getDays(ci, co) {
+      if (!ci || !co) return 0;
+      return Math.max(1, Math.ceil((new Date(co) - new Date(ci)) / 86400000));
+    }
+    function getSubtotal(item) {
+      const days = getDays(item.checkIn, item.checkOut);
+      if (!days) return 0;
+      return item.bookingType === 'monthly'
+        ? (item.property.price_monthly || 0) * Math.ceil(days / 30)
+        : (item.property.price_daily || 0) * days;
+    }
+    function getTotal() { return state.cart.reduce((s, i) => s + getSubtotal(i), 0); }
+
+    function updateBadges() {
+      const fc = state.favorites.length, cc = state.cart.length;
+      ['favBadge'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = fc;
+        fc > 0 ? el.classList.remove('hidden') : el.classList.add('hidden');
+      });
+      ['cartBadge', 'cartBadgeMobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = cc;
+        cc > 0 ? el.classList.remove('hidden') : el.classList.add('hidden');
+      });
+    }
+
+    // ============================================================
+    // 🔔 TOAST
+    // ============================================================
+    function showToast(msg, type = 'info') {
+      const colors = { success: 'bg-green-500', error: 'bg-red-500', info: 'bg-gray-800 dark:bg-gray-700', warning: 'bg-amber-500' };
+      const icons = { success: 'check_circle', error: 'error', info: 'info', warning: 'warning' };
+      const el = document.createElement('div');
+      el.className = `toast-enter pointer-events-auto flex items-center gap-3 px-5 py-3 rounded-2xl shadow-2xl min-w-[260px] max-w-sm text-white ${colors[type]}`;
+      el.innerHTML = `<span class="material-symbols-outlined mat-filled text-xl">${icons[type]}</span><span class="font-semibold text-sm flex-1">${msg}</span><button onclick="this.parentElement.remove()" class="opacity-70 hover:opacity-100"><span class="material-symbols-outlined text-sm">close</span></button>`;
+      document.getElementById('toastContainer').appendChild(el);
+      setTimeout(() => { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 3500);
+    }
+
+    // ============================================================
+    // ❤️ FAVORITES
+    // ============================================================
+    function toggleFav(id) {
+      const p = properties.find(x => x.id === id);
+      if (!p) return;
+      if (isFav(id)) {
+        state.favorites = state.favorites.filter(x => x.id !== id);
+        showToast('تمت الإزالة من المفضلة', 'info');
+      } else {
+        state.favorites.push(p);
+        showToast('تم الإضافة إلى المفضلة ❤️', 'success');
+      }
+      saveState(); updateBadges();
+      if (currentPage === 'favorites') renderFavorites();
+      if (currentPage === 'home') renderHome();
+      if (currentPage === 'listings') renderListings();
+      if (currentPage === 'detail') renderDetailPage(currentDetailId);
+    }
+
+    // ============================================================
+    // 🛒 CART
+    // ============================================================
+    function addToCart(id) {
+      const p = properties.find(x => x.id === id);
+      if (!p) return;
+      const today = new Date().toISOString().split('T')[0];
+      const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+      if (isInCart(id)) { showToast('العقار موجود في السلة بالفعل', 'warning'); return; }
+      state.cart.push({ property: p, bookingType: 'daily', checkIn: today, checkOut: nextWeek });
+      showToast('تمت الإضافة إلى سلة الحجز 🛒', 'success');
+      saveState(); updateBadges();
+    }
+
+    function removeFromCart(id) {
+      state.cart = state.cart.filter(c => c.property.id !== id);
+      showToast('تمت الإزالة من السلة', 'info');
+      saveState(); updateBadges(); renderCart();
+    }
+
+    function clearCart() {
+      if (!state.cart.length) return;
+      state.cart = []; saveState(); updateBadges(); renderCart();
+      showToast('تم مسح السلة', 'info');
+    }
+
+    function updateCartItem(id, key, value) {
+      const item = state.cart.find(c => c.property.id === id);
+      if (item) { item[key] = value; saveState(); renderCart(); }
+    }
+
+    // ============================================================
+    // 🏠 PROPERTY CARD HTML
+    // ============================================================
+    function propCard(p, clickFn = `showPage('detail', ${p.id})`) {
+      const favIcon = isFav(p.id) ? 'mat-filled text-red-500' : 'text-gray-400';
+      const cartAdded = isInCart(p.id);
+      const img = p.images?.[0] || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75';
+      return `
+  <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm overflow-hidden card-hover cursor-pointer prop-card group border border-outline-variant/30 dark:border-gray-800">
+    <div class="relative h-40 sm:h-52 overflow-hidden bg-surface-container dark:bg-gray-800">
+      <img src="${img}" alt="${p.title}" class="prop-img w-full h-full object-cover transition-transform duration-700" loading="lazy" onclick="${clickFn}" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+      <div class="absolute top-3 right-3 flex flex-col gap-1.5">
+        ${p.isPopular ? '<span class="tag bg-amber-500 text-white text-[9px] sm:text-[11px]">⭐ الأكثر طلبًا</span>' : ''}
+        ${p.isSpecialOffer ? '<span class="tag bg-green-500 text-white">🏷️ عرض خاص</span>' : ''}
+      </div>
+      <button onclick="event.stopPropagation();toggleFav(${p.id})" class="absolute top-3 left-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform z-10">
+        <span class="material-symbols-outlined text-xl ${favIcon}">favorite</span>
+      </button>
+      <div class="absolute bottom-3 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-10">
+        <button onclick="event.stopPropagation();${cartAdded ? "showToast('العقار في السلة','warning')" : `addToCart(${p.id})`}" class="${cartAdded ? 'bg-green-500 text-white' : 'bg-white dark:bg-gray-900 text-primary hover:bg-primary hover:text-white'} flex items-center gap-1.5 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-sm font-bold shadow-lg transition-all">
+          <span class="material-symbols-outlined text-sm">${cartAdded ? 'check' : 'shopping_cart'}</span>
+          ${cartAdded ? 'في السلة' : 'أضف للسلة'}
+        </button>
+      </div>
+    </div>
+    <div class="p-3 sm:p-4" onclick="${clickFn}">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs font-bold text-primary flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span>شاطئ ${p.beachName || beachName(p.beach)}</span>
+        <span class="flex items-center gap-1 text-xs text-on-surface-variant dark:text-gray-400">
+          <span class="material-symbols-outlined text-sm star-fill">star</span>
+          <strong class="text-on-surface dark:text-gray-200 font-bold">${p.rating}</strong>
+          <span>(${p.reviews})</span>
+        </span>
+      </div>
+      <h3 class="font-black text-base leading-snug line-clamp-2 mb-2">${p.title}</h3>
+      <div class="flex items-center gap-3 text-xs text-on-surface-variant dark:text-gray-400 mb-3">
+        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bed</span>${p.rooms} غرف</span>
+        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span>${p.area} م²</span>
+        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">waves</span>${p.distance_to_sea}م</span>
+      </div>
+      <div class="flex gap-2 flex-wrap mb-3">
+        ${(p.amenities || []).slice(0, 3).map(k => `<span class="text-[10px] text-on-surface-variant dark:text-gray-400 bg-surface-container dark:bg-gray-800 px-2 py-1 rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-xs">${AMENITIES[k]?.icon || 'check'}</span>${AMENITIES[k]?.label || k}</span>`).join('')}
+        ${(p.amenities || []).length > 3 ? `<span class="text-[10px] text-primary font-bold">+${(p.amenities || []).length - 3}</span>` : ''}
+      </div>
+      <div class="flex items-center justify-between mt-1 mb-2">
+        <div class="text-lg font-black text-primary flex items-baseline gap-1">
+          <span class="ltr-num">${fmt(p.price_daily)}</span>
+          <span class="text-[10px] font-normal text-on-surface-variant dark:text-gray-400">ج / يوم</span>
+        </div>
+      </div>
+      <div class="flex items-start gap-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2 mt-2">
+        <span class="text-sm">💬</span>
+        <span class="text-[9px] sm:text-[11px] font-bold text-primary dark:text-blue-300 leading-tight">السعر يختلف حسب اليوم<br class="hidden sm:block"/> تواصل معنا للتأكيد</span>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    // Skeleton card while loading
+    function skeletonCard() {
+      return `<div class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-outline-variant/30 dark:border-gray-800">
+    <div class="skeleton h-40 sm:h-52"></div>
+    <div class="p-3 sm:p-4 space-y-3">
+      <div class="skeleton h-4 w-1/3 rounded"></div>
+      <div class="skeleton h-5 w-3/4 rounded"></div>
+      <div class="skeleton h-4 w-1/2 rounded"></div>
+      <div class="skeleton h-8 w-1/3 rounded"></div>
+    </div>
+  </div>`;
+    }
+
+    // ============================================================
+    // 🏠 HOME PAGE
+    // ============================================================
+    function renderHome() {
+      const homeGrid = document.getElementById('homeGrid');
+      if (!propertiesLoaded) {
+        homeGrid.innerHTML = Array(8).fill(skeletonCard()).join('');
+        return;
+      }
+      let filtered = homeBeachFilter === 'all' ? properties.slice(0, 8) : properties.filter(p => p.beach === homeBeachFilter).slice(0, 8);
+      homeGrid.innerHTML = filtered.map(p => propCard(p)).join('');
+
+      const featured = properties.filter(p => p.isPopular);
+      const bentoGrid = document.getElementById('bentoGrid');
+      if (featured.length > 0 && bentoGrid) {
+        const main = featured[0];
+        const sides = featured.slice(1, 3);
+        const mainImg = main.images?.[0] || '';
+        bentoGrid.innerHTML = `
+      <div class="md:col-span-7 group relative overflow-hidden rounded-3xl cursor-pointer min-h-[280px] md:h-full" onclick="showPage('detail',${main.id})">
+        <img src="${mainImg}" alt="${main.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 right-0 p-8 text-white">
+          <span class="tag bg-amber-500 text-white mb-3 block">⭐ الأكثر طلبًا</span>
+          <h3 class="text-2xl md:text-3xl font-black mb-2">${main.title}</h3>
+          <p class="text-white/70 mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-sm">location_on</span>شاطئ ${main.beachName || beachName(main.beach)} • ${main.rooms} غرف</p>
+          <div class="text-3xl font-black"><span class="ltr-num">${fmt(main.price_daily)}</span><span class="text-base font-normal text-white/70"> ج / يوم</span></div>
+        </div>
+      </div>
+      <div class="md:col-span-5 grid grid-rows-2 gap-5">
+        ${sides.map(p => `
+        <div class="group relative overflow-hidden rounded-3xl cursor-pointer min-h-[150px]" onclick="showPage('detail',${p.id})">
+          <img src="${p.images?.[0] || ''}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-0 right-0 p-6 text-white">
+            <h4 class="font-bold text-lg mb-1">${p.title}</h4>
+            <div class="flex items-center justify-between"><p class="text-white/70 text-sm">شاطئ ${p.beachName || beachName(p.beach)}</p><span class="text-lg font-black ltr-num">${fmt(p.price_daily)} ج</span></div>
+          </div>
+        </div>`).join('')}
+      </div>`;
+      }
+    }
+
+    function filterHomeBeach(beach, el) {
+      homeBeachFilter = beach;
+      document.querySelectorAll('#page-home .beach-tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      renderHome();
+    }
+
+    function toggleHeroBeach() {
+      const city = document.getElementById('heroCity').value;
+      const beachCont = document.getElementById('heroBeachContainer');
+      const grid = document.getElementById('heroSearchGrid');
+      if (city === 'baltim') {
+        beachCont.classList.remove('hidden');
+        grid.classList.remove('lg:grid-cols-5');
+        grid.classList.add('lg:grid-cols-6');
+      } else {
+        beachCont.classList.add('hidden');
+        document.getElementById('heroBeach').value = '';
+        grid.classList.remove('lg:grid-cols-6');
+        grid.classList.add('lg:grid-cols-5');
+      }
+    }
+
+    function heroSearch() {
+      listingsCityFilter = document.getElementById('heroCity').value || 'all';
+      listingsBeachFilter = document.getElementById('heroBeach').value || 'all';
+
+      const heroPrice = document.getElementById('heroPrice').value;
+      const fMaxPriceEl = document.getElementById('fMaxPrice');
+      if (fMaxPriceEl) {
+        fMaxPriceEl.value = heroPrice;
+      }
+
+      showPage('listings');
+    }
+
+    // ============================================================
+    // 🏢 LISTINGS PAGE
+    // ============================================================
+    function getFilteredListings() {
+      let result = [...properties];
+      if (listingsCityFilter !== 'all') {
+        // Some properties have city_slug (mock) and some have city (api)
+        result = result.filter(p => p.city_slug === listingsCityFilter || p.city === listingsCityFilter || p.beach_slug === listingsCityFilter || p.beach === listingsCityFilter);
+      }
+      if (listingsBeachFilter !== 'all') {
+        result = result.filter(p => p.beach === listingsBeachFilter || p.beach_slug === listingsBeachFilter);
+      }
+      const minP = parseFloat(document.getElementById('fMinPrice')?.value);
+      const maxP = parseFloat(document.getElementById('fMaxPrice')?.value);
+      const rooms = parseInt(document.getElementById('fRooms')?.value);
+      const dist = parseInt(document.getElementById('fDist')?.value);
+      const type = document.getElementById('fType')?.value;
+      if (minP) result = result.filter(p => p.price_daily && p.price_daily >= minP);
+      if (maxP) result = result.filter(p => p.price_daily && p.price_daily <= maxP);
+      if (rooms) result = result.filter(p => p.rooms >= rooms);
+      if (dist) result = result.filter(p => p.distance_to_sea <= dist);
+      if (type) result = result.filter(p => p.type === type);
+      if (listingsToggleFilters.rent) result = result.filter(p => p.price_daily || p.price_monthly);
+      if (listingsToggleFilters.sale) result = result.filter(p => p.price_sale);
+      if (listingsToggleFilters.special) result = result.filter(p => p.isSpecialOffer);
+      const sort = document.getElementById('sortSelect')?.value;
+      if (sort === 'cheapest') result.sort((a, b) => (a.price_daily || 9999) - (b.price_daily || 9999));
+      else if (sort === 'expensive') result.sort((a, b) => (b.price_daily || 0) - (a.price_daily || 0));
+      else if (sort === 'rating') result.sort((a, b) => b.rating - a.rating);
+      else if (sort === 'nearest') result.sort((a, b) => a.distance_to_sea - b.distance_to_sea);
+      else result.sort((a, b) => (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0));
+      return result;
+    }
+
+    async function renderListings() {
+      const titleEl = document.getElementById('listingsTitle');
+      if (listingsBeachFilter !== 'all') {
+        titleEl.textContent = `عقارات ${beachName(listingsBeachFilter)}`;
+      } else if (listingsCityFilter !== 'all') {
+        let cityName = listingsCityFilter;
+        if (listingsCityFilter === 'baltim') cityName = 'مصيف بلطيم';
+        else if (listingsCityFilter === 'marina-delta') cityName = 'مارينا دلتا';
+        else if (listingsCityFilter === 'marina-lagoons') cityName = 'مارينا لاجونز';
+        else if (listingsCityFilter === 'farma-beach') cityName = 'فارما بيتش';
+        titleEl.textContent = `عقارات ${cityName}`;
+      } else {
+        titleEl.textContent = 'كل العقارات';
+      }
+
+      const grid = document.getElementById('listingsGrid');
+      const empty = document.getElementById('emptyState');
+      const pagin = document.getElementById('paginationContainer');
+      const rc = document.getElementById('resultsCount');
+
+      if (!propertiesLoaded) {
+        if (grid) grid.innerHTML = Array(8).fill(skeletonCard()).join('');
+        if (pagin) pagin.classList.add('hidden');
+        return;
+      }
+
+      let filtered = [];
+      let totalCount = 0;
+
+      if (apiOnline) {
+        try {
+          const params = new URLSearchParams({
+            page: listingsCurrentPage,
+            beach: listingsBeachFilter,
+            type: document.getElementById('fType')?.value || '',
+            min_price: document.getElementById('fMinPrice')?.value || '',
+            max_price: document.getElementById('fMaxPrice')?.value || '',
+            rooms: document.getElementById('fRooms')?.value || '',
+            max_distance: document.getElementById('fDist')?.value || '',
+            sort: document.getElementById('sortSelect')?.value || 'popular',
+            for_rent: listingsToggleFilters.rent,
+            for_sale: listingsToggleFilters.sale,
+            is_special_offer: listingsToggleFilters.special
+          });
+
+          const data = await apiFetch(`${API.properties}?${params.toString()}`);
+          filtered = data.results.map(adaptProperty);
+          totalCount = data.count;
+          listingsTotalPages = Math.ceil(totalCount / 12);
+        } catch (e) {
+          console.error("Pagination fetch failed:", e);
+          filtered = getFilteredListings();
+          totalCount = filtered.length;
+          listingsTotalPages = Math.ceil(totalCount / 12);
+          const start = (listingsCurrentPage - 1) * 12;
+          filtered = filtered.slice(start, start + 12);
+        }
+      } else {
+        const allFiltered = getFilteredListings();
+        totalCount = allFiltered.length;
+        listingsTotalPages = Math.ceil(totalCount / 12);
+        const start = (listingsCurrentPage - 1) * 12;
+        filtered = allFiltered.slice(start, start + 12);
+      }
+
+      if (rc) rc.textContent = `${totalCount} نتيجة`;
+
+      if (filtered.length === 0) {
+        if (grid) { grid.innerHTML = ''; grid.classList.add('hidden'); }
+        if (empty) empty.classList.remove('hidden');
+        if (pagin) pagin.classList.add('hidden');
+        return;
+      }
+
+      if (empty) empty.classList.add('hidden');
+      if (grid) {
+        grid.classList.remove('hidden');
+        if (viewMode === 'grid') {
+          grid.className = 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6';
+          grid.innerHTML = filtered.map(p => propCard(p)).join('');
+        } else {
+          grid.className = 'flex flex-col gap-4';
+          grid.innerHTML = filtered.map(p => `
+        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-outline-variant/30 dark:border-gray-800 flex gap-4 p-4 hover:shadow-lg transition-all cursor-pointer" onclick="showPage('detail',${p.id})">
+          <div class="relative w-40 h-32 flex-shrink-0 rounded-xl overflow-hidden">
+            <img src="${p.images?.[0] || ''}" alt="${p.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy"/>
+            <button onclick="event.stopPropagation();toggleFav(${p.id})" class="absolute top-2 right-2 w-8 h-8 bg-white/80 dark:bg-gray-900/80 rounded-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-lg ${isFav(p.id) ? 'mat-filled text-red-500' : 'text-gray-400'}">favorite</span>
+            </button>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="text-xs font-bold text-primary flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span>شاطئ ${p.beachName || beachName(p.beach)}</span>
+            <h3 class="font-black text-lg mt-1">${p.title}</h3>
+            <p class="text-xs text-on-surface-variant dark:text-gray-400 flex items-center gap-3 mt-1">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bed</span>${p.rooms} غرف</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">waves</span>${p.distance_to_sea}م</span>
+              <span class="flex items-center gap-1 star-fill"><span class="material-symbols-outlined text-sm star-fill">star</span>${p.rating}</span>
+            </p>
+            <div class="mt-2">${p.price_daily ? `<span class="text-primary font-black text-xl ltr-num">${fmt(p.price_daily)}</span><span class="text-xs text-on-surface-variant dark:text-gray-400"> ج/يوم</span>` : ''}</div>
+            <div class="flex gap-2 mt-3">
+              <button onclick="event.stopPropagation();addToCart(${p.id})" class="${isInCart(p.id) ? 'bg-green-100 dark:bg-green-900/30 text-green-700' : 'bg-primary text-white hover:bg-primary-dark'} flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold transition-all">
+                <span class="material-symbols-outlined text-sm">${isInCart(p.id) ? 'check' : 'shopping_cart'}</span>${isInCart(p.id) ? 'في السلة' : 'أضف للسلة'}
+              </button>
+            </div>
+          </div>
+        </div>`).join('');
+        }
+      }
+
+      if (pagin) {
+        if (listingsTotalPages > 1) {
+          pagin.classList.remove('hidden');
+          document.getElementById('currentPageNum').textContent = listingsCurrentPage;
+          document.getElementById('totalPageNum').textContent = listingsTotalPages;
+          document.getElementById('prevPage').disabled = (listingsCurrentPage === 1);
+          document.getElementById('nextPage').disabled = (listingsCurrentPage === listingsTotalPages);
+        } else {
+          pagin.classList.add('hidden');
+        }
+      }
+    }
+
+    async function changeListPage(delta) {
+      const newPage = listingsCurrentPage + delta;
+      if (newPage < 1 || newPage > listingsTotalPages) return;
+      listingsCurrentPage = newPage;
+      await renderListings();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetPaginationAndRender() {
+      listingsCurrentPage = 1;
+      renderListings();
+    }
+
+    function filterListings(beach, el) {
+      listingsBeachFilter = beach;
+      document.querySelectorAll('#page-listings .beach-tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      resetPaginationAndRender();
+    }
+
+    function applyListingsFilters() { resetPaginationAndRender(); }
+
+    function toggleFilters() {
+      const p = document.getElementById('filtersPanel');
+      if (!p) return;
+      p.classList.toggle('hidden');
+      if (!p.classList.contains('hidden')) p.style.display = 'grid'; else p.style.display = '';
+    }
+
+    function toggleListingFilter(key, el) {
+      listingsToggleFilters[key] = !listingsToggleFilters[key];
+      if (listingsToggleFilters[key]) {
+        el.classList.add('bg-primary', 'text-white', 'border-primary');
+        el.classList.remove('border-outline-variant', 'dark:border-gray-700');
+      } else {
+        el.classList.remove('bg-primary', 'text-white', 'border-primary');
+        el.classList.add('border-outline-variant', 'dark:border-gray-700');
+      }
+      resetPaginationAndRender();
+    }
+
+    function clearAllFilters() {
+      listingsBeachFilter = 'all';
+      listingsToggleFilters = { rent: false, sale: false, special: false };
+      ['fMinPrice', 'fMaxPrice', 'fRooms', 'fDist', 'fType'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      document.querySelectorAll('#page-listings .beach-tab').forEach((b, i) => { b.classList.remove('active'); if (i === 0) b.classList.add('active'); });
+      ['toggleRent', 'toggleSale', 'toggleSpecial'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.classList.remove('bg-primary', 'text-white', 'border-primary'); el.classList.add('border-outline-variant', 'dark:border-gray-700'); }
+      });
+      resetPaginationAndRender();
+    }
+
+    function setView(mode) {
+      viewMode = mode;
+      const gridBtn = document.getElementById('viewGrid'), listBtn = document.getElementById('viewList');
+      if (mode === 'grid') {
+        gridBtn.className = 'p-2 rounded-lg bg-white dark:bg-gray-700 shadow-sm text-primary transition-all';
+        listBtn.className = 'p-2 rounded-lg text-outline dark:text-gray-500 transition-all';
+      } else {
+        listBtn.className = 'p-2 rounded-lg bg-white dark:bg-gray-700 shadow-sm text-primary transition-all';
+        gridBtn.className = 'p-2 rounded-lg text-outline dark:text-gray-500 transition-all';
+      }
+      renderListings();
+    }
+
+    // ============================================================
+    // 🏡 DETAIL PAGE
+    // ============================================================
+    let detailActiveImg = 0;
+    let detailBookingType = 'daily';
+
+    async function renderDetailPage(id) {
+      document.getElementById('detailContent').innerHTML = `<div class="flex justify-center py-24">${Array(4).fill('<div class="w-4 h-4 bg-primary/30 rounded-full animate-bounce mx-1"></div>').join('')}</div>`;
+
+      // Try to get full detail from API (with all images)
+      let p = null;
+      if (apiOnline) {
+        p = await loadPropertyDetailFromAPI(id);
+      }
+      if (!p) {
+        p = properties.find(x => x.id === parseInt(id));
+      }
+      if (!p) {
+        document.getElementById('detailContent').innerHTML = `<div class="text-center py-24"><div class="text-6xl">🏠</div><h2 class="text-2xl font-bold mt-4">العقار غير موجود</h2><button onclick="showPage('listings')" class="mt-4 bg-primary text-white px-6 py-3 rounded-xl font-bold">العودة للقائمة</button></div>`;
+        return;
+      }
+
+      detailActiveImg = 0;
+      detailBookingType = 'daily';
+      const similar = properties.filter(x => x.beach === p.beach && x.id !== p.id).slice(0, 4);
+      const today = new Date().toISOString().split('T')[0];
+      const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+      const imgs = p.images || [p.images?.[0]];
+
+      document.getElementById('detailContent').innerHTML = `
+    <nav class="flex items-center gap-2 text-sm text-on-surface-variant dark:text-gray-400 mb-6">
+      <button onclick="showPage('home')" class="hover:text-primary">الرئيسية</button>
+      <span class="material-symbols-outlined text-sm">chevron_left</span>
+      <button onclick="showPage('listings')" class="hover:text-primary">العقارات</button>
+      <span class="material-symbols-outlined text-sm">chevron_left</span>
+      <span class="text-on-surface dark:text-gray-200 font-semibold line-clamp-1">${p.title}</span>
+    </nav>
+    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-8">
+      <div class="flex-1">
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <span class="tag bg-blue-100 dark:bg-blue-900/40 text-primary"><span class="material-symbols-outlined text-sm">location_on</span>شاطئ ${p.beachName || beachName(p.beach)}</span>
+          ${p.isPopular ? '<span class="tag bg-amber-100 dark:bg-amber-900/40 text-amber-700">⭐ الأكثر طلبًا</span>' : ''}
+          ${p.isSpecialOffer ? '<span class="tag bg-green-100 dark:bg-green-900/40 text-green-700">🏷️ عرض خاص</span>' : ''}
+        </div>
+        <h1 class="text-3xl md:text-4xl font-black mb-3 leading-tight">${p.title}</h1>
+        <div class="flex flex-wrap items-center gap-4 text-sm text-on-surface-variant dark:text-gray-400">
+          <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base star-fill">star</span><strong>${p.rating}</strong>(${p.reviews})</span>
+          <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">waves</span>${p.distance_to_sea}م</span>
+          <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">bed</span>${p.rooms} غرف</span>
+          <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">straighten</span>${p.area} م²</span>
+        </div>
+      </div>
+      <button onclick="toggleFav(${p.id});this.innerHTML=isFav(${p.id})?'<span class=\\'material-symbols-outlined mat-filled text-red-500 text-xl\\'>favorite</span> في المفضلة':'<span class=\\'material-symbols-outlined text-xl text-gray-400\\'>favorite</span> أضف للمفضلة'" class="flex items-center gap-2 px-5 py-3 rounded-2xl border-2 border-outline-variant dark:border-gray-700 font-bold text-sm hover:border-red-300 hover:text-red-500 transition-all">
+        <span class="material-symbols-outlined text-xl ${isFav(p.id) ? 'mat-filled text-red-500' : 'text-gray-400'}">favorite</span>
+        ${isFav(p.id) ? 'في المفضلة' : 'أضف للمفضلة'}
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Gallery -->
+        <div>
+          <div class="relative h-80 md:h-[420px] rounded-3xl overflow-hidden group bg-surface-container dark:bg-gray-800">
+            <img id="mainImg" src="${imgs[0] || ''}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+            <span class="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" id="imgCounter">1 / ${imgs.length}</span>
+            <button onclick="changeDetailImg(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110"><span class="material-symbols-outlined">chevron_left</span></button>
+            <button onclick="changeDetailImg(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110"><span class="material-symbols-outlined">chevron_right</span></button>
+          </div>
+          <div class="flex gap-3 mt-3 overflow-x-auto pb-1">
+            ${imgs.map((img, i) => `<button onclick="setDetailImg(${i})" class="flex-shrink-0 w-24 h-20 rounded-xl overflow-hidden border-2 transition-all ${i === 0 ? 'border-primary shadow-lg' : 'border-transparent opacity-70 hover:opacity-100'}" id="dthumb${i}"><img src="${img}" class="w-full h-full object-cover" loading="lazy"/></button>`).join('')}
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-outline-variant/30 dark:border-gray-800">
+          <h2 class="text-xl font-black mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary">description</span>وصف العقار</h2>
+          <p class="text-on-surface-variant dark:text-gray-300 leading-relaxed">${p.description || '—'}</p>
+          ${p.video_url ? `
+          <div class="mt-6">
+            <a href="${p.video_url}" target="_blank" class="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg shadow-red-500/20 transition-all hover:scale-[1.02]">
+              <span class="material-symbols-outlined text-[20px]">play_circle</span> مشاهدة فيديو للعقار
+            </a>
+          </div>
+          ` : ''}
+        </div>
+
+        <!-- Amenities -->
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-outline-variant/30 dark:border-gray-800">
+          <h2 class="text-xl font-black mb-5 flex items-center gap-2"><span class="material-symbols-outlined text-primary">checklist</span>المميزات</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            ${(p.amenities || []).map(k => `<div class="flex items-center gap-3 p-3 bg-surface-container-low dark:bg-gray-800 rounded-xl"><div class="w-9 h-9 bg-blue-100 dark:bg-blue-950/50 rounded-lg flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-lg">${AMENITIES[k]?.icon || 'check'}</span></div><span class="text-sm font-semibold">${AMENITIES[k]?.label || k}</span></div>`).join('')}
+          </div>
+        </div>
+
+        <!-- Price and Flexible Pricing Notice -->
+        <div class="flex items-end gap-3 mb-4">
+          <div class="text-4xl font-black text-primary flex items-baseline gap-2">
+            <span class="ltr-num">${fmt(p.price_daily)}</span>
+            <span class="text-lg font-normal text-on-surface-variant dark:text-gray-400">ج / يوم</span>
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,#e0f3f8,#f0fafb);border-radius:1rem;padding:1.25rem;margin-bottom:0">
+          <div style="font-size:1.25rem;margin-bottom:.5rem">💬</div>
+          <p style="font-weight:700;color:#00647c;font-size:.9375rem;margin-bottom:.375rem">الأسعار تختلف حسب اليوم</p>
+          <p style="font-size:.8125rem;color:#3e484d;line-height:1.7">أسعار الإيجار في جميع المصايف تتغير يوميًا حسب الموسم والطلب. أرسل طلب حجزك الآن وسنتواصل معك خلال ساعات لتأكيد السعر المناسب.</p>
+        </div>
+
+      <!-- Booking Widget -->
+      <div class="lg:col-span-1">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-outline-variant dark:border-gray-700 shadow-sm sticky top-24 space-y-4" id="bookingWidget">
+          <h3 class="text-lg font-black flex items-center gap-2"><span class="material-symbols-outlined text-primary">event_available</span>أرسل طلب حجز</h3>
+          <!-- Flexible pricing card -->
+          <div style="background:linear-gradient(135deg,#e0f3f8,#f0fafb);border-radius:1rem;padding:1.25rem">
+            <div style="font-size:1.1rem;margin-bottom:.375rem">💬</div>
+            <p style="font-weight:700;color:#00647c;font-size:.875rem;margin-bottom:.25rem">الأسعار تختلف حسب اليوم</p>
+            <p style="font-size:.75rem;color:#3e484d;line-height:1.6">سنتواصل معك خلال ساعات لتأكيد أفضل سعر مناسب.</p>
+          </div>
+          <div>
+            <label class="block text-xs font-black text-on-surface-variant dark:text-gray-400 uppercase tracking-wider mb-1.5">تاريخ الوصول</label>
+            <input type="date" id="detailCI" value="${today}" min="${today}" class="input-f" />
+          </div>
+          <div>
+            <label class="block text-xs font-black text-on-surface-variant dark:text-gray-400 uppercase tracking-wider mb-1.5">تاريخ المغادرة</label>
+            <input type="date" id="detailCO" value="${nextWeek}" min="${today}" class="input-f" />
+          </div>
+          <button onclick="bookNow(${p.id})" class="w-full bg-primary hover:bg-primary-dark text-white font-black py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined">send</span>أرسل طلب الحجز
+          </button>
+          <button onclick="addToCart(${p.id});showPage('cart')" class="${isInCart(p.id) ? 'border-green-500 text-green-600 bg-green-50 dark:bg-green-950/30' : 'border-outline-variant dark:border-gray-700'} w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm border-2 transition-all">
+            <span class="material-symbols-outlined">${isInCart(p.id) ? 'check_circle' : 'shopping_cart'}</span>
+            ${isInCart(p.id) ? 'عرض في السلة' : 'أضف إلى السلة'}
+          </button>
+          <div class="border-t border-outline-variant dark:border-gray-800 pt-4">
+            <div class="flex gap-2">
+              <a href="https://wa.me/201038834563" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-xl text-sm transition-colors"><span class="material-symbols-outlined text-base">chat</span>واتساب</a>
+              <a href="tel:+201038834563" class="flex-1 flex items-center justify-center gap-2 bg-surface-container dark:bg-gray-800 font-bold py-2.5 rounded-xl text-sm border border-outline-variant dark:border-gray-700"><span class="material-symbols-outlined text-base">phone</span>اتصل</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${similar.length > 0 ? `<div class="mt-14"><h2 class="text-2xl font-black mb-6">عقارات مشابهة في شاطئ ${p.beachName || beachName(p.beach)}</h2><div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">${similar.map(s => propCard(s)).join('')}</div></div>` : ''}
+  `;
+      window._currentDetailProp = p;
+    }
+
+    function changeDetailImg(dir) {
+      const p = window._currentDetailProp;
+      if (!p) return;
+      const imgs = p.images || [];
+      detailActiveImg = (detailActiveImg + dir + imgs.length) % imgs.length;
+      setDetailImg(detailActiveImg);
+    }
+
+    function setDetailImg(i) {
+      const p = window._currentDetailProp;
+      if (!p) return;
+      const imgs = p.images || [];
+      detailActiveImg = i;
+      const main = document.getElementById('mainImg');
+      const counter = document.getElementById('imgCounter');
+      if (main) main.src = imgs[i] || '';
+      if (counter) counter.textContent = `${i + 1} / ${imgs.length}`;
+      document.querySelectorAll('[id^="dthumb"]').forEach((t, ti) => {
+        t.className = `flex-shrink-0 w-24 h-20 rounded-xl overflow-hidden border-2 transition-all ${ti === i ? 'border-primary shadow-lg' : 'border-transparent opacity-70 hover:opacity-100'}`;
+      });
+    }
+
+    function setDetailBookingType(type) {
+      detailBookingType = type;
+      const p = window._currentDetailProp;
+      ['bTypeDaily', 'bTypeMonthly'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.className = 'flex-1 py-2 rounded-lg text-sm font-bold transition-all ' +
+          (id === `bType${type.charAt(0).toUpperCase() + type.slice(1)}` ? 'bg-white dark:bg-gray-700 text-primary shadow-sm' : 'text-on-surface-variant dark:text-gray-400');
+      });
+      if (p) updateDetailCalc(p.id, p.price_daily || 0, p.price_monthly || 0);
+    }
+
+    // updateDetailCalc removed — pricing is flexible, no auto-calculation
+    function updateDetailCalc() { }
+
+    function bookNow(id) {
+      const ci = document.getElementById('detailCI')?.value;
+      const co = document.getElementById('detailCO')?.value;
+      if (!ci || !co) { showToast('يرجى اختيار تواريخ الإقامة أولاً', 'warning'); return; }
+      const p = properties.find(x => x.id === parseInt(id));
+      if (!p) return;
+      const existing = state.cart.find(c => c.property.id === id);
+      if (existing) { existing.checkIn = ci; existing.checkOut = co; existing.bookingType = detailBookingType; }
+      else state.cart.push({ property: p, bookingType: detailBookingType, checkIn: ci, checkOut: co });
+      saveState(); updateBadges();
+      showToast('تمت الإضافة إلى سلة الحجز 🛒', 'success');
+      showPage('cart');
+    }
+
+    // ============================================================
+    // ❤️ FAVORITES PAGE
+    // ============================================================
+    function renderFavorites() {
+      const favs = state.favorites;
+      const grid = document.getElementById('favGrid');
+      const empty = document.getElementById('favEmpty');
+      const count = document.getElementById('favCount');
+      if (count) count.textContent = favs.length > 0 ? `${favs.length} عقار محفوظ` : 'لا توجد عقارات محفوظة';
+      if (favs.length === 0) { if (grid) grid.innerHTML = ''; if (empty) empty.classList.remove('hidden'); return; }
+      if (empty) empty.classList.add('hidden');
+      if (grid) grid.innerHTML = favs.map(p => propCard(p)).join('');
+    }
+
+    // ============================================================
+    // 🛒 CART PAGE
+    // ============================================================
+    function renderCart() {
+      const cart = state.cart;
+      const total = getTotal();
+      const fee = Math.round(total * 0.05);
+      const grand = total + fee;
+      const cc = document.getElementById('cartCount');
+      if (cc) cc.textContent = `${cart.length} عقار في السلة`;
+      if (cart.length === 0) {
+        const ce = document.getElementById('cartEmpty'), cc2 = document.getElementById('cartContent');
+        if (ce) ce.classList.remove('hidden');
+        if (cc2) cc2.classList.add('hidden');
+        return;
+      }
+      const ce = document.getElementById('cartEmpty'), cc2 = document.getElementById('cartContent');
+      if (ce) ce.classList.add('hidden');
+      if (cc2) { cc2.classList.remove('hidden'); cc2.style.display = 'grid'; }
+      const ci2 = document.getElementById('cartItems');
+      if (ci2) ci2.innerHTML = cart.map(item => {
+        const p = item.property, days = getDays(item.checkIn, item.checkOut), sub = getSubtotal(item);
+        return `
+    <div class="bg-white dark:bg-gray-900 rounded-2xl border border-outline-variant/30 dark:border-gray-800 p-5 flex flex-col sm:flex-row gap-4 shadow-sm">
+      <div class="w-full sm:w-44 h-36 flex-shrink-0 rounded-xl overflow-hidden cursor-pointer" onclick="showPage('detail',${p.id})">
+        <img src="${p.images?.[0] || ''}" alt="${p.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy"/>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div>
+            <span class="text-xs font-bold text-primary flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span>شاطئ ${p.beachName || beachName(p.beach)}</span>
+            <h3 class="font-black text-lg mt-0.5">${p.title}</h3>
+          </div>
+          <button onclick="removeFromCart(${p.id})" class="w-8 h-8 flex items-center justify-center rounded-xl text-outline dark:text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all flex-shrink-0">
+            <span class="material-symbols-outlined text-lg">delete</span>
+          </button>
+        </div>
+        <div class="flex gap-2 mb-3">
+          <div class="flex bg-surface-container dark:bg-gray-800 rounded-xl p-0.5">
+            <button onclick="updateCartItem(${p.id},'bookingType','daily')" class="${item.bookingType === 'daily' ? 'bg-white dark:bg-gray-700 text-primary shadow-sm' : ''} px-3 py-1.5 rounded-lg text-xs font-bold transition-all">يومي</button>
+            <button onclick="updateCartItem(${p.id},'bookingType','monthly')" ${!p.price_monthly ? 'disabled' : ''} class="${item.bookingType === 'monthly' ? 'bg-white dark:bg-gray-700 text-primary shadow-sm' : ''} px-3 py-1.5 rounded-lg text-xs font-bold transition-all disabled:opacity-30">شهري</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mb-3">
+          <div>
+            <label class="text-[10px] font-black text-on-surface-variant dark:text-gray-400 uppercase tracking-wider block mb-1">وصول</label>
+            <input type="date" value="${item.checkIn}" class="input-f py-2 text-sm w-full" onchange="updateCartItem(${p.id},'checkIn',this.value)" />
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-on-surface-variant dark:text-gray-400 uppercase tracking-wider block mb-1">مغادرة</label>
+            <input type="date" value="${item.checkOut}" class="input-f py-2 text-sm w-full" onchange="updateCartItem(${p.id},'checkOut',this.value)" />
+          </div>
+        </div>
+        ${days > 0 ? `<div class="flex items-center justify-between bg-blue-50 dark:bg-blue-950/30 rounded-xl px-4 py-2"><span class="text-sm text-on-surface-variant dark:text-gray-400">${item.bookingType === 'daily' ? `${fmt(p.price_daily)} ج × ${days} يوم` : `${fmt(p.price_monthly)} ج × ${Math.ceil(days / 30)} شهر`}</span><span class="font-black text-primary text-lg ltr-num">${fmt(sub)} ج</span></div>` :
+            '<p class="text-xs text-on-surface-variant dark:text-gray-400">اختر تواريخ لحساب السعر</p>'}
+      </div>
+    </div>`;
+      }).join('');
+
+      const cs = document.getElementById('cartSummary');
+      if (cs) cs.innerHTML = `
+    ${cart.map(i => { const sub = getSubtotal(i); return `<div class="flex justify-between text-sm gap-2"><span class="text-on-surface-variant dark:text-gray-400 line-clamp-1 flex-1">${i.property.title}</span><span class="font-bold flex-shrink-0 ltr-num">${sub > 0 ? fmt(sub) + ' ج' : '-'}</span></div>`; }).join('')}
+    <div class="border-t border-outline-variant dark:border-gray-700 pt-3 space-y-2">
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant dark:text-gray-400">المجموع الفرعي</span><span class="font-bold ltr-num">${fmt(total)} ج</span></div>
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant dark:text-gray-400">رسوم الخدمة (٥٪)</span><span class="font-bold ltr-num">${fmt(fee)} ج</span></div>
+    </div>
+    <div class="bg-blue-50 dark:bg-blue-950/30 rounded-2xl p-4 flex justify-between"><span class="font-black text-lg">الإجمالي</span><span class="font-black text-primary text-2xl ltr-num">${fmt(grand)} ج</span></div>`;
+    }
+
+    // ============================================================
+    // 💳 CHECKOUT PAGE — REAL API INTEGRATION
+    // ============================================================
+    function renderCheckout() {
+      const cart = state.cart, total = getTotal(), fee = Math.round(total * 0.05), grand = total + fee;
+      const cs = document.getElementById('checkoutSummary');
+      if (!cs) return;
+      cs.innerHTML = `
+    ${cart.map(i => {
+        const days = getDays(i.checkIn, i.checkOut), sub = getSubtotal(i);
+        return `<div class="flex gap-3 p-3 bg-surface-container-low dark:bg-gray-800 rounded-xl"><img src="${i.property.images?.[0] || ''}" class="w-16 h-16 rounded-xl object-cover flex-shrink-0"/><div class="flex-1 min-w-0"><p class="font-bold text-sm line-clamp-1">${i.property.title}</p><p class="text-xs text-on-surface-variant dark:text-gray-400">شاطئ ${i.property.beachName || beachName(i.property.beach)}</p>${days > 0 ? `<p class="text-xs text-primary font-semibold mt-1 ltr-num">${i.checkIn} → ${i.checkOut} (${days} يوم)</p>` : ''}</div><p class="font-black text-primary text-sm flex-shrink-0 ltr-num">${sub > 0 ? fmt(sub) + ' ج' : '-'}</p></div>`;
+      }).join('')}
+    <div class="space-y-2 border-t border-outline-variant dark:border-gray-700 pt-3">
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant dark:text-gray-400">المجموع الفرعي</span><span class="font-bold ltr-num">${fmt(total)} ج</span></div>
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant dark:text-gray-400">رسوم الخدمة (٥٪)</span><span class="font-bold ltr-num">${fmt(fee)} ج</span></div>
+    </div>
+    <div class="bg-blue-50 dark:bg-blue-950/30 rounded-2xl p-4 flex justify-between"><span class="font-black text-lg">الإجمالي الكلي</span><span class="font-black text-primary text-2xl ltr-num">${fmt(grand)} ج</span></div>`;
+    }
+
+    function clearError(id) {
+      const errId = 'err' + id.replace('chk', '');
+      const errEl = document.getElementById(errId);
+      if (errEl) errEl.classList.add('hidden');
+      const inputEl = document.getElementById(id);
+      if (inputEl) inputEl.style.borderColor = '';
+    }
+
+    async function submitCheckout() {
+      const name = document.getElementById('chkName')?.value.trim();
+      let phone = document.getElementById('chkPhone')?.value.trim() || "";
+      phone = phone.replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+      const email = document.getElementById('chkEmail')?.value.trim();
+      const notes = document.getElementById('chkNotes')?.value.trim() || '';
+      const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value || 'cash';
+
+      let valid = true;
+      if (!name) { document.getElementById('errName')?.classList.remove('hidden'); document.getElementById('chkName').style.borderColor = '#ef4444'; valid = false; }
+      if (!phone || !/^[\d\s+]{10,15}$/.test(phone)) { document.getElementById('errPhone')?.classList.remove('hidden'); document.getElementById('chkPhone').style.borderColor = '#ef4444'; valid = false; }
+      if (email && !/\S+@\S+\.\S+/.test(email)) { document.getElementById('errEmail')?.classList.remove('hidden'); document.getElementById('chkEmail').style.borderColor = '#ef4444'; valid = false; }
+      if (!valid) { showToast('يرجى تصحيح الأخطاء في النموذج', 'error'); return; }
+      if (state.cart.length === 0) { showToast('السلة فارغة', 'error'); return; }
+
+      const btn = document.getElementById('submitBtn');
+      if (btn) { btn.disabled = true; btn.innerHTML = '<div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin inline-block ml-2"></div> جاري إرسال الطلب...'; }
+
+      let lastBookingRef = null;
+      let lastVoucher = null;
+      let successCount = 0;
+      let apiUsed = false;
+
+      if (apiOnline) {
+        // ── POST each cart item to the real API ──────────────────
+        for (const item of state.cart) {
+          const days = getDays(item.checkIn, item.checkOut);
+          if (!days) continue;
+          const body = {
+            property_id: item.property.id,
+            guest_name: name,
+            guest_phone: phone,
+            guest_email: email,
+            guest_notes: notes,
+            booking_type: item.bookingType,
+            check_in: item.checkIn,
+            check_out: item.checkOut,
+            payment_method: paymentMethod,
+          };
+          try {
+            const data = await apiFetch(API.bookings, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+            });
+            if (data.success && data.booking) {
+              lastBookingRef = data.booking.booking_ref;
+              lastVoucher = data.booking.voucher || null;
+              successCount++;
+              apiUsed = true;
+            }
+          } catch (e) {
+            // One item failed, continue with others
+          }
+        }
+      }
+
+      // ── Fallback: generate local ref if API offline ──────────
+      if (!apiUsed) {
+        lastBookingRef = 'BLT-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        await new Promise(r => setTimeout(r, 1200)); // simulate
+      }
+
+      // ── Show success modal ────────────────────────────────────
+      document.getElementById('bookingRef').textContent = lastBookingRef;
+
+      // Construct detailed WhatsApp message
+      let waMsg = `*طلب حجز جديد 🏠*\n\n`;
+      waMsg += `*البيانات الشخصية:*\n`;
+      waMsg += `👤 الاسم: ${name}\n`;
+      waMsg += `📞 الهاتف: ${phone}\n`;
+      waMsg += `📧 البريد: ${email}\n`;
+      if (notes) waMsg += `📝 ملاحظات: ${notes}\n`;
+      waMsg += `\n*تفاصيل الحجز:*\n`;
+
+      state.cart.forEach((item, index) => {
+        const days = getDays(item.checkIn, item.checkOut);
+        const subtotal = (item.property.price_daily || 0) * days;
+        const serviceFee = subtotal * 0.05;
+        const total = subtotal + serviceFee;
+
+        waMsg += `${index + 1}. *${item.property.title}*\n`;
+        waMsg += `📍 الشاطئ: ${item.property.beach_name || item.property.beach}\n`;
+        waMsg += `📅 من: ${item.checkIn} إلى: ${item.checkOut} (${days} يوم)\n`;
+        waMsg += `💰 الإجمالي: ${total.toLocaleString('ar-EG')} ج\n\n`;
+      });
+
+      const paymentText = paymentMethod === 'cash' ? 'نقدي عند الوصول' : paymentMethod === 'vodafone' ? 'فودافون كاش' : 'تحويل بنكي';
+      waMsg += `💳 *طريقة الدفع:* ${paymentText}\n`;
+      waMsg += `🔢 *رقم المرجع:* ${lastBookingRef}`;
+
+      const encodedMsg = encodeURIComponent(waMsg);
+      const waUrl = `https://wa.me/201038834563?text=${encodedMsg}`;
+
+      const waLink = document.getElementById('waLink');
+      if (waLink) waLink.href = waUrl;
+
+      // Open WhatsApp automatically
+      window.open(waUrl, '_blank');
+
+      state.cart = []; saveState(); updateBadges();
+      document.getElementById('successModal').classList.remove('hidden');
+
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> تأكيد الحجز الآن'; }
+    }
+
+    function closeSuccess() {
+      document.getElementById('successModal').classList.add('hidden');
+      showPage('home');
+    }
+
+    // ============================================================
+    // 🚀 INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      updateBadges();
+
+      // Show skeleton home first
+      renderHome();
+
+      // Set today's dates on hero
+      const today = new Date().toISOString().split('T')[0];
+      const heroCI = document.getElementById('heroCheckIn');
+      const heryCO = document.getElementById('heroCheckOut');
+      if (heroCI) heroCI.value = today;
+      if (heryCO) heryCO.value = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+
+      // Load properties from API (async, non-blocking)
+      await loadPropertiesFromAPI();
+
+      // Re-render with real data
+      renderHome();
+      if (currentPage === 'listings') renderListings();
+    });
+    {% endverbatim %}
+  </script>
+  <div id="google_translate_element" style="position:absolute; top:-9999px; left:-9999px; opacity:0; z-index:-1;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'ar',
+        includedLanguages: 'en,ar',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script>
+    // On page load, set the button text based on current language
+    window.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('langBtn');
+      if (btn) {
+        if (document.documentElement.lang === 'en') {
+          btn.textContent = 'عربي';
+        } else {
+          btn.textContent = 'English';
+        }
+      }
+    });
+
+    function switchLang(lang) {
+      // Set google translate cookies
+      const domain = window.location.hostname;
+      document.cookie = `googtrans=/ar/${lang}; path=/; domain=${domain}`;
+      document.cookie = `googtrans=/ar/${lang}; path=/`;
+      window.location.reload();
+    }
+
+    function toggleLang() {
+      if (document.documentElement.lang === 'ar' || !document.documentElement.lang) {
+        switchLang('en');
+      } else {
+        switchLang('ar');
+      }
+    }
+  </script>
+</body>
+
+</html>
