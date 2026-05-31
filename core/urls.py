@@ -12,7 +12,7 @@ urlpatterns = [
     path('', include('frontend.urls')),
 
     # ── Admin ──────────────────────────────────────
-    path('admin/', admin.site.urls),
+    path('adminahmednada/', admin.site.urls),
 
     # ── REST API ───────────────────────────────────
     path('api/properties/', include('properties.urls')),
