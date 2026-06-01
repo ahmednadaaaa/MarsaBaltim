@@ -1320,7 +1320,7 @@
     // ============================================================
     // 🗃️ STATE
     // ============================================================
-    let properties = [...MOCK_PROPERTIES]; // starts with mock, replaced by API data
+    let properties = []; // starts with empty array, replaced by API data
     let apiOnline = false;
     let propertiesLoaded = false;
 
@@ -1359,10 +1359,10 @@
           return true;
         }
       } catch (e) {
-        // Silently fall back to mock data
+        // Silently fall back to empty array
       }
-      // Fallback: use mock data
-      properties = [...MOCK_PROPERTIES];
+      // Fallback: use empty array
+      properties = [];
       apiOnline = false;
       propertiesLoaded = true;
       showApiStatus(false);
@@ -1637,15 +1637,25 @@
     // ============================================================
     function renderHome() {
       const homeGrid = document.getElementById('homeGrid');
+      const bentoGrid = document.getElementById('bentoGrid');
       if (!propertiesLoaded) {
         homeGrid.innerHTML = Array(8).fill(skeletonCard()).join('');
+        return;
+      }
+      if (properties.length === 0) {
+        homeGrid.innerHTML = `
+          <div class="col-span-full text-center py-12">
+            <span class="material-symbols-outlined text-gray-400 text-5xl mb-3">error</span>
+            <p class="text-gray-500 font-bold">لم نتمكن من تحميل العقارات حالياً. يرجى التحقق من اتصال الإنترنت أو تحديث الصفحة.</p>
+            <button onclick="window.location.reload()" class="mt-4 px-6 py-2 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-all">تحديث الصفحة</button>
+          </div>`;
+        if (bentoGrid) bentoGrid.innerHTML = '';
         return;
       }
       let filtered = homeBeachFilter === 'all' ? properties.slice(0, 8) : properties.filter(p => p.beach === homeBeachFilter).slice(0, 8);
       homeGrid.innerHTML = filtered.map(p => propCard(p)).join('');
 
       const featured = properties.filter(p => p.isPopular);
-      const bentoGrid = document.getElementById('bentoGrid');
       if (featured.length > 0 && bentoGrid) {
         const main = featured[0];
         const sides = featured.slice(1, 3);
