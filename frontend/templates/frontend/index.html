@@ -1385,24 +1385,7 @@
     }
 
     function showApiStatus(online) {
-      // Inject a small status bar at top if not already present
-      if (document.getElementById('apiStatusBar')) return;
-      const bar = document.createElement('div');
-      bar.id = 'apiStatusBar';
-      bar.style.cssText = `position:fixed;bottom:0;left:0;right:0;z-index:300;text-align:center;padding:4px 0;font-size:11px;font-weight:700;transition:opacity 2s;`;
-      if (online) {
-        bar.style.background = '#dcfce7';
-        bar.style.color = '#15803d';
-        bar.textContent = '✓ متصل بقاعدة البيانات — البيانات حقيقية من الـ Backend';
-      } else {
-        bar.style.background = '#fef3c7';
-        bar.style.color = '#92400e';
-        bar.textContent = '⚠ الـ Backend غير متصل — بيانات تجريبية';
-      }
-      document.body.appendChild(bar);
-      // Fade out after 4s
-      setTimeout(() => { bar.style.opacity = '0'; }, 4000);
-      setTimeout(() => { bar.remove(); }, 6000);
+      // Status bar disabled in production
     }
 
     // ============================================================
