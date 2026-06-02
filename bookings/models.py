@@ -97,9 +97,54 @@ class Booking(models.Model):
         return f"حجز #{self.booking_ref or self.id} - {self.guest_name}"
 
     def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        was_confirmed = False
+        if not is_new:
+            try:
+                original = Booking.objects.get(pk=self.pk)
+                was_confirmed = (original.status == Booking.StatusChoices.CONFIRMED)
+            except Booking.DoesNotExist:
+                pass
+
         if not self.booking_ref:
             self.booking_ref = "BLT-" + uuid.uuid4().hex[:6].upper()
+            
         super().save(*args, **kwargs)
+
+        # Send confirmation email if status is changed to CONFIRMED
+        if (is_new and self.status == Booking.StatusChoices.CONFIRMED) or (not is_new and not was_confirmed and self.status == Booking.StatusChoices.CONFIRMED):
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                
+                property_title = self.property.title if hasattr(self, 'property') and self.property else 'غير محدد'
+                subject = f"تأكيد حجز: {self.booking_ref}"
+                message = f"""تم تأكيد الحجز بنجاح على مرسى بلطيم!
+                
+رقم الحجز: {self.booking_ref}
+اسم العميل: {self.guest_name}
+رقم الهاتف: {self.guest_phone}
+البريد الإلكتروني: {self.guest_email or 'غير محدد'}
+العقار: {property_title}
+تاريخ الوصول: {self.check_in}
+تاريخ المغادرة: {self.check_out}
+السعر الإجمالي: {self.grand_total or 'غير محدد'} ج.م
+طريقة الدفع: {self.get_payment_method_display()}
+المبلغ المدفوع: {self.amount_paid} ج.م
+
+تم تفعيل حالة الحجز في النظام إلى "مؤكد".
+"""
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'marsabaltim@gmail.com')
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=from_email,
+                    recipient_list=['marsabaltim@gmail.com'],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                import logging
+                logging.getLogger("django").error(f"Error sending booking confirmation email: {e}")
 
     def get_duration_days(self):
         return (self.check_out - self.check_in).days

@@ -65,7 +65,17 @@ class BookingAdmin(admin.ModelAdmin):
         ("الأسعار", {"fields": ("total_price", "service_fee", "grand_total", "payment_method")}),
         ("التواريخ", {"fields": ("created_at", "updated_at")}),
     )
-    actions = ["regenerate_qr_codes"]
+    actions = ["regenerate_qr_codes", "confirm_bookings"]
+
+    def confirm_bookings(self, request, queryset):
+        count = 0
+        for booking in queryset:
+            if booking.status != Booking.StatusChoices.CONFIRMED:
+                booking.status = Booking.StatusChoices.CONFIRMED
+                booking.save()
+                count += 1
+        self.message_user(request, f"تم تأكيد {count} حجز بنجاح", messages.SUCCESS)
+    confirm_bookings.short_description = "تأكيد الحجوزات المختارة"
 
     def voucher_badge(self, obj):
         try:

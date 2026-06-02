@@ -27,6 +27,101 @@ class OwnerProfile(models.Model):
     def __str__(self):
         return f'{self.user.get_full_name()} — {self.phone}'
 
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        was_approved = False
+        if not is_new:
+            try:
+                original = OwnerProfile.objects.get(pk=self.pk)
+                was_approved = original.is_approved
+            except OwnerProfile.DoesNotExist:
+                pass
+                
+        super().save(*args, **kwargs)
+        
+        if is_new:
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                
+                subject = f"طلب تسجيل مالك جديد: {self.user.get_full_name()}"
+                message = f"""تم تقديم طلب تسجيل مالك جديد على مرسى بلطيم!
+                
+الاسم: {self.user.get_full_name()}
+رقم الهاتف: {self.phone}
+البريد الإلكتروني: {self.user.email or 'غير محدد'}
+رقم الهوية: {self.national_id or 'غير محدد'}
+
+يرجى مراجعة الطلب والموافقة عليه من لوحة التحكم لتفعيل الحساب.
+"""
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'marsabaltim@gmail.com')
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=from_email,
+                    recipient_list=['marsabaltim@gmail.com'],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                import logging
+                logging.getLogger("django").error(f"Error sending owner registration email: {e}")
+        elif not was_approved and self.is_approved:
+            send_owner_approval_email(self)
+
+
+def send_owner_approval_email(profile):
+    try:
+        from django.core.mail import send_mail
+        from django.conf import settings
+        
+        recipient_list = []
+        if profile.user.email:
+            recipient_list.append(profile.user.email)
+            
+        company_email = 'marsabaltim@gmail.com'
+        
+        if recipient_list:
+            subject = "تم تفعيل حسابك كمالك عقار - مرسى بلطيم"
+            message = f"""مرحباً {profile.user.get_full_name()}،
+            
+تمت الموافقة على حسابك وتفعيله من قبل إدارة مرسى بلطيم!
+يمكنك الآن تسجيل الدخول وإضافة عقاراتك وإدارة حجوزاتك وحساباتك.
+
+رابط لوحة التحكم: https://marsabaltim.com/owners/
+رقم الهاتف المستخدم للدخول: {profile.phone}
+
+نسعد بتواجدك معنا!
+إدارة مرسى بلطيم
+"""
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', company_email)
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=from_email,
+                recipient_list=recipient_list,
+                fail_silently=True,
+            )
+            
+        # Send confirmation to company
+        subject_admin = f"تم تفعيل حساب المالك: {profile.user.get_full_name()}"
+        message_admin = f"""تم تفعيل حساب المالك التالي بنجاح:
+        
+الاسم: {profile.user.get_full_name()}
+الهاتف: {profile.phone}
+البريد الإلكتروني: {profile.user.email or 'غير محدد'}
+"""
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', company_email)
+        send_mail(
+            subject=subject_admin,
+            message=message_admin,
+            from_email=from_email,
+            recipient_list=[company_email],
+            fail_silently=True,
+        )
+    except Exception as e:
+        import logging
+        logging.getLogger("django").error(f"Error sending owner approval email: {e}")
+
 class OwnerAccount(models.Model):
     owner = models.ForeignKey(OwnerProfile, on_delete=models.CASCADE, related_name='accounts', verbose_name='المالك')
     name = models.CharField(max_length=150, verbose_name='اسم الحساب')

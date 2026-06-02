@@ -154,6 +154,44 @@ class Property(models.Model):
     def __str__(self):
         return f"{self.title} - {self.get_beach_name()}"
 
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                
+                subject = f"عقار جديد مضاف: {self.title}"
+                message = f"""تم إضافة عقار جديد إلى مرسى بلطيم!
+                
+اسم العقار: {self.title}
+النوع: {self.type}
+الشاطئ: {self.get_beach_name()}
+المدينة: {self.get_city_name()}
+سعر الإيجار اليومي: {self.price_daily or 'غير محدد'} ج.م
+سعر الإيجار الشهري: {self.price_monthly or 'غير محدد'} ج.م
+سعر البيع: {self.price_sale or 'غير محدد'} ج.م
+المساحة: {self.area} م²
+عدد الغرف: {self.rooms}
+المسافة من البحر: {self.distance_to_sea} م
+
+المالك: {self.owner_name or (self.owner.user.get_full_name() if self.owner else 'غير محدد')}
+رقم هاتف المالك: {self.owner_phone or (self.owner.phone if self.owner else 'غير محدد')}
+
+يرجى مراجعة العقار واعتماده من لوحة التحكم.
+"""
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'marsabaltim@gmail.com')
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=from_email,
+                    recipient_list=['marsabaltim@gmail.com'],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                logger.error(f"Error sending property creation email: {e}")
+
     def get_amenities_list(self):
         return [a.name for a in self.amenities.all()]
 

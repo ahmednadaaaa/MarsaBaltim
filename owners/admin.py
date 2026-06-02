@@ -25,11 +25,21 @@ class OwnerProfileAdmin(admin.ModelAdmin):
     property_count.short_description = 'العقارات'
 
     def approve_owners(self, request, queryset):
-        queryset.update(is_approved=True)
-        self.message_user(request, 'تم اعتماد الملاك المختارين')
+        count = 0
+        for profile in queryset:
+            if not profile.is_approved:
+                profile.is_approved = True
+                profile.save()
+                count += 1
+        self.message_user(request, f"تم اعتماد {count} من الملاك المختارين")
     approve_owners.short_description = 'اعتماد الملاك المختارين'
 
     def reject_owners(self, request, queryset):
-        queryset.update(is_approved=False)
-        self.message_user(request, 'تم إلغاء اعتماد الملاك المختارين')
+        count = 0
+        for profile in queryset:
+            if profile.is_approved:
+                profile.is_approved = False
+                profile.save()
+                count += 1
+        self.message_user(request, f"تم إلغاء اعتماد {count} من الملاك المختارين")
     reject_owners.short_description = 'إلغاء اعتماد الملاك المختارين'

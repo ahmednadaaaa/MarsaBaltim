@@ -71,6 +71,32 @@ class BookingCreateSerializer(serializers.Serializer):
     def create(self, validated_data):
         prop = Property.objects.get(pk=validated_data["property_id"])
 
+        # Calculate pricing
+        check_in = validated_data["check_in"]
+        check_out = validated_data["check_out"]
+        duration_days = (check_out - check_in).days
+        booking_type = validated_data.get("booking_type", "daily")
+
+        total_price = None
+        service_fee = None
+        grand_total = None
+
+        if duration_days > 0:
+            from decimal import Decimal
+            import math
+            if booking_type == "monthly" and prop.price_monthly:
+                months = math.ceil(duration_days / 30)
+                total_price = prop.price_monthly * months
+            elif booking_type == "sale" and prop.price_sale:
+                total_price = prop.price_sale
+            elif prop.price_daily:
+                total_price = prop.price_daily * duration_days
+
+            if total_price is not None:
+                total_price = Decimal(str(total_price))
+                service_fee = round(total_price * Decimal("0.05"), 2)
+                grand_total = total_price + service_fee
+
         booking = Booking.objects.create(
             property       = prop,
             guest_name     = validated_data["guest_name"],
@@ -80,10 +106,9 @@ class BookingCreateSerializer(serializers.Serializer):
             booking_type   = validated_data.get("booking_type", "daily"),
             check_in       = validated_data["check_in"],
             check_out      = validated_data["check_out"],
-            # All price fields start as null — agreed with customer later
-            total_price    = None,
-            service_fee    = None,
-            grand_total    = None,
+            total_price    = total_price,
+            service_fee    = service_fee,
+            grand_total    = grand_total,
             agreed_price   = None,
             status         = Booking.StatusChoices.PENDING_CONTACT,
         )
