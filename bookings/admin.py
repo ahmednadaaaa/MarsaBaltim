@@ -90,8 +90,13 @@ class BookingAdmin(admin.ModelAdmin):
     voucher_badge.short_description = "الفاوتشر"
 
     def voucher_card_link(self, obj):
-        url = reverse('booking-card', args=[obj.booking_ref])
-        return format_html('<a href="{}" target="_blank" style="background:#1c74e9;color:white;padding:5px 10px;border-radius:5px;font-weight:bold;text-decoration:none;display:inline-block;">عرض الكارت 🎴</a>', url)
+        if not obj or not obj.pk or not obj.booking_ref:
+            return "—"
+        try:
+            url = reverse('booking-card', args=[obj.booking_ref])
+            return format_html('<a href="{}" target="_blank" style="background:#1c74e9;color:white;padding:5px 10px;border-radius:5px;font-weight:bold;text-decoration:none;display:inline-block;">عرض الكارت 🎴</a>', url)
+        except Exception:
+            return "—"
     voucher_card_link.short_description = "كارت الحجز"
 
     def whatsapp_chat(self, obj):

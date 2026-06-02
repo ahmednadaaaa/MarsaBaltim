@@ -9,7 +9,12 @@ from django.conf import settings
 from .models import Booking
 from .serializers import BookingCreateSerializer, BookingDetailSerializer
 
+from rest_framework.permissions import AllowAny
+
 class BookingCreateView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = BookingCreateSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
