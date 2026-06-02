@@ -949,8 +949,8 @@
       <!-- Success Modal -->
       <div id="propertySuccess" class="hidden text-center py-10 card mt-8">
         <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">✅</div>
-        <h3 class="text-2xl font-bold mb-3 text-green-700">تم إرسال العقار بنجاح!</h3>
-        <p class="text-on-variant mb-6 text-lg">سيتم مراجعة العقار من قِبَل الإدارة ونشره خلال 24 ساعة.</p>
+        <h3 id="successTitle" class="text-2xl font-bold mb-3 text-green-700">تم إرسال العقار بنجاح!</h3>
+        <p id="successDesc" class="text-on-variant mb-6 text-lg">سيتم مراجعة العقار من قِبَل الإدارة ونشره خلال 24 ساعة.</p>
         <button onclick="showDashboard()" class="btn-primary max-w-[250px] mx-auto">العودة للوحة التحكم</button>
       </div>
     </div>
@@ -1251,6 +1251,7 @@
       document.getElementById('formSub').textContent = 'سيتم مراجعة العقار من قبل الإدارة قبل نشره على الموقع.';
       document.getElementById('propertyForm').classList.remove('hidden');
       document.getElementById('propertySuccess').classList.add('hidden');
+      document.getElementById('submitPropertyText').textContent = 'إرسال للمراجعة';
       selectedImages = [];
       existingImages = [];
       renderImages();
@@ -1302,6 +1303,7 @@
         
         document.getElementById('propertySuccess').classList.add('hidden');
         document.getElementById('propertyForm').classList.remove('hidden');
+        document.getElementById('submitPropertyText').textContent = 'حفظ التعديلات';
         showView('property-form');
         
       } catch (e) {}
@@ -1402,14 +1404,42 @@
         data = await res.json();
         if (res.ok) {
           const finalId = propId || data.id;
-          // Upload new images
+          
+          // Clear error if any
+          const formError = document.getElementById('formError');
+          formError.classList.add('hidden');
+          
+          // Upload new images with progress feedback
+          const totalImages = selectedImages.length;
+          let currentImageIdx = 1;
+          
           for (let img of selectedImages) {
+            btn.querySelector('.btn-text').textContent = `جاري رفع الصور (${currentImageIdx} من ${totalImages})...`;
             const fd = new FormData();
             fd.append('image', img.file);
-            await fetch(`/owner/api/properties/${finalId}/images/`, {
+            
+            const imgRes = await fetch(`/owner/api/properties/${finalId}/images/`, {
               method: 'POST',
               body: fd
             });
+            
+            if (!imgRes.ok) {
+              const imgData = await imgRes.json().catch(() => ({}));
+              throw new Error(imgData.error || `فشل رفع الصورة رقم ${currentImageIdx}`);
+            }
+            currentImageIdx++;
+          }
+          
+          // Clear selected images on success
+          selectedImages = [];
+          
+          // Update success message based on edit/add
+          if (propId) {
+            document.getElementById('successTitle').textContent = 'تم حفظ التعديلات بنجاح!';
+            document.getElementById('successDesc').textContent = 'تم تحديث بيانات العقار بنجاح وسيتم مراجعته ونشره.';
+          } else {
+            document.getElementById('successTitle').textContent = 'تم إرسال العقار بنجاح!';
+            document.getElementById('successDesc').textContent = 'سيتم مراجعة العقار من قِبَل الإدارة ونشره خلال 24 ساعة.';
           }
           
           document.getElementById('propertyForm').classList.add('hidden');
@@ -1420,9 +1450,13 @@
           err.textContent = 'تأكد من إدخال البيانات بشكل صحيح';
         }
       } catch (e) {
+        const err = document.getElementById('formError');
+        err.classList.remove('hidden');
+        err.textContent = e.message || 'حدث خطأ أثناء حفظ العقار، يرجى المحاولة مرة أخرى.';
       } finally {
         btn.disabled = false;
-        btn.querySelector('.btn-text').textContent = 'إرسال للمراجعة';
+        const currentPropId = document.getElementById('propId').value;
+        btn.querySelector('.btn-text').textContent = currentPropId ? 'حفظ التعديلات' : 'إرسال للمراجعة';
       }
     }
 
