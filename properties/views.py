@@ -84,3 +84,53 @@ class CityListView(APIView):
     def get(self, request):
         qs = City.objects.filter(is_active=True).order_by('order', 'name')
         return Response(CitySerializer(qs, many=True).data)
+
+
+from django.shortcuts import redirect, render
+from owners.auth import CookieJWTAuthentication
+from rest_framework.permissions import AllowAny
+
+class OwnerPropertyEditImagesView(APIView):
+    authentication_classes = [CookieJWTAuthentication]
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        # Authenticate via cookie
+        authenticator = CookieJWTAuthentication()
+        auth_result = authenticator.authenticate(request)
+        if auth_result is None:
+            return redirect('/owner/')
+        user, token = auth_result
+
+        # Retrieve the property owned by this owner
+        try:
+            prop = Property.objects.get(pk=pk, owner=user.owner_profile)
+        except (Property.DoesNotExist, AttributeError):
+            return redirect('/owner/')
+
+        # Calculate completion percentage
+        filled_fields = 0
+        total_fields = 10
+
+        if prop.title: filled_fields += 1
+        if prop.description: filled_fields += 1
+        if prop.type: filled_fields += 1
+        if prop.beach_new or prop.beach: filled_fields += 1
+        if prop.rooms is not None: filled_fields += 1
+        if prop.area is not None and prop.area > 0: filled_fields += 1
+        if prop.floor is not None: filled_fields += 1
+        if prop.distance_to_sea is not None: filled_fields += 1
+        if prop.price_daily or prop.price_monthly or prop.price_sale: filled_fields += 1
+        if prop.cover_image: filled_fields += 1
+
+        completion_pct = int((filled_fields / total_fields) * 100)
+
+        # Check if last step: edit mode or draft wizard mode
+        is_last_step = (prop.status != 'draft')
+
+        context = {
+            'property': prop,
+            'completion_pct': completion_pct,
+            'is_last_step': is_last_step,
+        }
+        return render(request, 'properties/owner_edit_images.html', context)

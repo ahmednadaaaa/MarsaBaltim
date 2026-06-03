@@ -1,0 +1,345 @@
+{% load static %}
+{% load image_tags %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صور العقار - لوحة التحكم</title>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/owner.css' %}">
+</head>
+<body>
+
+    <div class="owner-container">
+        <!-- Header -->
+        <div class="header-wrapper">
+            <div>
+                <h1 class="page-title">صور العقار</h1>
+                <p class="page-subtitle">أضف صوراً واضحة لزيادة فرص الإيجار</p>
+            </div>
+            <span class="step-badge">خطوة 2 من 3</span>
+        </div>
+
+        <!-- 1. Cover Image (الصورة الرئيسية) -->
+        <div class="section-header">
+            <h2 class="section-title">صورة الغلاف (الرئيسية)</h2>
+        </div>
+
+        <div class="cover-upload-slot" id="coverUploadSlot" onclick="document.getElementById('coverImageInput').click()">
+            <input type="file" id="coverImageInput" accept="image/*" style="display: none;" onchange="uploadCoverImage(event)">
+            
+            <div id="coverImagePreviewContainer" style="width: 100%; height: 100%; position: absolute; inset: 0; z-index: 1; {% if not property.cover_image %}display: none;{% endif %}">
+                {% if property.cover_image %}
+                    {% lazy_img property.cover_image "صورة الرئيسية" "w-full h-full object-cover" %}
+                {% endif %}
+                <span class="main-badge">★ رئيسية</span>
+            </div>
+
+            <div class="upload-placeholder" id="coverUploadPlaceholder" style="{% if property.cover_image %}display: none;{% endif %}">
+                <span class="material-symbols-outlined upload-icon">add_photo_alternate</span>
+                <span class="upload-text">اختر الصورة الرئيسية</span>
+                <span class="upload-subtext">أول صورة يراها الزائر · JPG, PNG</span>
+            </div>
+        </div>
+
+        <!-- 2. Additional Images Grid (باقي الصور) -->
+        <div class="section-header">
+            <h2 class="section-title">باقي صور العقار</h2>
+            <span class="counter-badge" id="imageCounter">{{ property.images.count }} / 10</span>
+        </div>
+
+        <!-- Hidden input for additional images -->
+        <input type="file" id="additionalImageInput" accept="image/*" style="display: none;" multiple onchange="uploadAdditionalImages(event)">
+
+        <div class="additional-grid" id="additionalGrid">
+            <!-- Render existing images -->
+            {% for img in property.images.all %}
+                <div class="grid-item" data-image-id="{{ img.id }}">
+                    {% lazy_img img.image "صورة العقار" "w-full h-full object-cover" %}
+                    <button class="delete-btn" onclick="deleteAdditionalImage({{ img.id }}, this, event)">✕</button>
+                </div>
+            {% endfor %}
+
+            <!-- Add button slot (will be positioned dynamically by JS, but rendered initially) -->
+            <div class="grid-item add-grid-btn" id="addGridBtn" onclick="document.getElementById('additionalImageInput').click()" style="{% if property.images.count >= 10 %}display: none;{% endif %}">
+                <span class="material-symbols-outlined">add</span>
+                إضافة +
+            </div>
+
+            <!-- Placeholders -->
+            <!-- We will fill up to 10 items total using placeholders in JS, but initially render empty slots -->
+            <div class="grid-item empty-slot placeholder-slot"></div>
+            <div class="grid-item empty-slot placeholder-slot"></div>
+            <div class="grid-item empty-slot placeholder-slot"></div>
+            <div class="grid-item empty-slot placeholder-slot"></div>
+            <div class="grid-item empty-slot placeholder-slot"></div>
+            <div class="grid-item empty-slot placeholder-slot"></div>
+        </div>
+
+        <!-- Smart Tip Box -->
+        <div class="tip-box">
+            <span class="material-symbols-outlined tip-icon">lightbulb</span>
+            <p class="tip-text">صور الغرف المضاءة جيداً تحصل على 3x مشاهدات أكثر. التقط الصور نهاراً.</p>
+        </div>
+
+        <!-- Floating Bottom Bar (Progress & CTA) -->
+        <div class="bottom-bar">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span>اكتمال الإعلان</span>
+                    <span id="progressText">{{ completion_pct }}%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width: {{ completion_pct }}%;"></div>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <button class="cta-button" onclick="submitStep()">
+                {% if is_last_step %}
+                    <span class="material-symbols-outlined">check</span>
+                    <span>حفظ ونشر الإعلان</span>
+                {% else %}
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>التالي: التسعير</span>
+                {% endif %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const propertyId = {{ property.id }};
+        const csrfToken = '{{ csrf_token }}';
+
+        // Update placeholder grids on load
+        updatePlaceholderSlots();
+
+        function updatePlaceholderSlots() {
+            const grid = document.getElementById('additionalGrid');
+            const items = grid.querySelectorAll('.grid-item:not(.add-grid-btn):not(.placeholder-slot)');
+            const addBtn = document.getElementById('addGridBtn');
+            const count = items.length;
+
+            // Show/hide add button
+            if (count >= 10) {
+                addBtn.style.display = 'none';
+            } else {
+                addBtn.style.display = 'flex';
+            }
+
+            // Remove existing placeholders
+            grid.querySelectorAll('.placeholder-slot').forEach(el => el.remove());
+
+            // Calculate how many placeholders to render to show a full grid interface
+            // We want to fill up to 10 slots.
+            const totalVisible = count + (count >= 10 ? 0 : 1); // images + add button
+            const placeholdersNeeded = Math.max(0, 10 - totalVisible);
+
+            for (let i = 0; i < placeholdersNeeded; i++) {
+                const ph = document.createElement('div');
+                ph.className = 'grid-item empty-slot placeholder-slot';
+                grid.appendChild(ph);
+            }
+
+            // Update Counter
+            document.getElementById('imageCounter').textContent = `${count} / 10`;
+        }
+
+        // 1. AJAX upload for Cover Image
+        async function uploadCoverImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Show loading state
+            const placeholder = document.getElementById('coverUploadPlaceholder');
+            const previewContainer = document.getElementById('coverImagePreviewContainer');
+            
+            placeholder.style.display = 'flex';
+            placeholder.innerHTML = `
+                <span class="material-symbols-outlined upload-icon animate-spin">sync</span>
+                <span class="upload-text">جاري رفع الصورة...</span>
+            `;
+            previewContainer.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('cover_image', file);
+
+            try {
+                const response = await fetch(`/owner/api/properties/${propertyId}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Failed to upload cover image');
+
+                const data = await response.json();
+                
+                // Update preview (data should return the updated property info or we can reload cover image URL)
+                // Let's retrieve the cover image URL from response. We can also reload page if needed, but AJAX is requested.
+                // Assuming PATCH /owner/api/properties/<id>/ returns the property details with cover_image URL
+                const coverUrl = data.cover_image;
+                if (coverUrl) {
+                    previewContainer.innerHTML = `
+                        <picture>
+                            <source srcset="${coverUrl}" type="image/webp">
+                            <img src="${coverUrl}" class="w-full h-full object-cover" loading="lazy">
+                        </picture>
+                        <span class="main-badge">★ رئيسية</span>
+                    `;
+                    previewContainer.style.display = 'block';
+                    placeholder.style.display = 'none';
+                } else {
+                    location.reload();
+                }
+
+                // Update progress bar
+                updateProgressBar();
+
+            } catch (err) {
+                alert('حدث خطأ أثناء رفع الصورة الرئيسية. يرجى المحاولة مجدداً.');
+                // Reset to standard placeholder
+                placeholder.innerHTML = `
+                    <span class="material-symbols-outlined upload-icon">add_photo_alternate</span>
+                    <span class="upload-text">اختر الصورة الرئيسية</span>
+                    <span class="upload-subtext">أول صورة يراها الزائر · JPG, PNG</span>
+                `;
+            }
+        }
+
+        // 2. AJAX upload for Additional Images
+        async function uploadAdditionalImages(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+
+            const grid = document.getElementById('additionalGrid');
+            const addBtn = document.getElementById('addGridBtn');
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check if limit reached
+                const currentCount = grid.querySelectorAll('.grid-item:not(.add-grid-btn):not(.placeholder-slot)').length;
+                if (currentCount >= 10) {
+                    alert('الحد الأقصى للصور الإضافية هو 10 صور.');
+                    break;
+                }
+
+                // Add skeleton slot
+                const skeleton = document.createElement('div');
+                skeleton.className = 'grid-item skeleton';
+                grid.insertBefore(skeleton, addBtn);
+                updatePlaceholderSlots();
+
+                const formData = new FormData();
+                formData.append('image', file);
+
+                try {
+                    const response = await fetch(`/owner/api/properties/${propertyId}/images/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const errData = await response.json();
+                        throw new Error(errData.error || 'Failed to upload additional image');
+                    }
+
+                    const data = await response.json();
+                    
+                    // Replace skeleton with actual image preview
+                    skeleton.className = 'grid-item';
+                    skeleton.dataset.imageId = data.id;
+                    skeleton.innerHTML = `
+                        <picture>
+                            <source srcset="${data.image_url}" type="image/webp">
+                            <img src="${data.image_url}" class="w-full h-full object-cover" loading="lazy">
+                        </picture>
+                        <button class="delete-btn" onclick="deleteAdditionalImage(${data.id}, this, event)">✕</button>
+                    `;
+
+                    updatePlaceholderSlots();
+                    updateProgressBar();
+
+                } catch (err) {
+                    skeleton.remove();
+                    updatePlaceholderSlots();
+                    alert(err.message || 'حدث خطأ أثناء رفع الصورة الإضافية.');
+                }
+            }
+        }
+
+        // 3. AJAX delete for Additional Images
+        async function deleteAdditionalImage(imageId, buttonEl, event) {
+            event.stopPropagation();
+            if (!confirm('هل أنت متأكد من حذف هذه الصورة؟')) return;
+
+            const gridItem = buttonEl.closest('.grid-item');
+            
+            try {
+                const response = await fetch(`/owner/api/properties/${propertyId}/images/${imageId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to delete image');
+
+                gridItem.remove();
+                updatePlaceholderSlots();
+                updateProgressBar();
+
+            } catch (err) {
+                alert('فشل حذف الصورة. يرجى المحاولة مجدداً.');
+            }
+        }
+
+        // Helper to update progress bar value dynamically
+        async function updateProgressBar() {
+            try {
+                // Fetch property detail to re-calculate completion pct or reload page
+                const response = await fetch(`/owner/api/properties/${propertyId}/`);
+                if (!response.ok) return;
+                const prop = await response.json();
+                
+                // Simple calculation based on fields filled
+                let filled = 0;
+                const total = 10;
+                if (prop.title) filled++;
+                if (prop.description) filled++;
+                if (prop.type) filled++;
+                if (prop.beach_new) filled++;
+                if (prop.rooms) filled++;
+                if (prop.area) filled++;
+                if (prop.floor) filled++;
+                if (prop.distance_to_sea) filled++;
+                if (prop.price_daily || prop.price_monthly || prop.price_sale) filled++;
+                if (prop.cover_image) filled++;
+
+                const pct = Math.min(100, Math.round((filled / total) * 100));
+                document.getElementById('progressFill').style.width = `${pct}%`;
+                document.getElementById('progressText').textContent = `${pct}%`;
+            } catch (err) {
+                console.error('Failed to update progress bar:', err);
+            }
+        }
+
+        // Submit form / proceed to next step
+        function submitStep() {
+            // Redirect to owner portal
+            window.location.href = '/owner/';
+        }
+    </script>
+</body>
+</html>

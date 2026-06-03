@@ -1,0 +1,361 @@
+/* owner.css - Redesigned Owner Dashboard Styling */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+:root {
+    --primary-color: #0F6E56;
+    --primary-hover: #0a4f3d;
+    --text-color: #1f2937;
+    --text-secondary: #6b7280;
+    --bg-light: #f9fafb;
+    --border-color: #e5e7eb;
+    --teal-bg: #e6f7f4;
+    --teal-text: #0b5e49;
+    --danger-color: #dc2626;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f3f4f6;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+}
+
+.owner-container {
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    min-height: 100vh;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    padding: 20px 20px 100px 20px; /* space at bottom for floating progress bar */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header & Progress Badge */
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.step-badge {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 9999px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Section Title & Counter */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    margin-top: 20px;
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.counter-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-color);
+    background-color: var(--teal-bg);
+    padding: 2px 8px;
+    border-radius: 9999px;
+}
+
+/* Cover Image Upload Area */
+.cover-upload-slot {
+    width: 100%;
+    height: 130px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background-color: var(--bg-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.cover-upload-slot:hover {
+    border-color: var(--primary-color);
+    background-color: var(--teal-bg);
+}
+
+.cover-upload-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.cover-upload-slot .upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    text-align: center;
+}
+
+.cover-upload-slot .upload-icon {
+    font-size: 28px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.cover-upload-slot .upload-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 2px;
+}
+
+.cover-upload-slot .upload-subtext {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* Badges */
+.main-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #10b981;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    z-index: 3;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Additional Images Grid */
+.additional-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.grid-item {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f3f4f6;
+    position: relative;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Delete Button */
+.delete-btn {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--danger-color);
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.1s ease;
+}
+
+.delete-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Empty slots and Add Button */
+.empty-slot {
+    border: 1px dashed #d1d5db;
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+}
+
+.add-grid-btn {
+    background-color: var(--bg-light);
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.add-grid-btn:hover {
+    border-color: var(--primary-color);
+    background-color: var(--teal-bg);
+}
+
+.add-grid-btn span {
+    font-size: 24px;
+    margin-bottom: 2px;
+}
+
+/* Skeletons */
+.skeleton {
+    animation: skeleton-pulse 1.5s infinite ease-in-out;
+    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+    background-size: 200% 100%;
+}
+
+@keyframes skeleton-pulse {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Info Box / Tip Box */
+.tip-box {
+    background-color: var(--teal-bg);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(15, 110, 86, 0.1);
+}
+
+.tip-icon {
+    font-size: 20px;
+    color: var(--primary-color);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.tip-text {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--teal-text);
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Floating Bottom Bar (Progress & CTA) */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background-color: #ffffff;
+    border-top: 1px solid var(--border-color);
+    padding: 12px 20px 20px 20px;
+    box-sizing: border-box;
+    z-index: 100;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Progress bar inside bottom bar */
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.progress-track {
+    width: 100%;
+    height: 6px;
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
+
+/* CTA Button */
+.cta-button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 900;
+    border-radius: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.cta-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.cta-button span.material-symbols-outlined {
+    font-size: 18px;
+}

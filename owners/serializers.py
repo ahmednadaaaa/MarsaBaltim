@@ -82,7 +82,8 @@ class OwnerPropertySerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'city_name', 'beach_name', 'type',
             'price_daily', 'price_monthly', 'price_sale', 'video_url',
-            'status', 'rejection_reason', 'available', 'created_at', 'image_count'
+            'status', 'rejection_reason', 'available', 'created_at', 'image_count',
+            'cover_image'
         ]
 
     def get_image_count(self, obj):
@@ -100,7 +101,7 @@ class OwnerPropertyCreateEditSerializer(serializers.ModelSerializer):
             'title', 'description', 'type', 'beach_new',
             'rooms', 'area', 'floor', 'distance_to_sea',
             'price_daily', 'price_monthly', 'price_sale',
-            'amenities_str', 'video_url'
+            'amenities_str', 'video_url', 'cover_image'
         ]
 
     def create(self, validated_data):

@@ -141,6 +141,7 @@ class Property(models.Model):
     available       = models.BooleanField(default=True, verbose_name='متاح')
     amenities       = models.ManyToManyField(Amenity, blank=True, verbose_name='المميزات')
     video_url       = models.URLField(max_length=500, blank=True, null=True, verbose_name='رابط فيديو للعقار')
+    cover_image     = models.ImageField(upload_to='properties/', blank=True, null=True, verbose_name='الصورة الرئيسية')
     owner_name      = models.CharField(max_length=255, null=True, blank=True, verbose_name='اسم صاحب العقار')
     owner_phone     = models.CharField(max_length=20, null=True, blank=True, verbose_name='رقم صاحب العقار')
     created_at      = models.DateTimeField(auto_now_add=True)
