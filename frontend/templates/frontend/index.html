@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 {% load static %}
+{% load image_tags %}
 
 <head>
   <script>
@@ -470,7 +471,7 @@
         <button onclick="showPage('home')" class="flex items-center gap-2 group">
           <div
             class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-lg shadow-primary/30 bg-white">
-            <img src="{% static 'img/logo.png' %}" alt="مرسى بلطيم" class="w-full h-full object-contain p-1" />
+            {% static_webp 'img/logo.png' 'مرسى بلطيم' 'w-full h-full object-contain p-1' '' '' False %}
           </div>
           <div class="hidden sm:block">
             <p class="text-primary dark:text-primary-light font-black text-base leading-tight">مرسى</p>
@@ -566,13 +567,13 @@
     <!-- Hero -->
     <section class="relative min-h-[88vh] flex items-center overflow-hidden justify-center w-full" style="max-width:100vw">
       <div id="heroCarousel" class="absolute inset-0 z-0 bg-gray-950">
-        <img src="{% static 'img/hero-beach.png' %}?v=3" class="carousel-image active" />
-        <img src="{% static 'img/chalets_resort_1780060543859.png' %}?v=3" class="carousel-image" />
-        <img src="{% static 'img/marina_aerial_1780060590732.png' %}?v=3" class="carousel-image" />
-        <img src="{% static 'img/resort_interior_1780060575683.png' %}?v=3" class="carousel-image" />
-        <img src="{% static 'img/sea_view_1780060560695.png' %}?v=3" class="carousel-image" />
-        <img src="{% static 'img/beach_promenade_1780060609940.png' %}?v=3" class="carousel-image" />
-        <img src="{% static 'img/beach_sunset_1780060528364.png' %}?v=3" class="carousel-image" />
+        {% static_webp 'img/hero-beach.png?v=3' '' 'carousel-image active' '' '' False %}
+        {% static_webp 'img/chalets_resort_1780060543859.png?v=3' '' 'carousel-image' '' '' True %}
+        {% static_webp 'img/marina_aerial_1780060590732.png?v=3' '' 'carousel-image' '' '' True %}
+        {% static_webp 'img/resort_interior_1780060575683.png?v=3' '' 'carousel-image' '' '' True %}
+        {% static_webp 'img/sea_view_1780060560695.png?v=3' '' 'carousel-image' '' '' True %}
+        {% static_webp 'img/beach_promenade_1780060609940.png?v=3' '' 'carousel-image' '' '' True %}
+        {% static_webp 'img/beach_sunset_1780060528364.png?v=3' '' 'carousel-image' '' '' True %}
         <div class="absolute inset-0 bg-gradient-to-bl from-primary/25 via-black/45 to-gray-950/92 z-10 pointer-events-none"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent z-10 pointer-events-none"></div>
       </div>
@@ -722,7 +723,7 @@
           <div class="col-span-2 md:col-span-1">
             <div class="flex items-center gap-2 mb-4">
               <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white">
-                <img src="{% static 'img/logo.png' %}" alt="مرسى بلطيم" class="w-full h-full object-contain p-1" />
+                {% static_webp 'img/logo.png' 'مرسى بلطيم' 'w-full h-full object-contain p-1' '' '' True %}
               </div>
               <p class="font-black text-lg">مرسى بلطيم</p>
             </div>

@@ -1,3 +1,4 @@
+{% load image_tags %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -42,7 +43,7 @@
             </div>
             
             {% if booking.voucher.qr_code %}
-            <img src="{{ booking.voucher.qr_code.url }}" alt="QR Code" class="w-48 h-48 rounded-2xl mx-auto mb-4 border-4 border-white shadow-md">
+            {% hero_img booking.voucher.qr_code "QR Code" "w-48 h-48 rounded-2xl mx-auto mb-4 border-4 border-white shadow-md" %}
             {% endif %}
             
             <p class="text-xs text-gray-500 mb-3">سكان الـ QR في أي مطعم شريك في بلطيم</p>
