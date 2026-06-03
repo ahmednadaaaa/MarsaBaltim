@@ -22,6 +22,8 @@ urlpatterns = [
          views.OwnerImageUploadView.as_view()),
     path('api/properties/<int:pk>/images/<int:img_id>/',
          views.OwnerImageUploadView.as_view()),
+    path('properties/<int:pk>/edit-images/',
+         views.OwnerPropertyEditImagesView.as_view(), name='owner-edit-images'),
 
     # Accounting API
     path('api/accounts/', views.OwnerAccountListView.as_view()),

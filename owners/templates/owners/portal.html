@@ -1208,9 +1208,12 @@
                 ${statusBadge}
                 ${rejectionMsg}
               </div>
-              <div class="flex gap-2 border-t pt-4">
-                <button onclick="editProperty(${p.id})" class="flex-1 bg-surface-low text-primary py-2 rounded-lg font-bold text-sm hover:bg-gray-200">تعديل</button>
-                <button onclick="deleteProperty(${p.id})" class="flex-1 bg-red-50 text-red-600 py-2 rounded-lg font-bold text-sm hover:bg-red-100">حذف</button>
+              <div class="flex flex-col gap-2 border-t pt-4 w-full">
+                <div class="flex gap-2 w-full">
+                  <button onclick="editProperty(${p.id})" class="flex-1 bg-surface-low text-primary py-2 rounded-lg font-bold text-sm hover:bg-gray-200">تعديل التفاصيل</button>
+                  <a href="/owner/properties/${p.id}/edit-images/" class="flex-1 bg-surface-low text-primary py-2 rounded-lg font-bold text-sm hover:bg-gray-200 text-center flex items-center justify-center">تعديل الصور</a>
+                </div>
+                <button onclick="deleteProperty(${p.id})" class="w-full bg-red-50 text-red-600 py-2 rounded-lg font-bold text-sm hover:bg-red-100">حذف</button>
               </div>
             </div>
           `;
@@ -1508,41 +1511,11 @@
           const formError = document.getElementById('formError');
           formError.classList.add('hidden');
           
-          // Upload new images with progress feedback
-          const totalImages = selectedImages.length;
-          let currentImageIdx = 1;
-          
-          for (let img of selectedImages) {
-            btn.querySelector('.btn-text').textContent = `جاري رفع الصور (${currentImageIdx} من ${totalImages})...`;
-            const fd = new FormData();
-            fd.append('image', img.file);
-            
-            const imgRes = await fetch(`/owner/api/properties/${finalId}/images/`, {
-              method: 'POST',
-              body: fd
-            });
-            
-            if (!imgRes.ok) {
-              const imgData = await imgRes.json().catch(() => ({}));
-              throw new Error(imgData.error || `فشل رفع الصورة رقم ${currentImageIdx}`);
-            }
-            currentImageIdx++;
-          }
-          
-          // Clear selected images on success
           selectedImages = [];
           
-          // Update success message based on edit/add
-          if (propId) {
-            document.getElementById('successTitle').textContent = 'تم حفظ التعديلات بنجاح!';
-            document.getElementById('successDesc').textContent = 'تم تحديث بيانات العقار بنجاح وسيتم مراجعته ونشره.';
-          } else {
-            document.getElementById('successTitle').textContent = 'تم إرسال العقار بنجاح!';
-            document.getElementById('successDesc').textContent = 'سيتم مراجعة العقار من قِبَل الإدارة ونشره خلال 24 ساعة.';
-          }
-          
-          document.getElementById('propertyForm').classList.add('hidden');
-          document.getElementById('propertySuccess').classList.remove('hidden');
+          // Redirect to Step 2: Edit Images page
+          window.location.href = `/owner/properties/${finalId}/edit-images/`;
+          return;
         } else {
           const err = document.getElementById('formError');
           err.classList.remove('hidden');
