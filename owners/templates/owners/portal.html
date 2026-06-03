@@ -1309,15 +1309,86 @@
       } catch (e) {}
     }
 
-    function handleImageSelection(e) {
+    function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.7) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob(
+              (blob) => {
+                if (!blob) {
+                  reject(new Error('Canvas to Blob conversion failed'));
+                  return;
+                }
+                const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                });
+                resolve(compressedFile);
+              },
+              'image/jpeg',
+              quality
+            );
+          };
+          img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+      });
+    }
+
+    async function handleImageSelection(e) {
       const files = Array.from(e.target.files);
       if (files.length + selectedImages.length + existingImages.length > 10) {
         alert("الحد الأقصى هو 10 صور"); // simple fallback text
         return;
       }
-      files.forEach(f => {
-        selectedImages.push({ file: f, url: URL.createObjectURL(f) });
-      });
+
+      const uploadArea = document.getElementById('imageUploadArea');
+      const originalHTML = uploadArea.innerHTML;
+      uploadArea.innerHTML = `<span class="material-symbols-outlined text-4xl text-primary mb-2 animate-spin">sync</span><p class="font-bold">جاري معالجة وضغط الصور...</p>`;
+
+      try {
+        for (let f of files) {
+          if (f.type.startsWith('image/')) {
+            try {
+              const compressed = await compressImage(f);
+              selectedImages.push({ file: compressed, url: URL.createObjectURL(compressed) });
+            } catch (err) {
+              console.error("Image compression failed, using original file", err);
+              selectedImages.push({ file: f, url: URL.createObjectURL(f) });
+            }
+          } else {
+            selectedImages.push({ file: f, url: URL.createObjectURL(f) });
+          }
+        }
+      } finally {
+        uploadArea.innerHTML = originalHTML;
+      }
       renderImages();
     }
     
@@ -1326,19 +1397,25 @@
       grid.innerHTML = '';
       
       existingImages.forEach(img => {
+        const isMainBadge = img.is_main 
+          ? `<span class="absolute bottom-1 right-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">★ رئيسية</span>` 
+          : `<button type="button" onclick="setMainImage(${img.id})" class="absolute bottom-1 right-1 bg-black/60 hover:bg-black/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full transition-colors shadow-sm">تعيين كرئيسية</button>`;
+          
         grid.innerHTML += `
-          <div class="relative w-full h-24 rounded-lg overflow-hidden border">
+          <div class="relative w-full h-28 rounded-xl overflow-hidden border shadow-sm group">
             <img src="${img.url}" class="w-full h-full object-cover">
-            <button type="button" onclick="deleteExistingImage(${img.id})" class="absolute top-1 left-1 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">X</button>
+            <button type="button" onclick="deleteExistingImage(${img.id})" class="absolute top-1 left-1 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs hover:bg-red-600 transition-colors shadow">✕</button>
+            ${isMainBadge}
           </div>
         `;
       });
       
       selectedImages.forEach((img, idx) => {
         grid.innerHTML += `
-          <div class="relative w-full h-24 rounded-lg overflow-hidden border border-primary">
+          <div class="relative w-full h-28 rounded-xl overflow-hidden border border-primary/50 shadow-sm">
             <img src="${img.url}" class="w-full h-full object-cover">
-            <button type="button" onclick="removeSelectedImage(${idx})" class="absolute top-1 left-1 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">X</button>
+            <button type="button" onclick="removeSelectedImage(${idx})" class="absolute top-1 left-1 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs hover:bg-red-600 transition-colors shadow">✕</button>
+            <span class="absolute bottom-1 right-1 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">جديدة</span>
           </div>
         `;
       });
@@ -1357,6 +1434,28 @@
         existingImages = existingImages.filter(i => i.id != imgId);
         renderImages();
       } catch (e) {}
+    }
+
+    async function setMainImage(imgId) {
+      const propId = document.getElementById('propId').value;
+      if (!propId) return;
+      try {
+        const res = await fetch(`/owner/api/properties/${propId}/images/${imgId}/`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+          existingImages.forEach(img => {
+            img.is_main = (img.id == imgId);
+          });
+          renderImages();
+        } else {
+          alert('فشل تعيين الصورة الرئيسية');
+        }
+      } catch (e) {
+        console.error(e);
+        alert('حدث خطأ أثناء تعيين الصورة الرئيسية');
+      }
     }
 
     async function handlePropertySubmit(e) {

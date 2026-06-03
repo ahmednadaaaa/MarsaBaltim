@@ -219,6 +219,20 @@ class OwnerImageUploadView(APIView):
         except (Property.DoesNotExist, PropertyImage.DoesNotExist):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    def patch(self, request, pk, img_id):
+        try:
+            prop = Property.objects.get(pk=pk, owner=request.user.owner_profile)
+            img = PropertyImage.objects.get(pk=img_id, property=prop)
+            
+            # Set this image as main, and others as non-main
+            prop.images.all().update(is_main=False)
+            img.is_main = True
+            img.save()
+            
+            return Response({"success": True, "message": "تم تحديد الصورة كرئيسية بنجاح"})
+        except (Property.DoesNotExist, PropertyImage.DoesNotExist):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 from django.db.models import Sum, F
 from .models import OwnerAccount, OwnerRevenue, OwnerExpense, OwnerDebt
 from .serializers import (
