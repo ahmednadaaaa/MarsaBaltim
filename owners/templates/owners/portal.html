@@ -903,6 +903,18 @@
                 <input type="number" id="pPriceSale" class="input-f text-left" dir="ltr">
               </div>
             </div>
+            
+            <h4 class="text-md font-bold mt-4 mb-2 text-primary">العروض والخصومات <span class="text-xs font-normal text-on-variant">(اختياري)</span></h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-800">
+              <div>
+                <label class="block text-sm font-semibold mb-1 text-red-700 dark:text-red-400">السعر الأصلي (مشطوب)</label>
+                <input type="number" id="pOriginalPrice" class="input-f text-left" dir="ltr" placeholder="مثال: 1000">
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1 text-red-700 dark:text-red-400">سعر العرض (الحالي)</label>
+                <input type="number" id="pOfferPrice" class="input-f text-left" dir="ltr" placeholder="مثال: 850">
+              </div>
+            </div>
             <p class="text-xs text-on-variant mt-2">💡 الأسعار تظهر للعميل كاسترشادية فقط، وسنتواصل معك عند وجود طلب للاتفاق النهائي.</p>
           </section>
           
@@ -1281,6 +1293,8 @@
         document.getElementById('pPriceDaily').value = prop.price_daily || '';
         document.getElementById('pPriceMonthly').value = prop.price_monthly || '';
         document.getElementById('pPriceSale').value = prop.price_sale || '';
+        document.getElementById('pOriginalPrice').value = prop.original_price || '';
+        document.getElementById('pOfferPrice').value = prop.offer_price || '';
         document.getElementById('pVideoUrl').value = prop.video_url || '';
         
         // Find city from beach_new
@@ -1483,6 +1497,8 @@
         price_daily: document.getElementById('pPriceDaily').value || null,
         price_monthly: document.getElementById('pPriceMonthly').value || null,
         price_sale: document.getElementById('pPriceSale').value || null,
+        original_price: document.getElementById('pOriginalPrice').value || null,
+        offer_price: document.getElementById('pOfferPrice').value || null,
         video_url: document.getElementById('pVideoUrl').value || null,
         amenities_str: ams.join(',')
       };
