@@ -130,6 +130,16 @@ class Property(models.Model):
         verbose_name='ملاحظة السعر'
     )
 
+    # Offer / strikethrough pricing
+    original_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        verbose_name='السعر الأصلي (قبل الخصم)'
+    )
+    offer_price    = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        verbose_name='سعر العرض (بعد الخصم)'
+    )
+
     rooms           = models.PositiveSmallIntegerField(verbose_name='عدد الغرف')
     area            = models.PositiveIntegerField(verbose_name='المساحة (م²)')
     floor           = models.SmallIntegerField(default=1, verbose_name='رقم الدور')

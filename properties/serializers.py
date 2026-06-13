@@ -45,6 +45,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'beach', 'beach_slug', 'beach_name', 'city', 'city_slug', 'type',
             'price_daily', 'price_monthly', 'price_sale',
+            'original_price', 'offer_price',
             'price_note', 'pricing_type',
             'rooms', 'area', 'floor', 'distance_to_sea',
             'rating', 'reviews', 'amenities',
@@ -86,6 +87,7 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
             'id', 'title', 'beach', 'beach_slug', 'beach_name', 'city', 'city_slug', 'type',
             'description',
             'price_daily', 'price_monthly', 'price_sale',
+            'original_price', 'offer_price',
             'price_note', 'pricing_type',
             'rooms', 'area', 'floor', 'distance_to_sea',
             'rating', 'reviews', 'amenities',

@@ -40,6 +40,9 @@ class PropertyListView(APIView):
             qs = qs.filter(is_popular=True)
         if request.GET.get("is_special_offer") == "true":
             qs = qs.filter(is_special_offer=True)
+        # featured=true → popular OR special offer (homepage feed)
+        if request.GET.get("featured") == "true":
+            qs = qs.filter(Q(is_popular=True) | Q(is_special_offer=True))
         if request.GET.get("for_sale") == "true":
             qs = qs.exclude(price_sale=None)
         if request.GET.get("for_rent") == "true":

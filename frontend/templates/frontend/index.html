@@ -1218,6 +1218,8 @@
         price_daily: p.price_daily ? parseFloat(p.price_daily) : null,
         price_monthly: p.price_monthly ? parseFloat(p.price_monthly) : null,
         price_sale: p.price_sale ? parseFloat(p.price_sale) : null,
+        original_price: p.original_price ? parseFloat(p.original_price) : null,
+        offer_price: p.offer_price ? parseFloat(p.offer_price) : null,
         rooms: p.rooms,
         area: p.area,
         floor: p.floor || 1,
@@ -1574,6 +1576,7 @@
       <div class="absolute top-3 right-3 flex flex-col gap-1.5">
         ${p.isPopular ? '<span class="tag bg-amber-500 text-white text-[9px] sm:text-[11px]">⭐ الأكثر طلبًا</span>' : ''}
         ${p.isSpecialOffer ? '<span class="tag bg-green-500 text-white">🏷️ عرض خاص</span>' : ''}
+        ${p.offer_price ? `<span class="tag text-white text-[9px] sm:text-[11px]" style="background:#d9344f">🔥 خصم</span>` : ''}
       </div>
       <button onclick="event.stopPropagation();toggleFav(${p.id})" class="absolute top-3 left-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform z-10">
         <span class="material-symbols-outlined text-xl ${favIcon}">favorite</span>
@@ -1605,9 +1608,16 @@
         ${(p.amenities || []).length > 3 ? `<span class="text-[10px] text-primary font-bold">+${(p.amenities || []).length - 3}</span>` : ''}
       </div>
       <div class="flex items-center justify-between mt-1 mb-2">
-        <div class="text-lg font-black text-primary flex items-baseline gap-1">
-          <span class="ltr-num">${fmt(p.price_daily)}</span>
-          <span class="text-[10px] font-normal text-on-surface-variant dark:text-gray-400">ج / يوم</span>
+        <div class="flex flex-col">
+          ${p.offer_price ? `
+            <span class="text-[10px] line-through text-[#9aa5a9] ltr-num">${fmt(p.original_price || p.price_daily)} ج/يوم</span>
+            <span class="text-lg font-black ltr-num" style="color:#d9344f">${fmt(p.offer_price)} ج/يوم</span>
+          ` : `
+            <div class="text-lg font-black text-primary flex items-baseline gap-1">
+              <span class="ltr-num">${fmt(p.price_daily)}</span>
+              <span class="text-[10px] font-normal text-on-surface-variant dark:text-gray-400">ج / يوم</span>
+            </div>
+          `}
         </div>
       </div>
       <div class="flex items-start gap-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2 mt-2">

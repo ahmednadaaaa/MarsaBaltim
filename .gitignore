@@ -31,3 +31,7 @@ venv_new/
 .vscode/
 .idea/
 *.swp
+
+# Large binary assets (not for git)
+wheels/
+debs/

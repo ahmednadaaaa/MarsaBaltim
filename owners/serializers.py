@@ -101,6 +101,7 @@ class OwnerPropertyCreateEditSerializer(serializers.ModelSerializer):
             'title', 'description', 'type', 'beach_new',
             'rooms', 'area', 'floor', 'distance_to_sea',
             'price_daily', 'price_monthly', 'price_sale',
+            'original_price', 'offer_price',
             'amenities_str', 'video_url', 'cover_image'
         ]
 
