@@ -56,7 +56,7 @@ class PropertyAdmin(admin.ModelAdmin):
         ("حالة الإعلان", {"fields": ("status", "rejection_reason", "owner")}),
         ("معلومات المالك (للإدارة فقط)", {"fields": ("owner_name", "owner_phone")}),
         ("الأسعار", {"fields": ("price_daily", "price_monthly", "price_sale", "price_note")}),
-        ("عروض وخصومات", {"fields": ("original_price", "offer_price"), "classes": ("collapse",)}),
+        ("عروض وخصومات", {"fields": ("original_price", "offer_price")}),
         ("المواصفات", {"fields": ("rooms", "area", "floor", "distance_to_sea")}),
         ("التقييم", {"fields": ("rating", "reviews")}),
         ("الخيارات", {"fields": ("is_popular", "is_special_offer", "amenities")}),
