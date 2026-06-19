@@ -18,14 +18,24 @@ class CitySerializer(serializers.ModelSerializer):
 
 
 class PropertyImageSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField()
+    image_url     = serializers.SerializerMethodField()
+    thumbnail_url = serializers.SerializerMethodField()
 
     class Meta:
         model  = PropertyImage
-        fields = ['id', 'image_url', 'is_main', 'order']
+        fields = ['id', 'image_url', 'thumbnail_url', 'is_main', 'order']
 
     def get_image_url(self, obj):
         request = self.context.get('request')
+        if obj.image and request:
+            return request.build_absolute_uri(obj.image.url)
+        return None
+
+    def get_thumbnail_url(self, obj):
+        request = self.context.get('request')
+        if obj.thumbnail and request:
+            return request.build_absolute_uri(obj.thumbnail.url)
+        # Fallback to full image if thumbnail missing
         if obj.image and request:
             return request.build_absolute_uri(obj.image.url)
         return None
@@ -64,9 +74,12 @@ class PropertyListSerializer(serializers.ModelSerializer):
     def get_main_image(self, obj):
         request = self.context.get('request')
         img = obj.images.filter(is_main=True).first() or obj.images.first()
-        if img and request:
-            return request.build_absolute_uri(img.image.url)
-        return None
+        if not img or not request:
+            return None
+        # Prefer thumbnail for list/grid views (faster loading)
+        if img.thumbnail:
+            return request.build_absolute_uri(img.thumbnail.url)
+        return request.build_absolute_uri(img.image.url)
 
     def get_pricing_type(self, obj):
         return "flexible"

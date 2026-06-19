@@ -1,12 +1,18 @@
 import os
 import subprocess
 import logging
+import io
 from django.db import models
 
 logger = logging.getLogger(__name__)
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.files.base import ContentFile
 from django.conf import settings
+try:
+    from PIL import Image as PILImage
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
 
 
 class BeachChoices(models.TextChoices):
@@ -234,19 +240,67 @@ def is_heic(file):
 
 
 class PropertyImage(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='images', verbose_name='العقار')
-    image    = models.FileField(upload_to='properties/', verbose_name='الصورة', help_text='يدعم الصور من الهاتف مباشرة')
-    is_main  = models.BooleanField(default=False, verbose_name='صورة رئيسية')
-    order    = models.PositiveSmallIntegerField(default=0, verbose_name='الترتيب')
+    property  = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='images', verbose_name='العقار')
+    image     = models.FileField(upload_to='properties/', verbose_name='الصورة', help_text='يدعم الصور من الهاتف مباشرة')
+    thumbnail = models.ImageField(
+        upload_to='properties/thumbs/',
+        blank=True, null=True,
+        verbose_name='صورة مصغّرة'
+    )
+    is_main   = models.BooleanField(default=False, verbose_name='صورة رئيسية')
+    order     = models.PositiveSmallIntegerField(default=0, verbose_name='الترتيب')
 
     class Meta:
         verbose_name = 'صورة عقار'
         verbose_name_plural = 'صور العقارات'
         ordering = ['order', 'id']
 
+    def _process_image(self):
+        """
+        1. Compress the main image (max 1600px, JPEG q=80)
+        2. Generate a separate thumbnail (max 480px, JPEG q=75)
+        Both happen in-memory. Skips silently if Pillow not installed.
+        """
+        if not PIL_AVAILABLE:
+            return
+        try:
+            img = PILImage.open(self.image)
+            if img.mode in ('RGBA', 'P', 'LA'):
+                img = img.convert('RGB')
+
+            original_name = self.image.name.rsplit('/', 1)[-1]
+            base_name = original_name.rsplit('.', 1)[0]
+
+            # ── Compress main image ──
+            main_img = img.copy()
+            main_img.thumbnail((1600, 1600), PILImage.LANCZOS)
+            main_buffer = io.BytesIO()
+            main_img.save(main_buffer, format='JPEG', quality=80, optimize=True)
+            main_buffer.seek(0)
+            self.image.save(
+                f'{base_name}.jpg',
+                ContentFile(main_buffer.read()),
+                save=False
+            )
+
+            # ── Generate thumbnail ──
+            thumb_img = img.copy()
+            thumb_img.thumbnail((480, 360), PILImage.LANCZOS)
+            thumb_buffer = io.BytesIO()
+            thumb_img.save(thumb_buffer, format='JPEG', quality=75, optimize=True)
+            thumb_buffer.seek(0)
+            self.thumbnail.save(
+                f'{base_name}_thumb.jpg',
+                ContentFile(thumb_buffer.read()),
+                save=False
+            )
+        except Exception as e:
+            logger.warning(f'Image processing failed for PropertyImage: {e}')
+
     def save(self, *args, **kwargs):
         if self.image:
             name, ext = os.path.splitext(self.image.name)
+            # Step 1: Convert HEIC → JPEG if needed
             if ext.lower() in ['.heic', '.heif'] or is_heic(self.image):
                 try:
                     tmp_dir = os.path.join(settings.MEDIA_ROOT, 'tmp_conv')
@@ -270,6 +324,10 @@ class PropertyImage(models.Model):
                     if os.path.exists(temp_out): os.remove(temp_out)
                 except Exception as e:
                     logger.error(f"HEIC conversion error: {e}")
+
+            # Step 2: Compress + generate thumbnail (new images only)
+            if not self.pk:
+                self._process_image()
 
         super().save(*args, **kwargs)
 

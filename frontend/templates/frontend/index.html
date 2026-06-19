@@ -1236,6 +1236,11 @@
           : p.main_image
             ? [p.main_image]
             : ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75'],
+        // Thumbnail: prefer API thumbnail_url, fallback to main_image or first image
+        thumbnail: p.main_image
+          || (p.images && p.images[0]
+            ? (p.images[0].thumbnail_url || p.images[0].image_url || p.images[0])
+            : null),
       };
     }
 
@@ -1552,7 +1557,8 @@
     function propCard(p, clickFn = `showPage('detail', ${p.id})`, showWhatsApp = false) {
       const favIcon = isFav(p.id) ? 'mat-filled text-red-500' : 'text-gray-400';
       const cartAdded = isInCart(p.id);
-      const img = p.images?.[0] || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75';
+      // Use thumbnail (small, fast) for grid card; fallback to full image
+      const cardImg = p.thumbnail || p.images?.[0] || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75';
 
       let waButtonHtml = '';
       if (showWhatsApp) {
@@ -1571,7 +1577,7 @@
       return `
   <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm overflow-hidden card-hover cursor-pointer prop-card group border border-outline-variant/30 dark:border-gray-800 min-w-0 w-full">
     <div class="relative h-40 sm:h-52 overflow-hidden bg-surface-container dark:bg-gray-800">
-      <img src="${img}" alt="${p.title}" class="prop-img w-full h-full object-cover transition-transform duration-700" loading="lazy" onclick="${clickFn}" />
+      <img src="${cardImg}" alt="${p.title}" class="prop-img w-full h-full object-cover transition-transform duration-700" loading="lazy" onclick="${clickFn}" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
       <div class="absolute top-3 right-3 flex flex-col gap-1.5">
         ${p.isPopular ? '<span class="tag bg-amber-500 text-white text-[9px] sm:text-[11px]">⭐ الأكثر طلبًا</span>' : ''}

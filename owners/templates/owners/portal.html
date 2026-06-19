@@ -546,6 +546,34 @@
     .border-l { border-left: 1px solid var(--border-color) !important; }
     .hover\:bg-gray-100:hover { background-color: var(--surface-low) !important; }
     .hover\:bg-surface-low:hover { background-color: var(--surface-low) !important; }
+
+    /* ── Property Form Wizard Steps ── */
+    .wizard-step {
+      width: 36px; height: 36px;
+      border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9375rem;
+      background: var(--surface-low, #f2f4f6);
+      color: var(--on-variant, #3e484d);
+      transition: all .25s;
+      flex-shrink: 0;
+    }
+    .wizard-step.active {
+      background: linear-gradient(15deg, #00647c, #007f9d);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(0,100,124,.3);
+    }
+    .wizard-step.done {
+      background: #1a7a4a;
+      color: #fff;
+    }
+    .wizard-line {
+      height: 2px;
+      width: 3rem;
+      background: var(--border-color);
+      transition: background .3s;
+    }
+    .wizard-line.done { background: #1a7a4a !important; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -815,11 +843,27 @@
       
       <div class="card">
         <h2 id="formTitle" class="text-2xl font-bold mb-2">إضافة عقار جديد</h2>
-        <p id="formSub" class="text-on-variant text-sm mb-8">سيتم مراجعة العقار من قبل الإدارة قبل نشره على الموقع.</p>
-        
-        <form id="propertyForm" onsubmit="handlePropertySubmit(event)" class="space-y-8">
+        <p id="formSub" class="text-on-variant text-sm mb-6">سيتم مراجعة العقار من قبل الإدارة قبل نشره على الموقع.</p>
+
+        <!-- Step Indicator -->
+        <div class="flex items-center justify-center gap-3 mb-8" id="propertyWizardSteps">
+          <div class="flex items-center gap-2">
+            <div class="wizard-step active" id="wizStep1">١</div>
+            <span class="text-sm font-bold" id="wizStep1Label">بيانات العقار</span>
+          </div>
+          <div class="wizard-line" id="wizLine1"></div>
+          <div class="flex items-center gap-2">
+            <div class="wizard-step" id="wizStep2">٢</div>
+            <span class="text-sm font-bold text-on-variant" id="wizStep2Label">صور العقار</span>
+          </div>
+        </div>
+
+        <form id="propertyForm" onsubmit="return false;" class="space-y-8">
           <input type="hidden" id="propId" value="">
           
+          <!-- ═══ STEP 1: Property Details ═══ -->
+          <div id="propertyStep1">
+
           <!-- Section 1: Basic Info -->
           <section>
             <h3 class="text-lg font-bold mb-4 border-b pb-2 text-primary">المعلومات الأساسية</h3>
@@ -935,26 +979,57 @@
             </div>
           </section>
 
-          <!-- Section 5: Images -->
-          <section id="imagesSection">
-            <h3 class="text-lg font-bold mb-4 border-b pb-2 text-primary">صور العقار</h3>
-            <div id="imageUploadArea" class="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center bg-surface-low hover:bg-gray-100 transition-colors cursor-pointer relative">
-              <input type="file" id="imageInput" multiple accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleImageSelection(event)">
-              <span class="material-symbols-outlined text-4xl text-gray-400 mb-2">add_photo_alternate</span>
-              <p class="font-bold">اضغط أو اسحب الصور هنا</p>
-              <p class="text-xs text-on-variant mt-1">يمكنك إضافة حتى 10 صور (JPG, PNG)</p>
-            </div>
-            
-            <div id="imagePreviewGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-              <!-- Images preview will be injected here -->
-            </div>
-          </section>
-
           <div id="formError" class="hidden bg-red-50 text-red-700 p-4 rounded-xl text-sm font-medium"></div>
-          
-          <button type="submit" id="submitPropertyBtn" class="btn-primary mt-8">
-            <span class="btn-text" id="submitPropertyText">إرسال للمراجعة</span>
-          </button>
+
+          <!-- Step 1 → Next button -->
+          <div class="flex justify-end mt-6">
+            <button type="button" class="btn-primary" style="max-width:280px" onclick="goToImageStep()">
+              التالي — إضافة الصور
+              <span class="material-symbols-outlined" style="font-size:1.1rem;margin-right:4px">arrow_back</span>
+            </button>
+          </div>
+
+
+          <!-- ═══ STEP 2: Image Upload ═══ -->
+
+          <div id="propertyStep2" style="display:none">
+
+            <!-- Back link -->
+            <button type="button" onclick="goToDetailsStep()"
+              class="flex items-center gap-1 text-sm font-bold text-on-variant mb-4 hover:text-primary transition-colors" style="background:none;border:none;cursor:pointer">
+              <span class="material-symbols-outlined" style="font-size:1.1rem">arrow_forward</span> رجوع لبيانات العقار
+            </button>
+
+            <div style="background:var(--surface-lowest,#fff);border-radius:1.5rem;box-shadow:0 20px 40px rgba(0,31,40,.06);padding:1.5rem">
+              <h3 class="text-lg font-black mb-2">صور العقار</h3>
+              <p class="text-sm text-on-variant mb-4">أضف حتى 10 صور — الصورة الأولى ستكون الصورة الرئيسية للعقار</p>
+
+              <!-- Images Upload Area -->
+              <div id="imageUploadArea" class="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center bg-surface-low hover:bg-gray-100 transition-colors cursor-pointer relative">
+                <input type="file" id="imageInput" multiple accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleImageSelection(event)">
+                <span class="material-symbols-outlined text-4xl text-gray-400 mb-2">add_photo_alternate</span>
+                <p class="font-bold">اضغط أو اسحب الصور هنا</p>
+                <p class="text-xs text-on-variant mt-1">يمكنك إضافة حتى 10 صور (JPG, PNG)</p>
+              </div>
+              
+              <div id="imagePreviewGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                <!-- Images preview will be injected here -->
+              </div>
+            </div>
+
+            <!-- Step 2 action buttons -->
+            <div class="flex justify-between mt-6" style="gap:1rem">
+              <button type="button" onclick="goToDetailsStep()" class="btn-secondary" style="max-width:160px">
+                رجوع
+              </button>
+              <button type="button" id="finalSubmitBtn" onclick="submitPropertyWithImages()" class="btn-primary" style="max-width:260px">
+                <span class="material-symbols-outlined" style="font-size:1.1rem">check_circle</span>
+                إرسال للمراجعة
+              </button>
+            </div>
+
+          </div><!-- end #propertyStep2 -->
+
         </form>
       </div>
       
@@ -1258,6 +1333,153 @@
       }
     }
 
+    function resetPropertyWizard() {
+      document.getElementById('propertyStep1').style.display = 'block';
+      document.getElementById('propertyStep2').style.display = 'none';
+      document.getElementById('wizStep1').className = 'wizard-step active';
+      document.getElementById('wizStep1').textContent = '١';
+      document.getElementById('wizStep1Label').style.color = '';
+      document.getElementById('wizStep2').className = 'wizard-step';
+      document.getElementById('wizStep2Label').style.color = '';
+      document.getElementById('wizLine1').classList.remove('done');
+    }
+
+    function validatePropertyForm() {
+      const errEl = document.getElementById('formError');
+      const title = document.getElementById('pTitle').value.trim();
+      const beach = document.getElementById('pBeach').value;
+      const desc  = document.getElementById('pDesc').value.trim();
+      const rooms = document.getElementById('pRooms').value;
+      const area  = document.getElementById('pArea').value;
+      const floor = document.getElementById('pFloor').value;
+      const dist  = document.getElementById('pDist').value;
+
+      if (!title) { errEl.textContent = 'يرجى إدخال عنوان العقار.'; errEl.classList.remove('hidden'); return false; }
+      if (!beach)  { errEl.textContent = 'يرجى اختيار الشاطئ / المنطقة.'; errEl.classList.remove('hidden'); return false; }
+      if (!desc)   { errEl.textContent = 'يرجى كتابة وصف للعقار.'; errEl.classList.remove('hidden'); return false; }
+      if (!rooms)  { errEl.textContent = 'يرجى تحديد عدد الغرف.'; errEl.classList.remove('hidden'); return false; }
+      if (!area)   { errEl.textContent = 'يرجى تحديد مساحة العقار.'; errEl.classList.remove('hidden'); return false; }
+      if (!floor)  { errEl.textContent = 'يرجى تحديد رقم الدور.'; errEl.classList.remove('hidden'); return false; }
+      if (dist === '' || dist === null) { errEl.textContent = 'يرجى تحديد المسافة من البحر.'; errEl.classList.remove('hidden'); return false; }
+      errEl.classList.add('hidden');
+      return true;
+    }
+
+    function goToImageStep() {
+      if (!validatePropertyForm()) {
+        window.scrollTo({ top: document.getElementById('formError').offsetTop - 80, behavior: 'smooth' });
+        return;
+      }
+      document.getElementById('propertyStep1').style.display = 'none';
+      document.getElementById('propertyStep2').style.display = 'block';
+
+      const s1 = document.getElementById('wizStep1');
+      s1.classList.remove('active');
+      s1.classList.add('done');
+      s1.textContent = '✓';
+
+      const s2 = document.getElementById('wizStep2');
+      s2.classList.add('active');
+      document.getElementById('wizLine1').classList.add('done');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToDetailsStep() {
+      document.getElementById('propertyStep2').style.display = 'none';
+      document.getElementById('propertyStep1').style.display = 'block';
+
+      const s2 = document.getElementById('wizStep2');
+      s2.classList.remove('active');
+
+      const s1 = document.getElementById('wizStep1');
+      s1.classList.remove('done');
+      s1.classList.add('active');
+      s1.textContent = '١';
+
+      document.getElementById('wizLine1').classList.remove('done');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function submitPropertyWithImages() {
+      const btn = document.getElementById('finalSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:1.1rem;animation:spin 1s linear infinite">sync</span> جاري الإرسال...';
+
+      const propId = document.getElementById('propId').value;
+      const ams = [];
+      document.querySelectorAll('.amenity-cb:checked').forEach(cb => ams.push(cb.value));
+
+      const payload = {
+        title:          document.getElementById('pTitle').value,
+        type:           document.getElementById('pType').value,
+        beach_new:      document.getElementById('pBeach').value || null,
+        description:    document.getElementById('pDesc').value,
+        rooms:          document.getElementById('pRooms').value,
+        area:           document.getElementById('pArea').value,
+        floor:          document.getElementById('pFloor').value,
+        distance_to_sea:document.getElementById('pDist').value,
+        price_daily:    document.getElementById('pPriceDaily').value || null,
+        price_monthly:  document.getElementById('pPriceMonthly').value || null,
+        price_sale:     document.getElementById('pPriceSale').value || null,
+        original_price: document.getElementById('pOriginalPrice').value || null,
+        offer_price:    document.getElementById('pOfferPrice').value || null,
+        video_url:      document.getElementById('pVideoUrl').value || null,
+        amenities_str:  ams.join(',')
+      };
+
+      try {
+        let res, data;
+        if (propId) {
+          // Edit mode: PATCH details then upload new images
+          res = await fetch(`/owner/api/properties/${propId}/`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          // Add mode: POST to create property
+          res = await fetch('/owner/api/properties/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        data = await res.json();
+        if (!res.ok) throw new Error(data.error || JSON.stringify(data));
+
+        const finalId = propId || data.id;
+
+        // Upload new images
+        for (let i = 0; i < selectedImages.length; i++) {
+          const formData = new FormData();
+          formData.append('image', selectedImages[i].file);
+          formData.append('is_main', (!propId && i === 0 && existingImages.length === 0) ? 'true' : 'false');
+          await fetch(`/owner/api/properties/${finalId}/images/`, {
+            method: 'POST',
+            body: formData
+          });
+        }
+
+        // Success
+        selectedImages = [];
+        document.getElementById('propertyForm').classList.add('hidden');
+        document.getElementById('propertyWizardSteps').classList.add('hidden');
+        document.getElementById('propertySuccess').classList.remove('hidden');
+        document.getElementById('successTitle').textContent = propId ? 'تم حفظ التعديلات بنجاح!' : 'تم إرسال العقار بنجاح!';
+        document.getElementById('successDesc').textContent = propId ? 'سيعود العقار لمرحلة المراجعة.' : 'سيتم مراجعة العقار ونشره خلال 24 ساعة.';
+
+      } catch (err) {
+        const errEl = document.getElementById('formError');
+        errEl.textContent = err.message || 'تعذّر إرسال العقار، حاول مرة أخرى';
+        errEl.classList.remove('hidden');
+        goToDetailsStep(); // return user to step 1 to see the error
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:1.1rem">check_circle</span> إرسال للمراجعة';
+      }
+    }
+
     function openAddPropertyForm() {
       document.getElementById('propId').value = '';
       document.getElementById('propertyForm').reset();
@@ -1265,11 +1487,12 @@
       document.getElementById('formTitle').textContent = 'إضافة عقار جديد';
       document.getElementById('formSub').textContent = 'سيتم مراجعة العقار من قبل الإدارة قبل نشره على الموقع.';
       document.getElementById('propertyForm').classList.remove('hidden');
+      document.getElementById('propertyWizardSteps').classList.remove('hidden');
       document.getElementById('propertySuccess').classList.add('hidden');
-      document.getElementById('submitPropertyText').textContent = 'إرسال للمراجعة';
       selectedImages = [];
       existingImages = [];
       renderImages();
+      resetPropertyWizard();
       showView('property-form');
     }
 
@@ -1313,14 +1536,15 @@
           cb.checked = ams.includes(cb.value);
         });
         
-        // Images
+        // Images (shown in Step 2)
         selectedImages = [];
         existingImages = prop.images || [];
         renderImages();
         
         document.getElementById('propertySuccess').classList.add('hidden');
         document.getElementById('propertyForm').classList.remove('hidden');
-        document.getElementById('submitPropertyText').textContent = 'حفظ التعديلات';
+        document.getElementById('propertyWizardSteps').classList.remove('hidden');
+        resetPropertyWizard();
         showView('property-form');
         
       } catch (e) {}
