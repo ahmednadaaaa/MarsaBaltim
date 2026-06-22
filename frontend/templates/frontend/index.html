@@ -1180,11 +1180,10 @@
     }
     const CSRF_TOKEN = getCookie('csrftoken');
 
-    // ── API helper مع timeout وerror handling ────────────────────
-    async function apiFetch(url, options = {}) {
+    // ── API helper مع timeout وretry وerror handling ────────────────────
+    async function apiFetch(url, options = {}, _attempt = 0) {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-      // أضف CSRF token لطلبات POST/PUT/PATCH/DELETE
+      const timeout = setTimeout(() => controller.abort(), 20000); // 20s (Safari/slow connections)
       const method = (options.method || 'GET').toUpperCase();
       const headers = { ...options.headers };
       if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
@@ -1197,6 +1196,11 @@
         return await res.json();
       } catch (e) {
         clearTimeout(timeout);
+        // Retry once after 1.5 seconds for GET requests
+        if (_attempt === 0 && method === 'GET') {
+          await new Promise(r => setTimeout(r, 1500));
+          return apiFetch(url, options, 1);
+        }
         throw e;
       }
     }
@@ -1356,6 +1360,10 @@
     // ============================================================
     // 🌐 API LAYER
     // ============================================================
+    const PROPS_CACHE_KEY = 'baltim_props_cache';
+    const PROPS_CACHE_TS   = 'baltim_props_cache_ts';
+    const CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000; // 6 hours
+
     async function loadPropertiesFromAPI() {
       try {
         const data = await apiFetch(API.properties + '?page_size=500');
@@ -1363,13 +1371,29 @@
           properties = data.results.map(adaptProperty);
           apiOnline = true;
           propertiesLoaded = true;
+          // Cache successful result in localStorage
+          try {
+            localStorage.setItem(PROPS_CACHE_KEY, JSON.stringify(properties));
+            localStorage.setItem(PROPS_CACHE_TS, Date.now().toString());
+          } catch (_) {}
           showApiStatus(true);
           return true;
         }
       } catch (e) {
-        // Silently fall back to empty array
+        // API failed — try localStorage cache
+        try {
+          const cached = localStorage.getItem(PROPS_CACHE_KEY);
+          const ts     = parseInt(localStorage.getItem(PROPS_CACHE_TS) || '0');
+          if (cached && (Date.now() - ts) < CACHE_MAX_AGE_MS) {
+            properties = JSON.parse(cached);
+            apiOnline = false;
+            propertiesLoaded = true;
+            showApiStatus(false);
+            return false;
+          }
+        } catch (_) {}
       }
-      // Fallback: use empty array
+      // Hard fallback: empty array
       properties = [];
       apiOnline = false;
       propertiesLoaded = true;
@@ -1389,6 +1413,18 @@
 
     function showApiStatus(online) {
       // Status bar disabled in production
+    }
+
+    async function retryLoadProperties() {
+      // Show skeleton cards while retrying
+      const homeGrid = document.getElementById('homeGrid');
+      if (homeGrid) homeGrid.innerHTML = Array(8).fill(skeletonCard()).join('');
+      propertiesLoaded = false;
+      // Clear old cache so we force a fresh attempt
+      try { localStorage.removeItem(PROPS_CACHE_KEY); localStorage.removeItem(PROPS_CACHE_TS); } catch (_) {}
+      await loadPropertiesFromAPI();
+      renderHome();
+      if (currentPage === 'listings') renderListings();
     }
 
     // ============================================================
@@ -1660,10 +1696,11 @@
       }
       if (properties.length === 0) {
         homeGrid.innerHTML = `
-          <div class="col-span-full text-center py-12">
-            <span class="material-symbols-outlined text-gray-400 text-5xl mb-3">error</span>
-            <p class="text-gray-500 font-bold">لم نتمكن من تحميل العقارات حالياً. يرجى التحقق من اتصال الإنترنت أو تحديث الصفحة.</p>
-            <button onclick="window.location.reload()" class="mt-4 px-6 py-2 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-all">تحديث الصفحة</button>
+          <div class="col-span-full text-center py-16">
+            <span class="material-symbols-outlined text-gray-300 text-6xl mb-4" style="display:block">wifi_off</span>
+            <p class="text-gray-400 font-bold text-lg mb-2">تعذّر الاتصال بالخادم مؤقتاً</p>
+            <p class="text-gray-400 text-sm mb-4">تأكد من اتصال الإنترنت ثم اضغط تحديث</p>
+            <button onclick="retryLoadProperties()" class="mt-2 px-8 py-3 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-all shadow-lg">🔄 إعادة المحاولة</button>
           </div>`;
         if (bentoGrid) bentoGrid.innerHTML = '';
         return;
