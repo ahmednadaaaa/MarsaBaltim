@@ -286,7 +286,7 @@ class PropertyAdmin(admin.ModelAdmin):
             f'✅ تم رفع الأسعار 10% للعقارات المختارة ({updated} عقار)',
             messages.SUCCESS,
         )
-    bulk_increase_10_percent.short_description = '🔺 رفع الأسعار 10% للعقارات المختارة'
+    bulk_increase_10_percent.short_description = '🔺 رفع الأسعار بنسبة 10 بالمئة للعقارات المختارة'
 
     def bulk_decrease_10_percent(self, request, queryset):
         """Quick action: decrease all price fields by 10% for selected properties."""
@@ -297,7 +297,7 @@ class PropertyAdmin(admin.ModelAdmin):
             f'✅ تم خفض الأسعار 10% للعقارات المختارة ({updated} عقار)',
             messages.SUCCESS,
         )
-    bulk_decrease_10_percent.short_description = '🔻 خفض الأسعار 10% للعقارات المختارة'
+    bulk_decrease_10_percent.short_description = '🔻 خفض الأسعار بنسبة 10 بالمئة للعقارات المختارة'
 
     def city_display(self, obj):
         return obj.get_city_name()
