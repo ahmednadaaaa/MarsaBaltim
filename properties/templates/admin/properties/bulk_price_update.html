@@ -357,7 +357,8 @@
       </div>
 
       <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-        <button type="submit" name="action" value="preview" class="btn-preview" onclick="showSpinner(this)">
+        <input type="hidden" name="action" id="actionInput" value="preview">
+        <button type="submit" class="btn-preview" onclick="setAction('preview', this)">
           <span class="spinner" id="sp1"></span>
           👁️ معاينة التغييرات
         </button>
@@ -448,7 +449,7 @@
         <div class="alert alert-info" style="flex:1; margin:0">
           ✅ تم التحقق من البيانات. اضغط <strong>"تطبيق التحديث"</strong> لتطبيق التغييرات الفعلية على قاعدة البيانات.
         </div>
-        <button type="submit" name="action" value="apply" class="btn-apply" onclick="showSpinner(this)" style="flex-shrink:0">
+        <button type="submit" class="btn-apply" onclick="setAction('apply', this)" style="flex-shrink:0">
           <span class="spinner" id="sp2"></span>
           ✅ تطبيق التحديث
         </button>
@@ -500,10 +501,14 @@
   updateLabels();
   updateScopeFilters();
 
-  function showSpinner(btn) {
+  function setAction(actionVal, btn) {
+    // Set the hidden input value so the form knows which action was triggered
+    document.getElementById('actionInput').value = actionVal;
+    // Show spinner visually (but do NOT disable the button)
     const sp = btn.querySelector('.spinner');
     if (sp) sp.style.display = 'inline-block';
-    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
   }
 </script>
 {% endblock %}
